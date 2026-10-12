@@ -1,0 +1,1150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f9fc">
+    <meta name="description" content="NexHealth - Your personal health management workspace.">
+    <title>NexHealth | Your Health, Connected</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="/static/script.js" defer></script>
+</head>
+
+<body>
+    <div class="app-shell" id="appShell">
+
+        <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+            <a href="#overview" class="brand" data-screen="overview" aria-label="NexHealth home">
+                <span class="brand-mark">
+                    <i data-lucide="heart-pulse"></i>
+                </span>
+                <span class="brand-copy">
+                    <span class="brand-name">NexHealth</span>
+                    <span class="brand-caption">YOUR HEALTHSPACE</span>
+                </span>
+            </a>
+
+            <div class="workspace-switcher">
+                <span class="workspace-avatar">NH</span>
+                <span class="workspace-details">
+                    <strong>Personal workspace</strong>
+                    <small>Health dashboard</small>
+                </span>
+                <i data-lucide="chevrons-up-down"></i>
+            </div>
+
+            <div class="sidebar-section">
+                <p class="sidebar-label">WORKSPACE</p>
+
+                <nav class="primary-navigation">
+                    <button class="nav-item active" type="button" data-screen="overview" aria-current="page">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Overview</span>
+                    </button>
+
+                    <button class="nav-item" type="button" data-screen="medical-records">
+                        <i data-lucide="folder-heart"></i>
+                        <span>Medical records</span>
+                        <span class="nav-count" id="recordsNavCount">0</span>
+                    </button>
+
+                    <button class="nav-item" type="button" data-screen="ai-analyzer">
+                        <i data-lucide="scan-search"></i>
+                        <span>AI analyzer</span>
+                        <span class="nav-indicator"></span>
+                    </button>
+
+                    <button class="nav-item" type="button" data-screen="diet-tasks">
+                        <i data-lucide="salad"></i>
+                        <span>Diet & tasks</span>
+                    </button>
+
+                    <button class="nav-item" type="button" data-screen="appointments">
+                        <i data-lucide="calendar-days"></i>
+                        <span>Appointments</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div class="sidebar-section">
+                <p class="sidebar-label">HEALTH NETWORK</p>
+
+                <nav class="primary-navigation">
+                    <button class="nav-item" type="button" data-screen="health-services">
+                        <i data-lucide="stethoscope"></i>
+                        <span>Health services</span>
+                    </button>
+
+                    <button class="nav-item" type="button" data-screen="ai-mentor">
+                        <i data-lucide="bot"></i>
+                        <span>AI health mentor</span>
+                        <span class="nav-beta">AI</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div class="sidebar-spacer"></div>
+
+            <div class="sidebar-assistant-card">
+                <div class="assistant-card-icon">
+                    <i data-lucide="sparkles"></i>
+                </div>
+                <strong>Your health, simplified.</strong>
+                <p>Understand your reports and organize your health journey.</p>
+                <button type="button" class="assistant-card-link" data-screen="ai-analyzer">
+                    Explore AI analyzer
+                    <i data-lucide="arrow-up-right"></i>
+                </button>
+            </div>
+
+            <div class="sidebar-section sidebar-bottom-navigation">
+                <button class="nav-item" type="button" data-screen="privacy-consent">
+                    <i data-lucide="shield-check"></i>
+                    <span>Privacy & consent</span>
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <span class="sidebar-footer-icon">
+                    <i data-lucide="lock-keyhole"></i>
+                </span>
+                <span>
+                    <strong>Your health. Your control.</strong>
+                    <small>Privacy-first by design</small>
+                </span>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-area" id="mainArea">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="icon-button mobile-menu-button" id="mobileMenuButton" type="button" aria-label="Open navigation">
+                        <i data-lucide="menu"></i>
+                    </button>
+
+                    <div class="breadcrumb">
+                        <span>Workspace</span>
+                        <i data-lucide="chevron-right"></i>
+                        <strong id="breadcrumbCurrent">Overview</strong>
+                    </div>
+                </div>
+
+                <div class="topbar-actions">
+                    <div class="search-box">
+                        <i data-lucide="search"></i>
+                        <input id="globalSearch" type="search" placeholder="Search your workspace..." aria-label="Search workspace">
+                        <kbd>⌘ K</kbd>
+                    </div>
+
+                    <button class="icon-button notification-button" id="notificationButton" type="button" aria-label="Notifications">
+                        <i data-lucide="bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <button class="profile-trigger" id="profileTrigger" type="button" aria-label="Open profile menu">
+                        <span class="profile-avatar" id="topbarAvatar">U</span>
+                        <span class="profile-trigger-copy">
+                            <strong id="topbarName">Your profile</strong>
+                            <small>Personal account</small>
+                        </span>
+                        <i data-lucide="chevron-down"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="screen-container" id="screenContainer">
+
+                <section class="screen active" id="screen-overview" data-screen-panel="overview" aria-labelledby="overviewTitle">
+                    <div class="page-heading overview-heading">
+                        <div>
+                            <div class="eyebrow">
+                                <span class="status-dot"></span>
+                                YOUR PERSONAL HEALTHSPACE
+                            </div>
+                            <h1 id="overviewTitle">Your health, <span class="text-accent">in focus.</span></h1>
+                            <p class="page-description">A clearer picture of your health starts here.</p>
+                        </div>
+
+                        <div class="heading-actions">
+                            <span class="date-display" id="currentDate">
+                                <i data-lucide="calendar"></i>
+                                Today
+                            </span>
+                            <button class="button button-primary" type="button" data-screen="ai-analyzer">
+                                <i data-lucide="plus"></i>
+                                Analyze a report
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="welcome-banner">
+                        <div class="welcome-copy">
+                            <span class="welcome-label">YOUR DAILY CHECK-IN</span>
+                            <h2>Small steps. Better health.</h2>
+                            <p>Keep your records organized, stay on top of your routine, and make informed decisions with the right support.</p>
+                            <button class="button button-light" type="button" data-screen="diet-tasks">
+                                View today's plan
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+                        </div>
+                        <div class="welcome-art" aria-hidden="true">
+                            <div class="orbit orbit-one"></div>
+                            <div class="orbit orbit-two"></div>
+                            <div class="welcome-heart">
+                                <i data-lucide="heart-pulse"></i>
+                            </div>
+                            <div class="floating-symbol floating-symbol-one">
+                                <i data-lucide="activity"></i>
+                            </div>
+                            <div class="floating-symbol floating-symbol-two">
+                                <i data-lucide="shield-check"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-heading">
+                        <div>
+                            <h2>Your health at a glance</h2>
+                            <p>Quick access to your personal health information.</p>
+                        </div>
+                        <button class="text-button" type="button" data-screen="medical-records">
+                            View all records
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <article class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon metric-purple">
+                                    <i data-lucide="files"></i>
+                                </span>
+                                <span class="metric-caption">YOUR LIBRARY</span>
+                            </div>
+                            <strong class="metric-value" id="metricRecords">0</strong>
+                            <span class="metric-label">Medical records</span>
+                            <span class="metric-footnote">Reports and prescriptions</span>
+                        </article>
+
+                        <article class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon metric-blue">
+                                    <i data-lucide="calendar-check"></i>
+                                </span>
+                                <span class="metric-caption">YOUR SCHEDULE</span>
+                            </div>
+                            <strong class="metric-value" id="metricAppointments">0</strong>
+                            <span class="metric-label">Upcoming appointments</span>
+                            <span class="metric-footnote">Based on your saved bookings</span>
+                        </article>
+
+                        <article class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon metric-green">
+                                    <i data-lucide="check-circle-2"></i>
+                                </span>
+                                <span class="metric-caption">YOUR ROUTINE</span>
+                            </div>
+                            <strong class="metric-value" id="metricTasks">0</strong>
+                            <span class="metric-label">Tasks remaining</span>
+                            <span class="metric-footnote">From your personal checklist</span>
+                        </article>
+
+                        <article class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon metric-orange">
+                                    <i data-lucide="sparkles"></i>
+                                </span>
+                                <span class="metric-caption">YOUR INSIGHTS</span>
+                            </div>
+                            <strong class="metric-value" id="metricAnalyses">0</strong>
+                            <span class="metric-label">Reports analyzed</span>
+                            <span class="metric-footnote">Your saved AI analyses</span>
+                        </article>
+                    </div>
+
+                    <div class="overview-columns">
+                        <section class="panel tasks-panel">
+                            <div class="panel-heading">
+                                <div>
+                                    <h3>Today's priorities</h3>
+                                    <p>A manageable plan for your day.</p>
+                                </div>
+                                <button class="icon-button" type="button" data-screen="diet-tasks" aria-label="Open tasks">
+                                    <i data-lucide="arrow-up-right"></i>
+                                </button>
+                            </div>
+
+                            <div class="task-progress-row">
+                                <span>Daily progress</span>
+                                <strong id="taskProgressText">0 of 0 completed</strong>
+                            </div>
+                            <div class="progress-track">
+                                <span id="taskProgressBar" style="width: 0%"></span>
+                            </div>
+
+                            <div class="compact-task-list" id="overviewTaskList">
+                                <div class="empty-state compact-empty">
+                                    <i data-lucide="list-checks"></i>
+                                    <strong>Your task list starts here</strong>
+                                    <p>Add reminders and daily health tasks to keep your routine organized.</p>
+                                    <button class="text-button" type="button" data-screen="diet-tasks">Create a task</button>
+                                </div>
+                            </div>
+
+                            <button class="panel-footer-link" type="button" data-screen="diet-tasks">
+                                Open diet & tasks
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </section>
+
+                        <section class="panel appointments-panel">
+                            <div class="panel-heading">
+                                <div>
+                                    <h3>Upcoming appointments</h3>
+                                    <p>Your next healthcare visits.</p>
+                                </div>
+                                <button class="icon-button" type="button" data-screen="appointments" aria-label="View appointments">
+                                    <i data-lucide="arrow-up-right"></i>
+                                </button>
+                            </div>
+
+                            <div id="overviewAppointmentList">
+                                <div class="empty-state">
+                                    <span class="empty-state-icon">
+                                        <i data-lucide="calendar-days"></i>
+                                    </span>
+                                    <strong>No appointments yet</strong>
+                                    <p>Your saved appointments will appear here.</p>
+                                    <button class="button button-secondary button-small" type="button" data-screen="appointments">
+                                        Explore appointments
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <section class="panel quick-access-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Your health toolkit</h3>
+                                <p>Jump directly to what you need.</p>
+                            </div>
+                        </div>
+
+                        <div class="quick-access-grid">
+                            <button class="quick-access-item" type="button" data-screen="medical-records">
+                                <span class="quick-access-icon quick-purple"><i data-lucide="folder-open"></i></span>
+                                <span><strong>Medical records</strong><small>Organize your reports</small></span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+
+                            <button class="quick-access-item" type="button" data-screen="ai-analyzer">
+                                <span class="quick-access-icon quick-blue"><i data-lucide="scan-text"></i></span>
+                                <span><strong>AI report analyzer</strong><small>Understand your results</small></span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+
+                            <button class="quick-access-item" type="button" data-screen="diet-tasks">
+                                <span class="quick-access-icon quick-green"><i data-lucide="utensils"></i></span>
+                                <span><strong>Diet & routine</strong><small>Plan your daily habits</small></span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+
+                            <button class="quick-access-item" type="button" data-screen="ai-mentor">
+                                <span class="quick-access-icon quick-orange"><i data-lucide="message-circle"></i></span>
+                                <span><strong>AI health mentor</strong><small>Get general health guidance</small></span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+                        </div>
+                    </section>
+
+                    <p class="medical-disclaimer">NexHealth supports health organization and education. It does not replace a qualified healthcare professional.</p>
+                </section>
+
+                <section class="screen" id="screen-medical-records" data-screen-panel="medical-records" aria-labelledby="recordsTitle" hidden>
+                    <div class="page-heading">
+                        <div>
+                            <div class="eyebrow">YOUR HEALTH LIBRARY</div>
+                            <h1 id="recordsTitle">Medical records</h1>
+                            <p class="page-description">One organized place for reports, prescriptions, and health history.</p>
+                        </div>
+                        <button class="button button-primary" type="button" data-action="open-upload">
+                            <i data-lucide="upload"></i>
+                            Add a record
+                        </button>
+                    </div>
+
+                    <div class="records-summary-grid">
+                        <article class="summary-card">
+                            <span class="summary-card-icon"><i data-lucide="files"></i></span>
+                            <span>Total documents</span>
+                            <strong id="recordsTotal">0</strong>
+                        </article>
+                        <article class="summary-card">
+                            <span class="summary-card-icon"><i data-lucide="test-tube"></i></span>
+                            <span>Lab reports</span>
+                            <strong id="recordsLabCount">0</strong>
+                        </article>
+                        <article class="summary-card">
+                            <span class="summary-card-icon"><i data-lucide="pill"></i></span>
+                            <span>Prescriptions</span>
+                            <strong id="recordsPrescriptionCount">0</strong>
+                        </article>
+                    </div>
+
+                    <section class="panel">
+                        <div class="records-toolbar">
+                            <div class="filter-tabs" role="group" aria-label="Filter medical records">
+                                <button class="filter-tab active" type="button" data-record-filter="all">All records</button>
+                                <button class="filter-tab" type="button" data-record-filter="lab">Lab reports</button>
+                                <button class="filter-tab" type="button" data-record-filter="prescription">Prescriptions</button>
+                                <button class="filter-tab" type="button" data-record-filter="imaging">Imaging</button>
+                                <button class="filter-tab" type="button" data-record-filter="other">Other</button>
+                            </div>
+                            <label class="inline-search">
+                                <i data-lucide="search"></i>
+                                <input id="recordsSearch" type="search" placeholder="Find a record..." aria-label="Search medical records">
+                            </label>
+                        </div>
+
+                        <div class="records-list" id="recordsList">
+                            <div class="empty-state">
+                                <span class="empty-state-icon"><i data-lucide="folder-plus"></i></span>
+                                <strong>Your medical library is ready</strong>
+                                <p>Add a report or prescription to begin organizing your health documents.</p>
+                                <button class="button button-primary button-small" type="button" data-action="open-upload">
+                                    <i data-lucide="upload"></i>
+                                    Add your first record
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="privacy-note">
+                        <i data-lucide="shield-check"></i>
+                        <span><strong>Private by design.</strong> Document access must be protected by authenticated ownership policies and private storage.</span>
+                    </div>
+                </section>
+
+                <section class="screen" id="screen-ai-analyzer" data-screen-panel="ai-analyzer" aria-labelledby="analyzerTitle" hidden>
+                    <div class="page-heading">
+                        <div>
+                            <div class="eyebrow">AI-POWERED HEALTH EDUCATION</div>
+                            <h1 id="analyzerTitle">Understand your reports.</h1>
+                            <p class="page-description">Turn medical documents into clearer information you can discuss with your doctor.</p>
+                        </div>
+                        <span class="feature-badge"><i data-lucide="sparkles"></i> AI workspace</span>
+                    </div>
+
+                    <div class="analyzer-layout">
+                        <div class="analyzer-main-column">
+                            <section class="panel upload-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Analyze a medical report</h2>
+                                        <p>Upload a document for text extraction and educational explanation.</p>
+                                    </div>
+                                    <span class="step-indicator">STEP 01</span>
+                                </div>
+
+                                <label class="upload-dropzone" id="reportDropzone" for="reportFileInput">
+                                    <input type="file" id="reportFileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" hidden>
+                                    <span class="upload-icon"><i data-lucide="file-up"></i></span>
+                                    <strong>Drop your report here</strong>
+                                    <span>or <span class="upload-browse">browse files</span></span>
+                                    <small>PDF or image · Maximum 10 MB</small>
+                                </label>
+
+                                <div class="selected-file" id="selectedReportFile" hidden>
+                                    <span class="file-type-icon"><i data-lucide="file-text"></i></span>
+                                    <span class="selected-file-copy">
+                                        <strong id="selectedFileName">report.pdf</strong>
+                                        <small id="selectedFileSize">Ready for review</small>
+                                    </span>
+                                    <button class="icon-button" type="button" id="removeSelectedFile" aria-label="Remove selected file">
+                                        <i data-lucide="x"></i>
+                                    </button>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="analysisType">What would you like to understand?</label>
+                                    <select id="analysisType">
+                                        <option value="summary">Plain-language report summary</option>
+                                        <option value="lab">Explain laboratory results</option>
+                                        <option value="prescription">Read prescription text</option>
+                                        <option value="questions">Questions to ask my doctor</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="analysisContext">Additional context <span class="optional-label">Optional</span></label>
+                                    <textarea id="analysisContext" rows="3" placeholder="Share relevant context or tell us which part is confusing. Avoid unnecessary personal identifiers."></textarea>
+                                </div>
+
+                                <button class="button button-primary button-full" type="button" id="analyzeReportButton">
+                                    <i data-lucide="sparkles"></i>
+                                    Analyze report
+                                </button>
+
+                                <p class="field-help">Text extraction and AI analysis require a configured, secure backend. Uploaded medical documents are sensitive personal information.</p>
+                            </section>
+
+                            <section class="panel analysis-results-panel" id="analysisResultsPanel" hidden>
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Analysis results</h2>
+                                        <p>Educational information for discussion with a healthcare professional.</p>
+                                    </div>
+                                    <span class="result-status" id="analysisStatus">Awaiting analysis</span>
+                                </div>
+                                <div id="analysisResults"></div>
+                            </section>
+
+                            <section class="panel lab-trends-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Lab result history</h2>
+                                        <p>Review extracted biomarkers over time when results are available.</p>
+                                    </div>
+                                    <span class="subtle-badge">Historical data</span>
+                                </div>
+
+                                <div class="empty-state">
+                                    <span class="empty-state-icon"><i data-lucide="chart-no-axes-combined"></i></span>
+                                    <strong>Your trends will appear here</strong>
+                                    <p>Save verified lab values with dates and units to compare results over time.</p>
+                                </div>
+                            </section>
+                        </div>
+
+                        <aside class="analyzer-side-column">
+                            <section class="panel guidance-panel">
+                                <span class="side-panel-icon"><i data-lucide="book-open-check"></i></span>
+                                <h3>What you'll get</h3>
+                                <ul class="check-list">
+                                    <li><i data-lucide="check-circle-2"></i> Plain-language explanations</li>
+                                    <li><i data-lucide="check-circle-2"></i> Important values to review</li>
+                                    <li><i data-lucide="check-circle-2"></i> Questions for your doctor</li>
+                                    <li><i data-lucide="check-circle-2"></i> Uncertain text flagged for review</li>
+                                </ul>
+                            </section>
+
+                            <section class="panel safety-panel">
+                                <span class="safety-icon"><i data-lucide="heart-pulse"></i></span>
+                                <h3>Your health comes first</h3>
+                                <p>AI may misread medical terms, units, and values. Verify extracted information against the original document.</p>
+                                <p>Do not use AI output as a diagnosis or as the sole basis for treatment decisions.</p>
+                            </section>
+
+                            <section class="panel questions-panel">
+                                <span class="side-panel-icon"><i data-lucide="messages-square"></i></span>
+                                <h3>Need help preparing?</h3>
+                                <p>Build a list of questions to discuss with your healthcare professional.</p>
+                                <button class="button button-secondary button-full" type="button" data-screen="ai-mentor">
+                                    Open AI health mentor
+                                    <i data-lucide="arrow-up-right"></i>
+                                </button>
+                            </section>
+                        </aside>
+                    </div>
+                </section>
+
+                <section class="screen" id="screen-diet-tasks" data-screen-panel="diet-tasks" aria-labelledby="dietTitle" hidden>
+                    <div class="page-heading">
+                        <div>
+                            <div class="eyebrow">YOUR DAILY WELLNESS</div>
+                            <h1 id="dietTitle">Build your daily rhythm.</h1>
+                            <p class="page-description">Keep your meals, habits, and health reminders in one manageable plan.</p>
+                        </div>
+                        <button class="button button-primary" type="button" data-action="add-task">
+                            <i data-lucide="plus"></i>
+                            Add a task
+                        </button>
+                    </div>
+
+                    <div class="diet-overview-banner">
+                        <div>
+                            <span class="welcome-label">YOUR PERSONAL ROUTINE</span>
+                            <h2>Consistency over perfection.</h2>
+                            <p>Build a routine around your preferences, schedule, and goals.</p>
+                        </div>
+                        <span class="diet-banner-icon"><i data-lucide="sprout"></i></span>
+                    </div>
+
+                    <div class="diet-layout">
+                        <div class="diet-main-column">
+                            <section class="panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Your daily checklist</h2>
+                                        <p>Track the tasks you choose to complete.</p>
+                                    </div>
+                                    <span class="subtle-badge" id="dietTaskCount">0 tasks</span>
+                                </div>
+
+                                <div class="task-filter-row">
+                                    <button class="filter-tab active" type="button" data-task-filter="all">All</button>
+                                    <button class="filter-tab" type="button" data-task-filter="pending">To do</button>
+                                    <button class="filter-tab" type="button" data-task-filter="completed">Completed</button>
+                                </div>
+
+                                <div class="task-list" id="dietTaskList">
+                                    <div class="empty-state">
+                                        <span class="empty-state-icon"><i data-lucide="list-checks"></i></span>
+                                        <strong>Create your first health task</strong>
+                                        <p>Add a reminder for a habit, meal, activity, or appointment preparation.</p>
+                                        <button class="button button-secondary button-small" type="button" data-action="add-task">Add a task</button>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="panel meal-plan-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Meal planner</h2>
+                                        <p>Organize meals around your food preferences.</p>
+                                    </div>
+                                    <button class="button button-secondary button-small" type="button" data-action="add-meal">
+                                        <i data-lucide="plus"></i>
+                                        Add meal
+                                    </button>
+                                </div>
+
+                                <div class="meal-grid" id="mealPlanList">
+                                    <div class="meal-placeholder">
+                                        <i data-lucide="sunrise"></i>
+                                        <strong>Breakfast</strong>
+                                        <span>No meal added</span>
+                                    </div>
+                                    <div class="meal-placeholder">
+                                        <i data-lucide="sun"></i>
+                                        <strong>Lunch</strong>
+                                        <span>No meal added</span>
+                                    </div>
+                                    <div class="meal-placeholder">
+                                        <i data-lucide="sunset"></i>
+                                        <strong>Dinner</strong>
+                                        <span>No meal added</span>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <aside class="diet-side-column">
+                            <section class="panel profile-completion-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h3>Personalize your plan</h3>
+                                        <p>Help tailor your routine.</p>
+                                    </div>
+                                    <i data-lucide="sliders-horizontal"></i>
+                                </div>
+
+                                <form id="dietPreferencesForm">
+                                    <div class="form-field">
+                                        <label for="dietPreference">Diet preference</label>
+                                        <select id="dietPreference">
+                                            <option value="">Choose preference</option>
+                                            <option value="vegetarian">Vegetarian</option>
+                                            <option value="vegan">Vegan</option>
+                                            <option value="eggetarian">Eggetarian</option>
+                                            <option value="non-vegetarian">Non-vegetarian</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-field">
+                                        <label for="dietAllergies">Food allergies or restrictions</label>
+                                        <input id="dietAllergies" type="text" placeholder="e.g. peanuts, lactose">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <label for="wellnessGoal">Primary wellness goal</label>
+                                        <select id="wellnessGoal">
+                                            <option value="">Choose a goal</option>
+                                            <option value="balanced">Balanced eating</option>
+                                            <option value="energy">Support daily energy</option>
+                                            <option value="fitness">Support fitness routine</option>
+                                            <option value="weight-management">Weight management</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+
+                                    <button class="button button-primary button-full" type="submit">Save preferences</button>
+                                </form>
+                            </section>
+
+                            <section class="panel nutrition-note">
+                                <span class="side-panel-icon"><i data-lucide="apple"></i></span>
+                                <h3>A note on nutrition</h3>
+                                <p>Nutrition suggestions are general education. Medical conditions, allergies, pregnancy, and prescribed diets may require advice from a qualified professional.</p>
+                            </section>
+                        </aside>
+                    </div>
+                </section>
+
+                <section class="screen" id="screen-appointments" data-screen-panel="appointments" aria-labelledby="appointmentsTitle" hidden>
+                    <div class="page-heading">
+                        <div>
+                            <div class="eyebrow">YOUR HEALTH, ON SCHEDULE</div>
+                            <h1 id="appointmentsTitle">Appointments</h1>
+                            <p class="page-description">Organize your consultations, lab visits, and healthcare follow-ups.</p>
+                        </div>
+                        <button class="button button-primary" type="button" data-action="open-appointment">
+                            <i data-lucide="calendar-plus"></i>
+                            New appointment
+                        </button>
+                    </div>
+
+                    <div class="appointment-intro">
+                        <div class="appointment-intro-icon"><i data-lucide="calendar-clock"></i></div>
+                        <div>
+                            <h2>Your care, organized.</h2>
+                            <p>Keep appointment details in one place so important visits are easier to manage.</p>
+                        </div>
+                    </div>
+
+                    <div class="appointment-tabs" role="group" aria-label="Appointment status">
+                        <button class="filter-tab active" type="button" data-appointment-filter="upcoming">Upcoming</button>
+                        <button class="filter-tab" type="button" data-appointment-filter="completed">Completed</button>
+                        <button class="filter-tab" type="button" data-appointment-filter="cancelled">Cancelled</button>
+                        <button class="filter-tab" type="button" data-appointment-filter="all">All appointments</button>
+                    </div>
+
+                    <section class="panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h2 id="appointmentListHeading">Upcoming appointments</h2>
+                                <p>Your saved consultation and lab visit details.</p>
+                            </div>
+                            <span class="subtle-badge" id="appointmentCount">0 appointments</span>
+                        </div>
+
+                        <div class="appointment-list" id="appointmentList">
+                            <div class="empty-state">
+                                <span class="empty-state-icon"><i data-lucide="calendar-plus"></i></span>
+                                <strong>No saved appointments</strong>
+                                <p>Add an appointment to keep its details organized.</p>
+                                <button class="button button-primary button-small" type="button" data-action="open-appointment">
+                                    Create appointment
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="privacy-note">
+                        <i data-lucide="info"></i>
+                        <span>Creating an entry here does not contact a clinic or guarantee a booking. Live availability and confirmation require a connected booking service.</span>
+                    </div>
+                </section>
+
+                <section class="screen" id="screen-health-services" data-screen-panel="health-services" aria-labelledby="servicesTitle" hidden>
+                    <div class="page-heading">
+                        <div>
+                            <div class="eyebrow">YOUR HEALTHCARE DIRECTORY</div>
+                            <h1 id="servicesTitle">Health services</h1>
+                            <p class="page-description">Explore the types of care and support you may want to access.</p>
+                        </div>
+                    </div>
+
+                    <div class="services-hero">
+                        <div>
+                            <span class="welcome-label">CARE THAT FITS YOUR NEEDS</span>
+                            <h2>The right support starts with knowing your options.</h2>
+                            <p>Discover care categories and organize the next step in your healthcare journey.</p>
+                        </div>
+                        <span class="services-hero-icon"><i data-lucide="heart-handshake"></i></span>
+                    </div>
+
+                    <div class="section-heading">
+                        <div>
+                            <h2>Explore care options</h2>
+                            <p>Choose a service category to learn more.</p>
+                        </div>
+                    </div>
+
+                    <div class="services-grid">
+                        <article class="service-card">
+                            <span class="service-icon service-purple"><i data-lucide="stethoscope"></i></span>
+                            <span class="service-category">CONSULTATIONS</span>
+                            <h3>Doctor consultations</h3>
+                            <p>Explore primary care and specialist consultation options.</p>
+                            <button class="text-button" type="button" data-service-type="consultation">
+                                Explore options <i data-lucide="arrow-right"></i>
+                            </button>
+                        </article>
+
+                        <article class="service-card">
+                            <span class="service-icon service-blue"><i data-lucide="test-tube"></i></span>
+                            <span class="service-category">DIAGNOSTICS</span>
+                            <h3>Lab tests</h3>
+                            <p>Learn about laboratory testing and sample collection services.</p>
+                            <button class="text-button" type="button" data-service-type="lab">
+                                Explore options <i data-lucide="arrow-right"></i>
+                            </button>
+                        </article>
+
+                        <article class="service-card">
+                            <span class="service-icon service-green"><i data-lucide="truck"></i></span>
+                            <span class="service-category">PHARMACY</span>
+                            <h3>Medicine delivery</h3>
+                            <p>Review the steps involved in using a verified pharmacy service.</p>
+                            <button class="text-button" type="button" data-service-type="pharmacy">
+                                Explore options <i data-lucide="arrow-right"></i>
+                            </button>
+                        </article>
+
+                        <article class="service-card">
+                            <span class="service-icon service-orange"><i data-lucide="house"></i></span>
+                            <span class="service-category">AT-HOME CARE</span>
+                            <h3>Home healthcare</h3>
+                            <p>Explore home sample collection and other at-home care options.</p>
+                            <button class="text-button" type="button" data-service-type="home-care">
+                                Explore options <i data-lucide="arrow-right"></i>
+                            </button>
+                        </article>
+                    </div>
+
+                    <section class="panel service-directory-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h2>Healthcare directory</h2>
+                                <p>Verified providers will appear when a directory source is connected.</p>
+                            </div>
+                            <span class="subtle-badge">Directory</span>
+                        </div>
+
+                        <div id="healthcareDirectory">
+                            <div class="empty-state">
+                                <span class="empty-state-icon"><i data-lucide="map-pin"></i></span>
+                                <strong>No provider directory connected</strong>
+                                <p>Live providers, prices, service areas, and availability must be verified through a real service provider integration.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="emergency-note">
+                        <i data-lucide="phone-call"></i>
+                        <div>
+                            <strong>Need emergency help?</strong>
+                            <p>For a medical emergency, contact your local emergency services immediately. Do not wait for an online booking or AI response.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="screen" id="screen-ai-mentor" data-screen-panel="ai-mentor" aria-labelledby="mentorTitle" hidden>
+                    <div class="page-heading">
+                        <div>
+                            <div class="eyebrow">YOUR HEALTH EDUCATION COMPANION</div>
+                            <h1 id="mentorTitle">Meet your AI health mentor.</h1>
+                            <p class="page-description">Ask general health questions, understand common terms, and prepare for conversations with a professional.</p>
+                        </div>
+                        <span class="feature-badge"><i data-lucide="sparkles"></i> AI assistant</span>
+                    </div>
+
+                    <div class="mentor-layout">
+                        <section class="panel mentor-chat-panel">
+                            <div class="mentor-chat-header">
+                                <span class="mentor-avatar"><i data-lucide="heart-pulse"></i></span>
+                                <div>
+                                    <strong>NexHealth Mentor</strong>
+                                    <span><span class="status-dot"></span> Health education assistant</span>
+                                </div>
+                                <button class="icon-button" id="clearMentorButton" type="button" aria-label="Clear conversation">
+                                    <i data-lucide="rotate-ccw"></i>
+                                </button>
+                            </div>
+
+                            <div class="mentor-messages" id="mentorMessages" aria-live="polite">
+                                <div class="mentor-message mentor-message-assistant">
+                                    <span class="message-avatar"><i data-lucide="sparkles"></i></span>
+                                    <div class="message-content">
+                                        <span class="message-author">NexHealth Mentor</span>
+                                        <p>Welcome! I can help explain general health information, clarify medical terminology, or help you prepare questions for a healthcare professional.</p>
+                                        <p>I cannot diagnose conditions, prescribe medication, or replace professional medical advice.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="suggested-prompts" id="suggestedPrompts">
+                                <button type="button" data-mentor-prompt="Explain common terms found in a blood test report.">Explain a blood report</button>
+                                <button type="button" data-mentor-prompt="Help me prepare questions for my next doctor appointment.">Prepare for my appointment</button>
+                                <button type="button" data-mentor-prompt="Explain how to read the reference ranges on a lab report.">Understand reference ranges</button>
+                            </div>
+
+                            <form class="mentor-composer" id="mentorForm">
+                                <label class="sr-only" for="mentorInput">Your health question</label>
+                                <textarea id="mentorInput" rows="2" maxlength="4000" placeholder="Ask a general health question..." required></textarea>
+                                <div class="composer-footer">
+                                    <span><i data-lucide="shield-check"></i> Avoid sharing identifying information.</span>
+                                    <button class="button button-primary" type="submit" id="mentorSendButton">
+                                        Send
+                                        <i data-lucide="arrow-up-right"></i>
+                                    </button>
+                                </div>
+                            </form>
+
+                            <p class="chat-disclaimer">AI-generated information can be inaccurate. Seek qualified medical care for personal medical concerns and urgent symptoms.</p>
+                        </section>
+
+                        <aside class="mentor-side-column">
+                            <section class="panel">
+                                <span class="side-panel-icon"><i data-lucide="compass"></i></span>
+                                <h3>How I can help</h3>
+                                <ul class="mentor-capability-list">
+                                    <li><i data-lucide="check"></i><span>Explain health terminology</span></li>
+                                    <li><i data-lucide="check"></i><span>Summarize general information</span></li>
+                                    <li><i data-lucide="check"></i><span>Prepare questions for your doctor</span></li>
+                                    <li><i data-lucide="check"></i><span>Explain common wellness concepts</span></li>
+                                </ul>
+                            </section>
+
+                            <section class="panel">
+                                <span class="side-panel-icon"><i data-lucide="languages"></i></span>
+                                <h3>Language preferences</h3>
+                                <p>Choose the language you prefer for future conversations.</p>
+                                <label class="form-field">
+                                    <span>Preferred language</span>
+                                    <select id="mentorLanguage">
+                                        <option value="en">English</option>
+                                        <option value="te">తెలుగు (Telugu)</option>
+                                        <option value="hi">हिन्दी (Hindi)</option>
+                                    </select>
+                                </label>
+                                <button class="button button-secondary button-full" type="button" id="saveMentorLanguage">Save language</button>
+                            </section>
+
+                            <section class="panel safety-panel">
+                                <span class="safety-icon"><i data-lucide="shield-alert"></i></span>
+                                <h3>When to seek care</h3>
+                                <p>Severe or rapidly worsening symptoms require timely professional assessment. For emergencies, contact local emergency services.</p>
+                            </section>
+                        </aside>
+                    </div>
+                </section>
+
+                <section class="screen" id="screen-privacy-consent" data-screen-panel="privacy-consent" aria-labelledby="privacyTitle" hidden>
+                    <div class="page-heading">
+                        <div>
+                            <div class="eyebrow">YOUR DATA, YOUR DECISIONS</div>
+                            <h1 id="privacyTitle">Privacy & consent</h1>
+                            <p class="page-description">Understand your data choices and manage how your health information may be used.</p>
+                        </div>
+                        <span class="privacy-status-badge"><i data-lucide="shield-check"></i> Privacy center</span>
+                    </div>
+
+                    <div class="privacy-hero">
+                        <span class="privacy-hero-icon"><i data-lucide="shield-check"></i></span>
+                        <div>
+                            <h2>Your health information deserves care.</h2>
+                            <p>Review your preferences, understand data sharing, and know how to request access to or deletion of your information.</p>
+                        </div>
+                    </div>
+
+                    <div class="privacy-layout">
+                        <div class="privacy-main-column">
+                            <section class="panel consent-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Consent preferences</h2>
+                                        <p>Review the choices available in this application.</p>
+                                    </div>
+                                </div>
+
+                                <form id="consentPreferencesForm">
+                                    <div class="consent-row">
+                                        <div class="consent-copy">
+                                            <span class="consent-icon"><i data-lucide="brain-circuit"></i></span>
+                                            <div>
+                                                <strong>AI processing</strong>
+                                                <p>Allow eligible health information to be processed by the AI features you choose to use.</p>
+                                                <span class="consent-detail">Requires a clear explanation of which data is sent to which AI provider.</span>
+                                            </div>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="consentAiProcessing">
+                                            <span class="switch-slider"></span>
+                                            <span class="sr-only">Allow AI processing</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="consent-row">
+                                        <div class="consent-copy">
+                                            <span class="consent-icon"><i data-lucide="share-2"></i></span>
+                                            <div>
+                                                <strong>Healthcare data sharing</strong>
+                                                <p>Manage whether information may be shared with an explicitly selected healthcare recipient.</p>
+                                                <span class="consent-detail">Sharing must be limited to the recipient, purpose, and data you authorize.</span>
+                                            </div>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="consentDataSharing">
+                                            <span class="switch-slider"></span>
+                                            <span class="sr-only">Allow healthcare data sharing</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="consent-row">
+                                        <div class="consent-copy">
+                                            <span class="consent-icon"><i data-lucide="chart-no-axes-column"></i></span>
+                                            <div>
+                                                <strong>Optional analytics</strong>
+                                                <p>Choose whether to allow optional analytics intended to improve the application.</p>
+                                                <span class="consent-detail">Analytics must not be treated as essential to core health functions.</span>
+                                            </div>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="consentAnalytics">
+                                            <span class="switch-slider"></span>
+                                            <span class="sr-only">Allow optional analytics</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="consent-actions">
+                                        <button class="button button-primary" type="submit">
+                                            <i data-lucide="save"></i>
+                                            Save preferences
+                                        </button>
+                                        <span id="consentSaveStatus" role="status"></span>
+                                    </div>
+                                </form>
+                            </section>
+
+                            <section class="panel data-rights-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Your data rights</h2>
+                                        <p>Understand the actions you can request.</p>
+                                    </div>
+                                </div>
+
+                                <div class="data-right-row">
+                                    <span class="data-right-icon"><i data-lucide="download"></i></span>
+                                    <div>
+                                        <strong>Access or export your information</strong>
+                                        <p>Request a copy of your saved profile, records, and other eligible information.</p>
+                                    </div>
+                                    <button class="text-button" type="button" data-privacy-action="export">Request export</button>
+                                </div>
+
+                                <div class="data-right-row">
+                                    <span class="data-right-icon"><i data-lucide="pencil-line"></i></span>
+                                    <div>
+                                        <strong>Correct your information</strong>
+                                        <p>Review your profile and request corrections to inaccurate details.</p>
+                                    </div>
+                                    <button class="text-button" type="button" data-privacy-action="correct">Review profile</button>
+                                </div>
+
+                                <div class="data-right-row">
+                                    <span class="data-right-icon data-right-danger"><i data-lucide="trash-2"></i></span>
+                                    <div>
+                                        <strong>Request account or data deletion</strong>
+                                        <p>Understand the consequences and request deletion through the supported process.</p>
+                                    </div>
+                                    <button class="text-button text-danger" type="button" data-privacy-action="delete">View options</button>
+                                </div>
+                            </section>
+
+                            <section class="panel consent-history-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Consent history</h2>
+                                        <p>Review recorded changes to your consent preferences.</p>
+                                    </div>
+                                </div>
+                                <div id="consentHistoryList">
+                                    <div class="empty-state compact-empty">
+                                        <i data-lucide="history"></i>
+                                        <strong>No consent history available</strong>
+                                        <p>Recorded changes will appear here after consent history is connected.</p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <aside class="privacy-side-column">
+                            <section class="panel privacy-principles-panel">
+                                <span class="side-panel-icon"><i data-lucide="lock-keyhole"></i></span>
+                                <h3>Privacy principles</h3>
+                                <div class="privacy-principle">
+                                    <strong>Purpose limitation</strong>
+                                    <p>Use information only for clearly explained purposes.</p>
+                                </div>
+                                <div class="privacy-principle">
+                                    <strong>Least privilege</strong>
+                                    <p>Restrict access to the minimum required information.</p>
+                                </div>
+                                <div class="privacy-principle">
+                                    <strong>Clear consent</strong>
+                                    <p>Make choices understandable and meaningful.</p>
+                                </div>
+                                <div class="privacy-principle">
+                                    <strong>Accountability</strong>
+                                    <p>Record relevant consent and access changes.</p>
+                                </div>
+                            </section>
+
+                            <section class="panel privacy-help-panel">
+                                <span class="side-panel-icon"><i data-lucide="help-circle"></i></span>
+                                <h3>Need privacy help?</h3>
+                                <p>Use the application's supported support channel to ask about data handling, access requests, or consent.</p>
+                                <button class="button button-secondary button-full" type="button" data-action="privacy-help">Privacy support</button>
+                            </section>
+                        </aside>
+                    </div>
+
+                    <p class="medical-disclaimer">The controls on this screen must be connected to verified backend behavior before they can be relied on to enforce consent or data deletion.</p>
+                </section>
+            </div>
+
+            <footer class="app-footer">
+                <span>© <span id="footerYear"></span> NexHealth</span>
+                <span class="footer-status"><span class="status-dot"></span> Your personal health workspace</span>
+                <button type="button" class="footer-link" data-screen="privacy-consent">Privacy & consent</button>
+            </footer>
+        </main>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop" hidden>
+        <section class="modal" id="appModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-eyebrow" id="modalEyebrow">NEXHEALTH</span>
+                    <h2 id="modalTitle">Add information</h2>
+                    <p id="modalDescription">Enter the details below.</p>
+                </div>
+                <button class="icon-button" type="button" id="closeModalButton" aria-label="Close dialog">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer" id="modalFooter"></div>
+        </section>
+    </div>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="global-loading" id="globalLoading" hidden>
+        <span class="loading-spinner"></span>
+        <span id="loadingMessage">Please wait...</span>
+    </div>
+
+    <noscript>
+        <div class="noscript-message">
+            NexHealth requires JavaScript for screen navigation and interactive features.
+        </div>
+    </noscript>
+</body>
+</html>
