@@ -174,8 +174,213 @@
             </header>
 
             <div class="screen-container" id="screenContainer">
-            </section>
+<section class="screen active" id="screen-overview" data-screen-panel="overview" aria-labelledby="overviewTitle">
+                    <div class="page-heading overview-heading">
+                        <div>
+                            <div class="eyebrow">
+                                <span class="status-dot"></span>
+                                YOUR PERSONAL HEALTHSPACE
+                            </div>
+                            <h1 id="overviewTitle">Your health, <span class="text-accent">in focus.</span></h1>
+                            <p class="page-description">A clearer picture of your health starts here.</p>
+                        </div>
 
+                        <div class="heading-actions">
+                            <span class="date-display" id="currentDate">
+                                <i data-lucide="calendar"></i>
+                                Today
+                            </span>
+                            <button class="button button-primary" type="button" data-screen="ai-analyzer">
+                                <i data-lucide="plus"></i>
+                                Analyze a report
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="welcome-banner">
+                        <div class="welcome-copy">
+                            <span class="welcome-label">YOUR DAILY CHECK-IN</span>
+                            <h2>Small steps. Better health.</h2>
+                            <p>Keep your records organized, stay on top of your routine, and make informed decisions with the right support.</p>
+                            <button class="button button-light" type="button" data-screen="diet-tasks">
+                                View today's plan
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+                        </div>
+                        <div class="welcome-art" aria-hidden="true">
+                            <div class="orbit orbit-one"></div>
+                            <div class="orbit orbit-two"></div>
+                            <div class="welcome-heart">
+                                <i data-lucide="heart-pulse"></i>
+                            </div>
+                            <div class="floating-symbol floating-symbol-one">
+                                <i data-lucide="activity"></i>
+                            </div>
+                            <div class="floating-symbol floating-symbol-two">
+                                <i data-lucide="shield-check"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-heading">
+                        <div>
+                            <h2>Your health at a glance</h2>
+                            <p>Quick access to your personal health information.</p>
+                        </div>
+                        <button class="text-button" type="button" data-screen="medical-records">
+                            View all records
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <article class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon metric-purple">
+                                    <i data-lucide="files"></i>
+                                </span>
+                                <span class="metric-caption">YOUR LIBRARY</span>
+                            </div>
+                            <strong class="metric-value" id="metricRecords">0</strong>
+                            <span class="metric-label">Medical records</span>
+                            <span class="metric-footnote">Reports and prescriptions</span>
+                        </article>
+
+                        <article class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon metric-blue">
+                                    <i data-lucide="calendar-check"></i>
+                                </span>
+                                <span class="metric-caption">YOUR SCHEDULE</span>
+                            </div>
+                            <strong class="metric-value" id="metricAppointments">0</strong>
+                            <span class="metric-label">Upcoming appointments</span>
+                            <span class="metric-footnote">Based on your saved bookings</span>
+                        </article>
+
+                        <article class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon metric-green">
+                                    <i data-lucide="check-circle-2"></i>
+                                </span>
+                                <span class="metric-caption">YOUR ROUTINE</span>
+                            </div>
+                            <strong class="metric-value" id="metricTasks">0</strong>
+                            <span class="metric-label">Tasks remaining</span>
+                            <span class="metric-footnote">From your personal checklist</span>
+                        </article>
+
+                        <article class="metric-card">
+                            <div class="metric-top">
+                                <span class="metric-icon metric-orange">
+                                    <i data-lucide="sparkles"></i>
+                                </span>
+                                <span class="metric-caption">YOUR INSIGHTS</span>
+                            </div>
+                            <strong class="metric-value" id="metricAnalyses">0</strong>
+                            <span class="metric-label">Reports analyzed</span>
+                            <span class="metric-footnote">Your saved AI analyses</span>
+                        </article>
+                    </div>
+
+                    <div class="overview-columns">
+                        <section class="panel tasks-panel">
+                            <div class="panel-heading">
+                                <div>
+                                    <h3>Today's priorities</h3>
+                                    <p>A manageable plan for your day.</p>
+                                </div>
+                                <button class="icon-button" type="button" data-screen="diet-tasks" aria-label="Open tasks">
+                                    <i data-lucide="arrow-up-right"></i>
+                                </button>
+                            </div>
+
+                            <div class="task-progress-row">
+                                <span>Daily progress</span>
+                                <strong id="taskProgressText">0 of 0 completed</strong>
+                            </div>
+                            <div class="progress-track">
+                                <span id="taskProgressBar" style="width: 0%"></span>
+                            </div>
+
+                            <div class="compact-task-list" id="overviewTaskList">
+                                <div class="empty-state compact-empty">
+                                    <i data-lucide="list-checks"></i>
+                                    <strong>Your task list starts here</strong>
+                                    <p>Add reminders and daily health tasks to keep your routine organized.</p>
+                                    <button class="text-button" type="button" data-screen="diet-tasks">Create a task</button>
+                                </div>
+                            </div>
+
+                            <button class="panel-footer-link" type="button" data-screen="diet-tasks">
+                                Open diet & tasks
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </section>
+
+                        <section class="panel appointments-panel">
+                            <div class="panel-heading">
+                                <div>
+                                    <h3>Upcoming appointments</h3>
+                                    <p>Your next healthcare visits.</p>
+                                </div>
+                                <button class="icon-button" type="button" data-screen="appointments" aria-label="View appointments">
+                                    <i data-lucide="arrow-up-right"></i>
+                                </button>
+                            </div>
+
+                            <div id="overviewAppointmentList">
+                                <div class="empty-state">
+                                    <span class="empty-state-icon">
+                                        <i data-lucide="calendar-days"></i>
+                                    </span>
+                                    <strong>No appointments yet</strong>
+                                    <p>Your saved appointments will appear here.</p>
+                                    <button class="button button-secondary button-small" type="button" data-screen="appointments">
+                                        Explore appointments
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <section class="panel quick-access-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Your health toolkit</h3>
+                                <p>Jump directly to what you need.</p>
+                            </div>
+                        </div>
+
+                        <div class="quick-access-grid">
+                            <button class="quick-access-item" type="button" data-screen="medical-records">
+                                <span class="quick-access-icon quick-purple"><i data-lucide="folder-open"></i></span>
+                                <span><strong>Medical records</strong><small>Organize your reports</small></span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+
+                            <button class="quick-access-item" type="button" data-screen="ai-analyzer">
+                                <span class="quick-access-icon quick-blue"><i data-lucide="scan-text"></i></span>
+                                <span><strong>AI report analyzer</strong><small>Understand your results</small></span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+
+                            <button class="quick-access-item" type="button" data-screen="diet-tasks">
+                                <span class="quick-access-icon quick-green"><i data-lucide="utensils"></i></span>
+                                <span><strong>Diet & routine</strong><small>Plan your daily habits</small></span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+
+                            <button class="quick-access-item" type="button" data-screen="ai-mentor">
+                                <span class="quick-access-icon quick-orange"><i data-lucide="message-circle"></i></span>
+                                <span><strong>AI health mentor</strong><small>Get general health guidance</small></span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </button>
+                        </div>
+                    </section>
+
+                    <p class="medical-disclaimer">NexHealth supports health organization and education. It does not replace a qualified healthcare professional.</p>
+                </section>
 
 <section class="screen" id="screen-abdm-readiness" data-screen-panel="abdm-readiness" aria-labelledby="abdmTitle" hidden>
     <div class="page-heading">
