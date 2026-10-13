@@ -1,6 +1,55 @@
 
 "use strict";
 
+
+const translations = {
+    en: {
+        language: "Language",
+        overview: "Overview",
+        medicalRecords: "Medical records",
+        aiAnalyzer: "AI analyzer",
+        dietTasks: "Diet & tasks",
+        appointments: "Appointments",
+        healthServices: "Health services",
+        aiMentor: "AI mentor",
+        privacyConsent: "Privacy & consent",
+        workspace: "WORKSPACE",
+        personalWorkspace: "Personal workspace",
+        healthDashboard: "Health dashboard"
+    },
+
+    te: {
+        language: "భాష",
+        overview: "అవలోకనం",
+        medicalRecords: "వైద్య రికార్డులు",
+        aiAnalyzer: "AI విశ్లేషణ",
+        dietTasks: "ఆహారం & పనులు",
+        appointments: "అపాయింట్‌మెంట్లు",
+        healthServices: "ఆరోగ్య సేవలు",
+        aiMentor: "AI ఆరోగ్య సహాయకుడు",
+        privacyConsent: "గోప్యత & సమ్మతి",
+        workspace: "కార్యస్థలం",
+        personalWorkspace: "వ్యక్తిగత కార్యస్థలం",
+        healthDashboard: "ఆరోగ్య డాష్‌బోర్డ్"
+    },
+
+    hi: {
+        language: "भाषा",
+        overview: "अवलोकन",
+        medicalRecords: "मेडिकल रिकॉर्ड",
+        aiAnalyzer: "AI विश्लेषक",
+        dietTasks: "आहार और कार्य",
+        appointments: "अपॉइंटमेंट",
+        healthServices: "स्वास्थ्य सेवाएँ",
+        aiMentor: "AI स्वास्थ्य सहायक",
+        privacyConsent: "गोपनीयता और सहमति",
+        workspace: "कार्यक्षेत्र",
+        personalWorkspace: "व्यक्तिगत कार्यक्षेत्र",
+        healthDashboard: "स्वास्थ्य डैशबोर्ड"
+    }
+};
+
+
 const NexHealth = (() => {
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -27,6 +76,7 @@ const NexHealth = (() => {
 
     const state = {
         screen: "overview",
+        language: localStorage.getItem("nexhealth_language") || "en",
         records: read(STORAGE.records, []),
         tasks: read(STORAGE.tasks, []),
         appointments: read(STORAGE.appointments, []),
@@ -56,6 +106,62 @@ const NexHealth = (() => {
             return false;
         }
     };
+
+
+    const t = (key) => {
+        const language = translations[state.language] || translations.en;
+        return language[key] || translations.en[key] || key;
+    };
+
+
+const applyTranslations = () => {
+    const textMap = {
+        "Overview": "overview",
+        "Medical records": "medicalRecords",
+        "AI analyzer": "aiAnalyzer",
+        "Diet & tasks": "dietTasks",
+        "Appointments": "appointments",
+        "Health services": "healthServices",
+        "AI mentor": "aiMentor",
+        "Privacy & consent": "privacyConsent",
+        "WORKSPACE": "workspace",
+        "Personal workspace": "personalWorkspace",
+        "Health dashboard": "healthDashboard"
+    };
+
+    const allTranslations = Object.values(translations);
+
+    document.querySelectorAll(
+        ".nav-item span:not(.nav-count):not(.nav-indicator), .sidebar-label, .workspace-details strong, .workspace-details small"
+    ).forEach((element) => {
+        const currentText = element.textContent.trim();
+
+        const englishLabel = Object.keys(textMap).find((english) =>
+            english === currentText ||
+            allTranslations.some(
+                (dictionary) => dictionary[textMap[english]] === currentText
+            )
+        );
+
+        const key = element.dataset.i18nKey || textMap[englishLabel];
+
+        if (key) {
+            element.dataset.i18nKey = key;
+            element.textContent = t(key);
+        }
+    });
+
+    document.documentElement.lang = state.language;
+
+    ["siteLanguage", "mentorLanguage"].forEach((id) => {
+        const select = document.getElementById(id);
+        if (select) {
+            select.value = state.language;
+        }
+    });
+};
+
+
 
     const persist = () => {
         save(STORAGE.records, state.records);
@@ -993,7 +1099,10 @@ const NexHealth = (() => {
             const data = await apiRequest("/api/mentor", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: text })
+                body: JSON.stringify({
+    message: text,
+    language: state.language
+})
             });
 
             const answer = data.reply || data.answer || data.response || data.message ||
@@ -1135,6 +1244,134 @@ const NexHealth = (() => {
     };
 
     const bindEvents = () => {
+
+        const languageSelect = $("#siteLanguage");
+
+        if (languageSelect) {
+            languageSelect.value = state.language;
+
+            languageSelect.addEventListener("change", (event) => {
+                const selectedLanguage = event.target.value;
+
+                if (!translations[selectedLanguage]) return;
+
+                state.language = selectedLanguage;
+
+                try {
+                    localStorage.setItem(
+                        "nexhealth_language",
+                        selectedLanguage
+                    );
+                } catch (error) {
+                    console.warn("Could not save language preference.", error);
+                }
+
+                applyTranslations();
+            });
+        }
+
+
+        const abdmForm = $("#abdmMockForm");
+
+        if (abdmForm) {
+            const identityStatus = $("#abdmIdentityStatus");
+
+            let savedIdentity = null;
+            try {
+                savedIdentity = JSON.parse(
+                    localStorage.getItem("nexhealth_mock_abha") || "null"
+                );
+            } catch (error) {
+                console.warn("Could not load mock ABHA identity.", error);
+            }
+
+            if (savedIdentity) {
+                $("#mockAbhaNumber").value = savedIdentity.number || "";
+                $("#mockAbhaAddress").value = savedIdentity.address || "";
+
+                if (identityStatus) {
+                    identityStatus.textContent =
+                        "Demo identity loaded from this browser.";
+                }
+            }
+
+            abdmForm.addEventListener("submit", event => {
+                event.preventDefault();
+
+                const number = $("#mockAbhaNumber").value.trim();
+                const address = $("#mockAbhaAddress").value.trim();
+
+                if (!/^\d{14}$/.test(number.replace(/\D/g, ""))) {
+                    toast("Enter a fictional 14-digit demo number.", "warning");
+                    return;
+                }
+
+                if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+$/.test(address)) {
+                    toast("Enter a valid demo address.", "warning");
+                    return;
+                }
+
+                try {
+                    localStorage.setItem(
+                        "nexhealth_mock_abha",
+                        JSON.stringify({
+                            number: number.replace(/\D/g, ""),
+                            address
+                        })
+                    );
+
+                    if (identityStatus) {
+                        identityStatus.textContent =
+                            "Mock identity saved in this browser only.";
+                    }
+
+                    toast("Demo identity saved.");
+                } catch (error) {
+                    toast("Could not save demo identity.", "error");
+                }
+            });
+        }
+
+        const updateDemoConsent = granted => {
+            const status = $("#abdmConsentStatus");
+            const description = $("#abdmConsentDescription");
+
+            if (status) {
+                status.textContent = granted ? "Demo granted" : "Not granted";
+            }
+
+            if (description) {
+                description.textContent = granted
+                    ? "Demo sharing permission is enabled locally."
+                    : "Demo sharing permission is disabled.";
+            }
+
+            try {
+                localStorage.setItem(
+                    "nexhealth_mock_abha_consent",
+                    String(granted)
+                );
+            } catch (error) {
+                console.warn("Could not save demo consent.", error);
+                toast("Could not save demo consent.", "error");
+            }
+        };
+
+        updateDemoConsent(
+            localStorage.getItem("nexhealth_mock_abha_consent") === "true"
+        );
+
+        $("#grantAbdmConsent")?.addEventListener("click", () => {
+            updateDemoConsent(true);
+            toast("Demo consent granted locally.");
+        });
+
+        $("#revokeAbdmConsent")?.addEventListener("click", () => {
+            updateDemoConsent(false);
+            toast("Demo consent revoked locally.");
+        });
+
+
         document.addEventListener("click", event => {
             const screenButton = event.target.closest("[data-screen]");
 
@@ -1338,8 +1575,9 @@ const NexHealth = (() => {
 
     const init = async () => {
         bindEvents();
-        renderAll();
-        navigate("overview");
+applyTranslations();
+renderAll();
+navigate("overview");;
 
         try {
             const health = await apiRequest("/api/health");

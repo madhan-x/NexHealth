@@ -70,6 +70,11 @@
                         <i data-lucide="calendar-days"></i>
                         <span>Appointments</span>
                     </button>
+
+                    <button class="nav-item" type="button" data-screen="abdm-readiness">
+    <i data-lucide="shield-check"></i>
+    <span>ABDM / ABHA (MOCK)</span>
+</button>
                 </nav>
             </div>
 
@@ -121,7 +126,14 @@
                 </span>
             </div>
         </aside>
-
+<div class="language-picker">
+    <label for="siteLanguage">🌐 Language / భాష / भाषा</label>
+    <select id="siteLanguage">
+        <option value="en">English</option>
+        <option value="te">తెలుగు</option>
+        <option value="hi">हिन्दी</option>
+    </select>
+</div>
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
         <main class="main-area" id="mainArea">
@@ -162,214 +174,173 @@
             </header>
 
             <div class="screen-container" id="screenContainer">
+            </section>
 
-                <section class="screen active" id="screen-overview" data-screen-panel="overview" aria-labelledby="overviewTitle">
-                    <div class="page-heading overview-heading">
-                        <div>
-                            <div class="eyebrow">
-                                <span class="status-dot"></span>
-                                YOUR PERSONAL HEALTHSPACE
-                            </div>
-                            <h1 id="overviewTitle">Your health, <span class="text-accent">in focus.</span></h1>
-                            <p class="page-description">A clearer picture of your health starts here.</p>
-                        </div>
 
-                        <div class="heading-actions">
-                            <span class="date-display" id="currentDate">
-                                <i data-lucide="calendar"></i>
-                                Today
-                            </span>
-                            <button class="button button-primary" type="button" data-screen="ai-analyzer">
-                                <i data-lucide="plus"></i>
-                                Analyze a report
-                            </button>
-                        </div>
-                    </div>
+<section class="screen" id="screen-abdm-readiness" data-screen-panel="abdm-readiness" aria-labelledby="abdmTitle" hidden>
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">
+                <span class="status-dot"></span>
+                DIGITAL HEALTH IDENTITY
+            </div>
+            <h1 id="abdmTitle">ABDM / ABHA Readiness</h1>
+            <p class="page-description">
+                Explore digital health identity, records, consent, and healthcare connectivity.
+            </p>
+        </div>
+        <span class="badge">DEMO MODE</span>
+    </div>
 
-                    <div class="welcome-banner">
-                        <div class="welcome-copy">
-                            <span class="welcome-label">YOUR DAILY CHECK-IN</span>
-                            <h2>Small steps. Better health.</h2>
-                            <p>Keep your records organized, stay on top of your routine, and make informed decisions with the right support.</p>
-                            <button class="button button-light" type="button" data-screen="diet-tasks">
-                                View today's plan
-                                <i data-lucide="arrow-up-right"></i>
-                            </button>
-                        </div>
-                        <div class="welcome-art" aria-hidden="true">
-                            <div class="orbit orbit-one"></div>
-                            <div class="orbit orbit-two"></div>
-                            <div class="welcome-heart">
-                                <i data-lucide="heart-pulse"></i>
-                            </div>
-                            <div class="floating-symbol floating-symbol-one">
-                                <i data-lucide="activity"></i>
-                            </div>
-                            <div class="floating-symbol floating-symbol-two">
-                                <i data-lucide="shield-check"></i>
-                            </div>
-                        </div>
-                    </div>
+    <div class="metrics-grid">
+        <article class="metric-card">
+            <div class="metric-top">
+                <span class="metric-icon metric-purple"><i data-lucide="id-card"></i></span>
+                <span class="metric-caption">HEALTH IDENTITY</span>
+            </div>
+            <strong class="metric-value">Mock ABHA</strong>
+            <span class="metric-label">ABHA number and address</span>
+            <span class="metric-footnote">No real ABHA account is connected</span>
+        </article>
 
-                    <div class="section-heading">
-                        <div>
-                            <h2>Your health at a glance</h2>
-                            <p>Quick access to your personal health information.</p>
-                        </div>
-                        <button class="text-button" type="button" data-screen="medical-records">
-                            View all records
-                            <i data-lucide="arrow-right"></i>
-                        </button>
-                    </div>
+        <article class="metric-card">
+            <div class="metric-top">
+                <span class="metric-icon metric-blue"><i data-lucide="files"></i></span>
+                <span class="metric-caption">RECORDS</span>
+            </div>
+            <strong class="metric-value">FHIR-style</strong>
+            <span class="metric-label">Structured health records</span>
+            <span class="metric-footnote">Mapping concept, not a live exchange</span>
+        </article>
 
-                    <div class="metrics-grid">
-                        <article class="metric-card">
-                            <div class="metric-top">
-                                <span class="metric-icon metric-purple">
-                                    <i data-lucide="files"></i>
-                                </span>
-                                <span class="metric-caption">YOUR LIBRARY</span>
-                            </div>
-                            <strong class="metric-value" id="metricRecords">0</strong>
-                            <span class="metric-label">Medical records</span>
-                            <span class="metric-footnote">Reports and prescriptions</span>
-                        </article>
+        <article class="metric-card">
+            <div class="metric-top">
+                <span class="metric-icon metric-green"><i data-lucide="shield-check"></i></span>
+                <span class="metric-caption">CONSENT</span>
+            </div>
+            <strong class="metric-value" id="abdmConsentStatus">Not granted</strong>
+            <span class="metric-label">Record-sharing permission</span>
+            <span class="metric-footnote">Demo consent only</span>
+        </article>
 
-                        <article class="metric-card">
-                            <div class="metric-top">
-                                <span class="metric-icon metric-blue">
-                                    <i data-lucide="calendar-check"></i>
-                                </span>
-                                <span class="metric-caption">YOUR SCHEDULE</span>
-                            </div>
-                            <strong class="metric-value" id="metricAppointments">0</strong>
-                            <span class="metric-label">Upcoming appointments</span>
-                            <span class="metric-footnote">Based on your saved bookings</span>
-                        </article>
+        <article class="metric-card">
+            <div class="metric-top">
+                <span class="metric-icon metric-orange"><i data-lucide="network"></i></span>
+                <span class="metric-caption">CONNECTIVITY</span>
+            </div>
+            <strong class="metric-value">Not connected</strong>
+            <span class="metric-label">Healthcare network</span>
+            <span class="metric-footnote">Live ABDM services are not integrated</span>
+        </article>
+    </div>
 
-                        <article class="metric-card">
-                            <div class="metric-top">
-                                <span class="metric-icon metric-green">
-                                    <i data-lucide="check-circle-2"></i>
-                                </span>
-                                <span class="metric-caption">YOUR ROUTINE</span>
-                            </div>
-                            <strong class="metric-value" id="metricTasks">0</strong>
-                            <span class="metric-label">Tasks remaining</span>
-                            <span class="metric-footnote">From your personal checklist</span>
-                        </article>
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <h3>ABHA identity</h3>
+                <p>Use fictional information for this demonstration.</p>
+            </div>
+            <i data-lucide="fingerprint"></i>
+        </div>
 
-                        <article class="metric-card">
-                            <div class="metric-top">
-                                <span class="metric-icon metric-orange">
-                                    <i data-lucide="sparkles"></i>
-                                </span>
-                                <span class="metric-caption">YOUR INSIGHTS</span>
-                            </div>
-                            <strong class="metric-value" id="metricAnalyses">0</strong>
-                            <span class="metric-label">Reports analyzed</span>
-                            <span class="metric-footnote">Your saved AI analyses</span>
-                        </article>
-                    </div>
+        <form id="abdmMockForm">
+            <div class="form-group">
+                <label for="mockAbhaNumber">Mock ABHA number</label>
+                <input id="mockAbhaNumber" type="text"
+                       placeholder="1234-5678-9012-34"
+                       inputmode="numeric" maxlength="17">
+            </div>
+            <div class="form-group">
+                <label for="mockAbhaAddress">Mock ABHA address</label>
+                <input id="mockAbhaAddress" type="text"
+                       placeholder="demo-user@abdm">
+            </div>
+            <button class="button button-primary" type="submit">
+                <i data-lucide="link"></i>
+                Save demo identity
+            </button>
+            <p class="page-description" id="abdmIdentityStatus" role="status">
+                No demo identity saved.
+            </p>
+        </form>
+    </section>
 
-                    <div class="overview-columns">
-                        <section class="panel tasks-panel">
-                            <div class="panel-heading">
-                                <div>
-                                    <h3>Today's priorities</h3>
-                                    <p>A manageable plan for your day.</p>
-                                </div>
-                                <button class="icon-button" type="button" data-screen="diet-tasks" aria-label="Open tasks">
-                                    <i data-lucide="arrow-up-right"></i>
-                                </button>
-                            </div>
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <h3>Digital health records</h3>
+                <p>Record categories that can be represented in a FHIR-style model.</p>
+            </div>
+        </div>
 
-                            <div class="task-progress-row">
-                                <span>Daily progress</span>
-                                <strong id="taskProgressText">0 of 0 completed</strong>
-                            </div>
-                            <div class="progress-track">
-                                <span id="taskProgressBar" style="width: 0%"></span>
-                            </div>
+        <div class="quick-access-grid">
+            <article class="quick-access-item">
+                <span class="quick-access-icon quick-blue"><i data-lucide="test-tube"></i></span>
+                <span><strong>Lab reports</strong><small>Diagnostic reports and observations</small></span>
+            </article>
+            <article class="quick-access-item">
+                <span class="quick-access-icon quick-purple"><i data-lucide="file-text"></i></span>
+                <span><strong>Discharge summaries</strong><small>Encounter and discharge information</small></span>
+            </article>
+            <article class="quick-access-item">
+                <span class="quick-access-icon quick-green"><i data-lucide="pill"></i></span>
+                <span><strong>Prescriptions</strong><small>Medication and dosage information</small></span>
+            </article>
+        </div>
 
-                            <div class="compact-task-list" id="overviewTaskList">
-                                <div class="empty-state compact-empty">
-                                    <i data-lucide="list-checks"></i>
-                                    <strong>Your task list starts here</strong>
-                                    <p>Add reminders and daily health tasks to keep your routine organized.</p>
-                                    <button class="text-button" type="button" data-screen="diet-tasks">Create a task</button>
-                                </div>
-                            </div>
+        <p class="page-description">
+            These are record categories for the demo. No records are being transmitted to an ABDM network.
+        </p>
+    </section>
 
-                            <button class="panel-footer-link" type="button" data-screen="diet-tasks">
-                                Open diet & tasks
-                                <i data-lucide="arrow-right"></i>
-                            </button>
-                        </section>
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <h3>Consent-based sharing</h3>
+                <p>Demonstrate how a patient might control record-sharing permission.</p>
+            </div>
+            <i data-lucide="shield-check"></i>
+        </div>
 
-                        <section class="panel appointments-panel">
-                            <div class="panel-heading">
-                                <div>
-                                    <h3>Upcoming appointments</h3>
-                                    <p>Your next healthcare visits.</p>
-                                </div>
-                                <button class="icon-button" type="button" data-screen="appointments" aria-label="View appointments">
-                                    <i data-lucide="arrow-up-right"></i>
-                                </button>
-                            </div>
+        <p id="abdmConsentDescription">
+            Demo sharing is currently disabled.
+        </p>
+        <div class="heading-actions">
+            <button class="button button-primary" type="button" id="grantAbdmConsent">
+                Grant demo consent
+            </button>
+            <button class="button button-secondary" type="button" id="revokeAbdmConsent">
+                Revoke demo consent
+            </button>
+        </div>
+        <p class="page-description">
+            These controls change only the local demo state. They do not grant or revoke real ABDM consent.
+        </p>
+    </section>
 
-                            <div id="overviewAppointmentList">
-                                <div class="empty-state">
-                                    <span class="empty-state-icon">
-                                        <i data-lucide="calendar-days"></i>
-                                    </span>
-                                    <strong>No appointments yet</strong>
-                                    <p>Your saved appointments will appear here.</p>
-                                    <button class="button button-secondary button-small" type="button" data-screen="appointments">
-                                        Explore appointments
-                                    </button>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-
-                    <section class="panel quick-access-panel">
-                        <div class="panel-heading">
-                            <div>
-                                <h3>Your health toolkit</h3>
-                                <p>Jump directly to what you need.</p>
-                            </div>
-                        </div>
-
-                        <div class="quick-access-grid">
-                            <button class="quick-access-item" type="button" data-screen="medical-records">
-                                <span class="quick-access-icon quick-purple"><i data-lucide="folder-open"></i></span>
-                                <span><strong>Medical records</strong><small>Organize your reports</small></span>
-                                <i data-lucide="arrow-up-right"></i>
-                            </button>
-
-                            <button class="quick-access-item" type="button" data-screen="ai-analyzer">
-                                <span class="quick-access-icon quick-blue"><i data-lucide="scan-text"></i></span>
-                                <span><strong>AI report analyzer</strong><small>Understand your results</small></span>
-                                <i data-lucide="arrow-up-right"></i>
-                            </button>
-
-                            <button class="quick-access-item" type="button" data-screen="diet-tasks">
-                                <span class="quick-access-icon quick-green"><i data-lucide="utensils"></i></span>
-                                <span><strong>Diet & routine</strong><small>Plan your daily habits</small></span>
-                                <i data-lucide="arrow-up-right"></i>
-                            </button>
-
-                            <button class="quick-access-item" type="button" data-screen="ai-mentor">
-                                <span class="quick-access-icon quick-orange"><i data-lucide="message-circle"></i></span>
-                                <span><strong>AI health mentor</strong><small>Get general health guidance</small></span>
-                                <i data-lucide="arrow-up-right"></i>
-                            </button>
-                        </div>
-                    </section>
-
-                    <p class="medical-disclaimer">NexHealth supports health organization and education. It does not replace a qualified healthcare professional.</p>
-                </section>
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <h3>Connected healthcare services</h3>
+                <p>Readiness checklist for future integration.</p>
+            </div>
+        </div>
+        <div class="compact-task-list">
+            <div class="task-progress-row">
+                <span>Hospital connectivity</span><strong>Not integrated</strong>
+            </div>
+            <div class="task-progress-row">
+                <span>Laboratory connectivity</span><strong>Not integrated</strong>
+            </div>
+            <div class="task-progress-row">
+                <span>FHIR resource mapping</span><strong>Design stage</strong>
+            </div>
+            <div class="task-progress-row">
+                <span>ABDM sandbox integration</span><strong>Pending</strong>
+            </div>
+        </div>
+    </section>
+</section>
 
                 <section class="screen" id="screen-medical-records" data-screen-panel="medical-records" aria-labelledby="recordsTitle" hidden>
                     <div class="page-heading">

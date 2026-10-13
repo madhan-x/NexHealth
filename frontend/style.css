@@ -3966,3 +3966,141 @@ p {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ABHA Readiness page */
+#screen-abdm-readiness {
+    width: 100%;
+    max-width: none;
+    gap: 20px;
+}
+
+#screen-abdm-readiness .page-heading {
+    margin-bottom: 8px;
+}
+
+#screen-abdm-readiness .metrics-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+#screen-abdm-readiness .panel {
+    width: 100%;
+    margin: 0 0 20px;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+#screen-abdm-readiness #abdmMockForm {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+#screen-abdm-readiness #abdmMockForm .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+#screen-abdm-readiness #abdmMockForm input {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+}
+
+#screen-abdm-readiness #abdmMockForm button,
+#screen-abdm-readiness #abdmMockForm #abdmIdentityStatus {
+    grid-column: 1 / -1;
+}
+
+#screen-abdm-readiness .quick-access-grid {
+    gap: 16px;
+}
+
+#screen-abdm-readiness .quick-access-item {
+    min-width: 0;
+}
+
+#screen-abdm-readiness .heading-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+@media (max-width: 900px) {
+    #screen-abdm-readiness .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    #screen-abdm-readiness .metrics-grid,
+    #screen-abdm-readiness #abdmMockForm {
+        grid-template-columns: 1fr;
+    }
+
+    #screen-abdm-readiness .panel {
+        padding: 16px;
+    }
+}
+/* NexHealth: readability and color polish only */
+:root {
+  color-scheme: light;
+  --text-primary: #172b4d;
+  --text-secondary: #475569;
+  --brand-primary: #2563eb;
+  --brand-hover: #1d4ed8;
+  --border-color: #cbd5e1;
+}
+
+body {
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+h1 {
+  color: #102a56;
+  font-size: 30px;
+}
+
+h2 {
+  color: #173b70;
+  font-size: 24px;
+}
+
+h3 {
+  color: #1e3a5f;
+  font-size: 20px;
+}
+
+p,
+label,
+input,
+select,
+textarea,
+button {
+  font-size: 15px;
+}
+
+p,
+label {
+  color: var(--text-secondary);
+}
+
+input,
+select,
+textarea {
+  color: var(--text-primary);
+}
+
+button {
+  font-weight: 600;
+}
+
+::placeholder {
+  color: #64748b;
+  opacity: 1;
+}

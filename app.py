@@ -1,6 +1,7 @@
 
 import os
 import json
+import base64
 import uuid
 import mimetypes
 from pathlib import Path
@@ -12,12 +13,13 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from dotenv import load_dotenv
 
+
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
 
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_DIR = BASE_DIR / "frontend"
-UPLOAD_DIR = BASE_DIR / "uploads"
+UPLOAD_DIR = Path(os.getenv("UPLOAD_DIR") or (Path("/tmp/nexhealth_uploads") if os.getenv("VERCEL") else BASE_DIR / "uploads"))
 
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -40,14 +42,42 @@ app.config["MAX_CONTENT_LENGTH"] = MAX_FILE_SIZE
 app.config["JSON_SORT_KEYS"] = False
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
+
 OPENROUTER_MODEL = os.getenv(
     "OPENROUTER_MODEL",
-    "openrouter/free"
+    "google/gemini-2.5-flash"
 ).strip()
+
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 APP_URL = os.getenv("APP_URL", "http://localhost:5000")
 APP_NAME = "NexHealth"
+
+
+SUPPORTED_LANGUAGES = {
+    "en": "English",
+    "te": "Telugu",
+    "hi": "Hindi",
+}
+
+def get_response_language(value):
+    if not isinstance(value, str):
+        return "en"
+
+    language = value.strip().lower()
+    return language if language in SUPPORTED_LANGUAGES else "en"
+
+
+def language_instruction(language):
+    language_name = SUPPORTED_LANGUAGES.get(language, "English")
+
+    return (
+        f"Respond entirely in {language_name}. "
+        "Use clear, natural language suitable for the general public. "
+        "Preserve medical names, medication names, units, laboratory "
+        "values, and reference ranges accurately. Do not invent facts."
+    )
+
 
 SYSTEM_MENTOR_PROMPT = """
 You are NexHealth Mentor, an assistant that provides general health
@@ -242,11 +272,33 @@ def openrouter_chat(messages, temperature=0.2, max_tokens=1200):
             details or f"The AI service returned HTTP {response.status_code}."
         )
 
+
     try:
         result = response.json()
-        answer = result["choices"][0]["message"]["content"]
+        choice = result["choices"][0]
+        message = choice.get("message", {})
+        answer = message.get("content")
+
+        if not answer:
+            app.logger.error(
+                "OpenRouter returned no text. Response: %s",
+                response.text[:3000]
+            )
+            refusal = message.get("refusal")
+            finish_reason = choice.get("finish_reason")
+            raise RuntimeError(
+                "The AI model returned no text. "
+                f"Refusal: {refusal or 'none'}. "
+                f"Finish reason: {finish_reason or 'unknown'}. "
+                "Check the server log for details."
+            )
+
     except (ValueError, KeyError, IndexError, TypeError) as exc:
-        raise RuntimeError("The AI service returned an unexpected response.") from exc
+        app.logger.exception("Invalid OpenRouter response.")
+        raise RuntimeError(
+            "The AI service returned an unexpected response."
+        ) from exc
+
 
     if isinstance(answer, list):
         answer = "\n".join(
@@ -374,6 +426,7 @@ def upload_medical_record():
         "storage": record["storage"]
     }), 201
 
+
 @app.post("/api/analyze-report")
 def analyze_report():
     file = request.files.get("file")
@@ -382,68 +435,100 @@ def analyze_report():
     if error:
         return error_response(error)
 
-    temporary_path = UPLOAD_DIR / f"analysis-{uuid.uuid4()}{file_info['extension']}"
+    extension = file_info["extension"].lower()
+    content_bytes = file_info["content"]
 
-    try:
-        with temporary_path.open("xb") as output:
-            output.write(file_info["content"])
+    mime_types = {
+        ".pdf": "application/pdf",
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".webp": "image/webp",
+    }
 
-        extracted_text, extraction_error = extract_report_text(
-            temporary_path,
-            file_info["extension"]
+    mime_type = mime_types.get(extension)
+
+    if not mime_type:
+        return error_response(
+            "Please upload a PDF, PNG, JPG, JPEG, or WEBP file.",
+            415
         )
 
-        if extraction_error:
-            return error_response(extraction_error, 422)
+    encoded_file = base64.b64encode(content_bytes).decode("utf-8")
+    language = get_response_language(request.form.get("language"))
 
-        # Check if extracted text is None, empty, or only whitespace
-        if extracted_text is None or not extracted_text.strip():
-            return error_response(
-                "No text could be extracted from the file. The file may be empty, corrupted, or in an unsupported format.",
-                422
-            )
+    prompt = (
+        "Analyze this medical document directly using your vision capabilities. "
+        "Identify the document type, date, diagnoses, medicines and dosages, "
+        "laboratory tests, values, units, and reference ranges when visible. "
+        "Explain abnormal values cautiously. Clearly distinguish information "
+        "visible in the document from uncertain interpretations. Never guess "
+        "unreadable values, invent missing information, or recommend changing "
+        "prescribed medication. Tell the user to verify uncertain details with "
+        "the original document and a qualified healthcare professional. "
+        "Return a clear, organized educational summary. "
+        f"Original filename: {file_info['original_name']}"
+    )
 
+    if mime_type == "application/pdf":
+        document_content = [
+            {"type": "text", "text": prompt},
+            {
+                "type": "file",
+                "file": {
+                    "filename": file_info["original_name"],
+                    "file_data": f"data:application/pdf;base64,{encoded_file}",
+                },
+            },
+        ]
+    else:
+        document_content = [
+            {"type": "text", "text": prompt},
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:{mime_type};base64,{encoded_file}"
+                },
+            },
+        ]
+
+    try:
         answer = openrouter_chat(
             [
-                {"role": "system", "content": SYSTEM_ANALYZER_PROMPT},
+                {
+                    "role": "system",
+                    "content": (
+                        SYSTEM_ANALYZER_PROMPT
+                        + "\n\n"
+                        + language_instruction(language)
+                    ),
+                },
                 {
                     "role": "user",
-                    "content": (
-                        "Explain the following extracted medical report text. "
-                        "The text may contain OCR errors. Do not assume uncertain "
-                        "values are correct. Ask the user to verify them against "
-                        "the original document.\n\n"
-                        f"Filename: {file_info['original_name']}\n\n"
-                        f"Extracted report text:\n{extracted_text}"
-                    )
-                }
+                    "content": document_content,
+                },
             ],
             temperature=0.1,
-            max_tokens=1800
+            max_tokens=1800,
         )
 
         return jsonify({
             "summary": answer,
-            "extracted_text": extracted_text,
-            "ocr_review_required": True,
+            "extracted_text": "",
+            "ocr_review_required": False,
+            "analysis_method": "vision",
             "disclaimer": (
-                "AI-generated educational information only. Verify all extracted "
-                "values against the original report and consult a qualified "
-                "healthcare professional."
+                "AI-generated educational information only. Vision models "
+                "can misread medical documents. Verify all medicines, dosages, "
+                "and test values against the original report and consult a "
+                "qualified healthcare professional."
             ),
-            "created_at": utc_now()
+            "created_at": utc_now(),
         })
 
     except RuntimeError as exc:
         return error_response(str(exc), 503)
-    except OSError:
-        app.logger.exception("Report analysis file operation failed.")
-        return error_response("The report could not be processed.", 500)
-    finally:
-        try:
-            temporary_path.unlink(missing_ok=True)
-        except OSError:
-            app.logger.warning("Could not remove temporary analysis file.")
+
 
 @app.post("/api/mentor")
 def mentor():
@@ -459,6 +544,9 @@ def mentor():
 
     message = message.strip()
 
+    language = get_response_language(data.get("language"))
+
+
     if len(message) > 6000:
         return error_response("Your message must be shorter than 6000 characters.")
 
@@ -466,6 +554,16 @@ def mentor():
         answer = openrouter_chat(
             [
                 {"role": "system", "content": SYSTEM_MENTOR_PROMPT},
+
+                {
+                    "role": "system",
+                    "content": (
+                        SYSTEM_MENTOR_PROMPT
+                        + "\n\n"
+                        + language_instruction(language)
+                    ),
+                },
+
                 {"role": "user", "content": message}
             ],
             temperature=0.3,
