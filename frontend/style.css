@@ -2315,6 +2315,58 @@ p {
     resize: vertical;
 }
 
+.voice-input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.voice-input-wrap textarea {
+    padding-right: 54px;
+}
+
+.voice-input-disclosure {
+    display: block;
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.voice-input-button {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    z-index: 1;
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--primary);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.voice-input-button:hover,
+.voice-input-button:focus-visible {
+    border-color: var(--primary);
+    background: #f0f8f2;
+    outline: none;
+}
+
+.voice-input-button svg {
+    width: 17px;
+    height: 17px;
+}
+
+.voice-input-button.is-listening {
+    border-color: #c84a4a;
+    background: #fff1f1;
+    color: #b83232;
+}
+
 .optional-label {
     margin-left: 5px;
     color: #a2ada6;

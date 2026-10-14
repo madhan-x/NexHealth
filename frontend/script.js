@@ -191,6 +191,18 @@ Object.assign(uiTextTranslations.hi, {
     "· Due": "· अंतिम तिथि", "No matching records": "कोई मेल खाता रिकॉर्ड नहीं", "Try another search or filter.": "दूसरी खोज या फ़िल्टर आज़माएँ।", "Upload a report or prescription to begin.": "शुरू करने के लिए रिपोर्ट या प्रिस्क्रिप्शन अपलोड करें।", "No meals planned for today": "आज के लिए भोजन की योजना नहीं", "Add meals to keep your routine organized.": "अपनी दिनचर्या व्यवस्थित रखने के लिए भोजन जोड़ें।", "Delete meal": "भोजन हटाएँ", "Demo identity loaded from this browser.": "इस ब्राउज़र से डेमो पहचान लोड की गई।", "Demo identity saved.": "डेमो पहचान सहेजी गई।", "Could not save demo identity.": "डेमो पहचान सहेजी नहीं जा सकी।", "No provider directory connected": "सेवा प्रदाता निर्देशिका कनेक्ट नहीं है", "Date not set": "तारीख़ तय नहीं"
 });
 
+Object.assign(uiTextTranslations.te, {
+    "Voice input uses your browser’s speech service and follows the selected site language.": "వాయిస్ ఇన్‌పుట్ మీ బ్రౌజర్ స్పీచ్ సేవను ఉపయోగిస్తుంది; ఎంచుకున్న సైట్ భాషలో పనిచేస్తుంది.",
+    "Start voice input": "వాయిస్ ఇన్‌పుట్ ప్రారంభించండి",
+    "Start voice input. Speech is processed by your browser's speech service.": "వాయిస్ ఇన్‌పుట్ ప్రారంభించండి. మాటలను మీ బ్రౌజర్ స్పీచ్ సేవ ప్రాసెస్ చేస్తుంది."
+});
+
+Object.assign(uiTextTranslations.hi, {
+    "Voice input uses your browser’s speech service and follows the selected site language.": "वॉइस इनपुट आपके ब्राउज़र की स्पीच सेवा का उपयोग करता है और चुनी गई साइट भाषा के अनुसार काम करता है।",
+    "Start voice input": "वॉइस इनपुट शुरू करें",
+    "Start voice input. Speech is processed by your browser's speech service.": "वॉइस इनपुट शुरू करें। बोली गई आवाज़ आपके ब्राउज़र की स्पीच सेवा द्वारा संसाधित होती है।"
+});
+
 const NexHealth = (() => {
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -573,6 +585,73 @@ const observeTranslatedContent = () => {
     const refreshIcons = () => {
         if (window.lucide?.createIcons) {
             window.lucide.createIcons();
+        }
+    };
+
+    const activeVoiceInputs = new Map();
+    const startVoiceInput = button => {
+        const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const target = document.getElementById(button.dataset.voiceTarget);
+        if (!target) return;
+        if (!Recognition) {
+            toast("Voice input is not supported by this browser. You can still type here.", "warning");
+            return;
+        }
+
+        const active = activeVoiceInputs.get(button);
+        if (active) {
+            active.stop();
+            return;
+        }
+
+        activeVoiceInputs.forEach(recognition => recognition.stop());
+        const recognition = new Recognition();
+        const languageCodes = { en: "en-US", te: "te-IN", hi: "hi-IN" };
+        recognition.lang = languageCodes[state.language] || "en-US";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        activeVoiceInputs.set(button, recognition);
+
+        recognition.onstart = () => {
+            button.classList.add("is-listening");
+            button.setAttribute("aria-pressed", "true");
+            button.setAttribute("aria-label", `Listening in ${state.language.toUpperCase()}. Stop voice input`);
+            button.title = "Listening… click to stop";
+            button.innerHTML = '<i data-lucide="mic-off"></i>';
+            refreshIcons();
+        };
+        recognition.onresult = event => {
+            const transcript = event.results?.[0]?.[0]?.transcript?.trim();
+            if (!transcript) return;
+            const existing = target.value.trim();
+            const combined = `${existing}${existing ? " " : ""}${transcript}`;
+            target.value = target.maxLength > 0 ? combined.slice(0, target.maxLength) : combined;
+            target.dispatchEvent(new Event("input", { bubbles: true }));
+            target.focus();
+        };
+        recognition.onerror = event => {
+            if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+                toast("Microphone access was blocked. Allow it in your browser settings to use voice input.", "error");
+            } else if (event.error !== "no-speech" && event.error !== "aborted") {
+                toast(`Voice input failed (${event.error}). You can still type here.`, "error");
+            }
+        };
+        recognition.onend = () => {
+            activeVoiceInputs.delete(button);
+            button.classList.remove("is-listening");
+            button.setAttribute("aria-pressed", "false");
+            button.setAttribute("aria-label", "Start voice input");
+            button.title = "Start voice input. Speech is processed by your browser's speech service.";
+            button.innerHTML = '<i data-lucide="mic"></i>';
+            refreshIcons();
+        };
+
+        try {
+            recognition.start();
+        } catch (error) {
+            activeVoiceInputs.delete(button);
+            toast("Could not start voice input. Check microphone access and try again.", "error");
         }
     };
 
@@ -1852,6 +1931,10 @@ const observeTranslatedContent = () => {
     const bindEvents = () => {
 
         const languageSelect = $("#siteLanguage");
+
+        $$("[data-voice-target]").forEach(button => {
+            button.addEventListener("click", () => startVoiceInput(button));
+        });
 
         const dietPreferencesForm = $("#dietPreferencesForm");
         if (dietPreferencesForm) {

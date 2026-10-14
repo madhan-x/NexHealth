@@ -688,7 +688,13 @@
 
                                 <div class="form-field">
                                     <label for="analysisContext">Additional context <span class="optional-label">Optional</span></label>
-                                    <textarea id="analysisContext" rows="3" placeholder="Share relevant context or tell us which part is confusing. Avoid unnecessary personal identifiers."></textarea>
+                                    <div class="voice-input-wrap">
+                                        <textarea id="analysisContext" rows="3" placeholder="Share relevant context or tell us which part is confusing. Avoid unnecessary personal identifiers."></textarea>
+                                        <button class="voice-input-button" type="button" data-voice-target="analysisContext" aria-label="Start voice input" title="Start voice input. Speech is processed by your browser's speech service.">
+                                            <i data-lucide="mic"></i>
+                                        </button>
+                                    </div>
+                                    <small class="voice-input-disclosure">Voice input uses your browser’s speech service and follows the selected site language.</small>
                                 </div>
 
                                 <button class="button button-primary button-full" type="button" id="analyzeReportButton">
@@ -1105,7 +1111,13 @@
 
                             <form class="mentor-composer" id="mentorForm">
                                 <label class="sr-only" for="mentorInput">Your health question</label>
-                                <textarea id="mentorInput" rows="2" maxlength="4000" placeholder="Ask a general health question..." required></textarea>
+                                <div class="voice-input-wrap">
+                                    <textarea id="mentorInput" rows="2" maxlength="4000" placeholder="Ask a general health question..." required></textarea>
+                                    <button class="voice-input-button" type="button" data-voice-target="mentorInput" aria-label="Start voice input" title="Start voice input. Speech is processed by your browser's speech service.">
+                                        <i data-lucide="mic"></i>
+                                    </button>
+                                </div>
+                                <small class="voice-input-disclosure">Voice input uses your browser’s speech service and follows the selected site language.</small>
                                 <div class="composer-footer">
                                     <span><i data-lucide="shield-check"></i> Avoid sharing identifying information.</span>
                                     <button class="button button-primary" type="submit" id="mentorSendButton">
