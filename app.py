@@ -55,6 +55,7 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "").strip()
 SUPABASE_AUTH_TIMEOUT = 10
+SUPABASE_DATA_TIMEOUT = 15
 LOCAL_DEMO_USER = {
     "id": "local-demo-user",
     "email": "local@localhost",
@@ -93,6 +94,46 @@ def supabase_auth_request(path, *, method="POST", payload=None, access_token=Non
         )
     except requests.RequestException:
         app.logger.warning("Supabase Auth request failed.")
+        return None
+
+    try:
+        body = response.json()
+    except ValueError:
+        body = {}
+    return response.status_code, body
+
+
+def supabase_workspace_request(*, method="GET", payload=None):
+    """Read or write the signed-in user's workspace through Supabase RLS."""
+    refreshed_tokens = getattr(g, "refreshed_auth_tokens", None)
+    access_token = (
+        refreshed_tokens.get("access_token", "")
+        if refreshed_tokens
+        else request.cookies.get("nexhealth_access_token", "")
+    )
+    if not access_token or not SUPABASE_URL or not SUPABASE_ANON_KEY:
+        return None
+
+    headers = {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": f"Bearer {access_token}",
+        "Accept": "application/json",
+    }
+    if method == "POST":
+        headers["Content-Type"] = "application/json"
+        headers["Prefer"] = "resolution=merge-duplicates,return=representation"
+
+    try:
+        response = requests.request(
+            method,
+            f"{SUPABASE_URL}/rest/v1/workspace_state",
+            headers=headers,
+            params={"on_conflict": "user_id"} if method == "POST" else {"select": "data", "limit": "1"},
+            json=payload,
+            timeout=SUPABASE_DATA_TIMEOUT,
+        )
+    except requests.RequestException:
+        app.logger.warning("Supabase workspace request failed.")
         return None
 
     try:
@@ -548,8 +589,73 @@ def health():
         "app": APP_NAME,
         "ai_configured": bool(OPENROUTER_API_KEY),
         "auth_configured": bool(SUPABASE_URL and SUPABASE_ANON_KEY),
+        "database_configured": bool(SUPABASE_URL and SUPABASE_ANON_KEY),
         "timestamp": utc_now()
     })
+
+
+@app.get("/api/workspace")
+def load_workspace():
+    if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+        return error_response("Database connection is not configured on the server.", 503)
+
+    result = supabase_workspace_request()
+    if not result:
+        return error_response("Could not reach the database. Try again shortly.", 503)
+
+    status, body = result
+    if status != 200:
+        app.logger.warning("Supabase workspace read failed with HTTP %s.", status)
+        if status == 404:
+            return error_response("Workspace database table is missing. Apply the Supabase migration.", 503)
+        return error_response(f"Database read failed (HTTP {status}). Check the Supabase table and access policies.", 503)
+
+    rows = body if isinstance(body, list) else []
+    data = rows[0].get("data") if rows and isinstance(rows[0], dict) else None
+    return jsonify({"workspace": data if isinstance(data, dict) else None})
+
+
+@app.put("/api/workspace")
+def save_workspace():
+    if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+        return error_response("Database connection is not configured on the server.", 503)
+
+    user = getattr(g, "current_user", {})
+    user_id = user.get("id") if isinstance(user, dict) else None
+    if not user_id or user.get("demo_mode"):
+        return error_response("Sign in with a Supabase account to save workspace data.", 401)
+
+    body = request.get_json(silent=True)
+    workspace = body.get("workspace") if isinstance(body, dict) else None
+    allowed_keys = {
+        "records", "tasks", "appointments", "meals", "analyses",
+        "messages", "profile", "dietPreferences", "consent",
+    }
+    if not isinstance(workspace, dict) or set(workspace) - allowed_keys:
+        return error_response("Workspace data is invalid.")
+
+    try:
+        serialized_size = len(json.dumps(workspace, ensure_ascii=False).encode("utf-8"))
+    except (TypeError, ValueError):
+        return error_response("Workspace data is invalid.")
+    if serialized_size > 1_000_000:
+        return error_response("Workspace data is too large to save.", 413)
+
+    result = supabase_workspace_request(
+        method="POST",
+        payload={"user_id": user_id, "data": workspace, "updated_at": utc_now()},
+    )
+    if not result:
+        return error_response("Could not reach the database. Try again shortly.", 503)
+
+    status, _response_body = result
+    if status not in (200, 201):
+        app.logger.warning("Supabase workspace write failed with HTTP %s.", status)
+        if status == 404:
+            return error_response("Workspace database table is missing. Apply the Supabase migration.", 503)
+        return error_response(f"Database save failed (HTTP {status}). Check the Supabase table and access policies.", 503)
+
+    return jsonify({"saved": True})
 
 
 @app.get("/api/auth/session")

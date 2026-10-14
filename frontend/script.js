@@ -210,6 +210,10 @@ const NexHealth = (() => {
     let activeUserId = "";
     let authMode = "login";
     let appEventsBound = false;
+    let workspaceHydrated = false;
+    let workspaceSaveTimer = null;
+    let workspaceSaveInFlight = false;
+    let workspaceSaveQueued = false;
 
     const userStorageKey = key => `${key}_${activeUserId}`;
 
@@ -382,6 +386,59 @@ const observeTranslatedContent = () => {
 
 
 
+    const workspaceSnapshot = () => ({
+        records: state.records,
+        tasks: state.tasks,
+        appointments: state.appointments,
+        meals: state.meals,
+        analyses: state.analyses,
+        messages: state.messages,
+        profile: state.profile,
+        dietPreferences: state.dietPreferences,
+        consent: state.consent
+    });
+
+    const applyWorkspaceSnapshot = workspace => {
+        if (!workspace || typeof workspace !== "object" || Array.isArray(workspace)) return false;
+        const arrayKeys = ["records", "tasks", "appointments", "meals", "analyses", "messages"];
+        arrayKeys.forEach(key => {
+            if (Array.isArray(workspace[key])) state[key] = workspace[key];
+        });
+        ["profile", "dietPreferences", "consent"].forEach(key => {
+            if (workspace[key] && typeof workspace[key] === "object" && !Array.isArray(workspace[key])) {
+                state[key] = workspace[key];
+            }
+        });
+        Object.entries(STORAGE).forEach(([name, key]) => save(key, state[name]));
+        return true;
+    };
+
+    const flushWorkspaceSave = async () => {
+        if (workspaceSaveInFlight) {
+            workspaceSaveQueued = true;
+            return;
+        }
+        workspaceSaveInFlight = true;
+        workspaceSaveQueued = false;
+        try {
+            await apiRequest("/api/workspace", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ workspace: workspaceSnapshot() })
+            });
+        } catch (error) {
+            toast(`Database sync failed: ${error.message}. This change is saved only in this browser.`, "error");
+        } finally {
+            workspaceSaveInFlight = false;
+            if (workspaceSaveQueued) scheduleWorkspaceSave();
+        }
+    };
+
+    const scheduleWorkspaceSave = () => {
+        if (workspaceSaveTimer) clearTimeout(workspaceSaveTimer);
+        workspaceSaveTimer = setTimeout(flushWorkspaceSave, 500);
+    };
+
     const persist = () => {
         save(STORAGE.records, state.records);
         save(STORAGE.tasks, state.tasks);
@@ -392,6 +449,9 @@ const observeTranslatedContent = () => {
         save(STORAGE.profile, state.profile);
         save(STORAGE.dietPreferences, state.dietPreferences);
         save(STORAGE.consent, state.consent);
+        if (workspaceHydrated && activeUserId && !document.body.classList.contains("local-demo-mode")) {
+            scheduleWorkspaceSave();
+        }
     };
 
     const id = () =>
@@ -1267,6 +1327,31 @@ const observeTranslatedContent = () => {
         feedback.dataset.kind = kind;
     };
 
+    const hydrateWorkspace = async user => {
+        workspaceHydrated = false;
+        if (user.demo_mode) {
+            workspaceHydrated = true;
+            return;
+        }
+
+        try {
+            const result = await apiRequest("/api/workspace");
+            if (result.workspace) {
+                applyWorkspaceSnapshot(result.workspace);
+            } else {
+                await apiRequest("/api/workspace", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ workspace: workspaceSnapshot() })
+                });
+            }
+        } catch (error) {
+            toast(`Database is not available: ${error.message}. Your current data remains in this browser.`, "error");
+        } finally {
+            workspaceHydrated = true;
+        }
+    };
+
     const updateAuthMode = () => {
         const signup = authMode === "signup";
         $("#authTitle").textContent = signup ? "Create your account" : "Welcome back";
@@ -1283,6 +1368,7 @@ const observeTranslatedContent = () => {
     const startAuthenticatedApp = async user => {
         activateUser(user);
         document.body.classList.toggle("local-demo-mode", Boolean(user.demo_mode));
+        await hydrateWorkspace(user);
         document.body.classList.add("auth-ready");
         if (!appEventsBound) {
             bindEvents();

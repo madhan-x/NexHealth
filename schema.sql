@@ -47,6 +47,19 @@ ALTER TABLE public.profiles
     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
 
 -- ============================================================
+-- 1A. ACCOUNT-SCOPED WORKSPACE SNAPSHOT
+-- Stores app state through the signed-in user's JWT and RLS.
+-- No service-role key is needed by the application.
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS public.workspace_state (
+    user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    data JSONB NOT NULL DEFAULT '{}'::JSONB,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ============================================================
 -- 2. PRIVACY AND CONSENT
 -- ============================================================
 
@@ -490,6 +503,7 @@ FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 -- ============================================================
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.workspace_state ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.consent_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.consent_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.data_access_grants ENABLE ROW LEVEL SECURITY;
@@ -525,6 +539,22 @@ CREATE POLICY profiles_update_own ON public.profiles
 FOR UPDATE TO authenticated
 USING (id = (SELECT auth.uid()))
 WITH CHECK (id = (SELECT auth.uid()));
+
+DROP POLICY IF EXISTS workspace_state_select_own ON public.workspace_state;
+CREATE POLICY workspace_state_select_own ON public.workspace_state
+FOR SELECT TO authenticated USING (user_id = (SELECT auth.uid()));
+
+DROP POLICY IF EXISTS workspace_state_insert_own ON public.workspace_state;
+CREATE POLICY workspace_state_insert_own ON public.workspace_state
+FOR INSERT TO authenticated WITH CHECK (user_id = (SELECT auth.uid()));
+
+DROP POLICY IF EXISTS workspace_state_update_own ON public.workspace_state;
+CREATE POLICY workspace_state_update_own ON public.workspace_state
+FOR UPDATE TO authenticated
+USING (user_id = (SELECT auth.uid()))
+WITH CHECK (user_id = (SELECT auth.uid()));
+
+GRANT SELECT, INSERT, UPDATE ON public.workspace_state TO authenticated;
 
 -- Create consistent owner policies for user-owned tables.
 -- This also replaces the failing consent_preferences policies.
