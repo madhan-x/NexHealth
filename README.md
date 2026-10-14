@@ -1,9 +1,5 @@
 # NexHealth
-
-![GitHub](https://img.shields.io/github/license/madhan-x/NexHealth)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/madhan-x/NexHealth/ci.yml)
-![GitHub Repo Size](https://img.shields.io/github/repo-size/madhan-x/NexHealth)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/madhan-x/NexHealth)
+URL: https://nex-health-two.vercel.app/
 
 ## AI-Powered Health Companion for Medical Document Understanding and Personalized Wellness Guidance
 
@@ -188,13 +184,16 @@ curl -X POST http://localhost:5000/api/analyze-report \
 
 ## Demo / Screenshots
 
-![NexHealth Dashboard](docs/screenshots/dashboard.png)
+![NexHealth Dashboard](<img width="1365" height="630" alt="Screenshot 2026-10-14 183246" src="https://github.com/user-attachments/assets/f2ae102d-5f13-47d3-bd22-abc4070a034b" />
+)
+
 *Main dashboard showing recent analyses and wellness plan*
 
-![Document Analysis Result](docs/screenshots/analysis-result.png)
+![Document Analysis Result](<img width="1365" height="631" alt="Screenshot 2026-10-14 183407" src="https://github.com/user-attachments/assets/ddd78c2d-9158-4671-96e9-25fca8a899d7" />)
 *Plain-language explanation of an uploaded lab report*
 
-![Multilingual Interface](docs/screenshots/multilingual-chat.png)
+![AI Mentor & Multilingual Interface](<img width="1364" height="632" alt="Screenshot 2026-10-14 183338" src="https://github.com/user-attachments/assets/4613ee2a-5566-49c2-9b3e-808e164db503" />
+)
 *Health mentor conversation in Telugu*
 
 *Note: Screenshots directory to be added in future releases*
