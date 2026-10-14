@@ -44,7 +44,7 @@ def get_profile(user_id):
         get_db()
         .table("profiles")
         .select("*")
-        .eq("user_id", user_id)
+        .eq("id", user_id)
         .limit(1)
     )
     return rows[0] if rows else None
@@ -54,14 +54,15 @@ def save_profile(user_id, data):
     allowed_fields = {
         "full_name",
         "date_of_birth",
-        "blood_group",
         "gender",
         "height_cm",
         "weight_kg",
-        "emergency_contact",
         "allergies",
-        "existing_conditions",
-        "medications",
+        "dietary_preferences",
+        "activity_level",
+        "health_goals",
+        "phone",
+        "avatar_url",
     }
 
     payload = {
@@ -69,13 +70,13 @@ def save_profile(user_id, data):
         for key, value in data.items()
         if key in allowed_fields
     }
-    payload["user_id"] = user_id
+    payload["id"] = user_id
     payload["updated_at"] = _timestamp()
 
     rows = _execute(
         get_db()
         .table("profiles")
-        .upsert(payload, on_conflict="user_id")
+        .upsert(payload, on_conflict="id")
     )
     return rows[0] if rows else payload
 
@@ -83,7 +84,7 @@ def save_profile(user_id, data):
 def list_medical_records(user_id):
     return _execute(
         get_db()
-        .table("medical_records")
+        .table("medical_documents")
         .select("*")
         .eq("user_id", user_id)
         .order("created_at", desc=True)
@@ -92,15 +93,15 @@ def list_medical_records(user_id):
 
 def create_medical_record(user_id, data):
     allowed_fields = {
-        "title",
-        "record_type",
-        "record_date",
-        "file_path",
-        "file_name",
+        "document_name",
+        "document_type",
+        "storage_path",
         "mime_type",
-        "extracted_text",
-        "analysis",
-        "status",
+        "file_size_bytes",
+        "document_date",
+        "provider_name",
+        "notes",
+        "processing_status",
     }
 
     payload = {
@@ -108,11 +109,13 @@ def create_medical_record(user_id, data):
         for key, value in data.items()
         if key in allowed_fields
     }
+    if not payload.get("document_name"):
+        raise DatabaseError("document_name is required to create a medical document.")
     payload["user_id"] = user_id
 
     rows = _execute(
         get_db()
-        .table("medical_records")
+        .table("medical_documents")
         .insert(payload)
     )
     return rows[0] if rows else payload
@@ -121,7 +124,7 @@ def create_medical_record(user_id, data):
 def get_medical_record(user_id, record_id):
     rows = _execute(
         get_db()
-        .table("medical_records")
+        .table("medical_documents")
         .select("*")
         .eq("user_id", user_id)
         .eq("id", record_id)
@@ -132,15 +135,15 @@ def get_medical_record(user_id, record_id):
 
 def update_medical_record(user_id, record_id, data):
     allowed_fields = {
-        "title",
-        "record_type",
-        "record_date",
-        "file_path",
-        "file_name",
+        "document_name",
+        "document_type",
+        "storage_path",
         "mime_type",
-        "extracted_text",
-        "analysis",
-        "status",
+        "file_size_bytes",
+        "document_date",
+        "provider_name",
+        "notes",
+        "processing_status",
     }
 
     payload = {
@@ -154,7 +157,7 @@ def update_medical_record(user_id, record_id, data):
 
     rows = _execute(
         get_db()
-        .table("medical_records")
+        .table("medical_documents")
         .update(payload)
         .eq("user_id", user_id)
         .eq("id", record_id)
@@ -165,7 +168,7 @@ def update_medical_record(user_id, record_id, data):
 def delete_medical_record(user_id, record_id):
     rows = _execute(
         get_db()
-        .table("medical_records")
+        .table("medical_documents")
         .delete()
         .eq("user_id", user_id)
         .eq("id", record_id)
@@ -179,18 +182,20 @@ def list_appointments(user_id):
         .table("appointments")
         .select("*")
         .eq("user_id", user_id)
-        .order("appointment_date", desc=False)
+        .order("scheduled_at", desc=False)
     )
 
 
 def create_appointment(user_id, data):
     allowed_fields = {
-        "title",
-        "provider_name",
-        "appointment_date",
-        "location",
+        "provider_id",
+        "service_id",
+        "appointment_type",
+        "scheduled_at",
+        "reason",
         "notes",
         "status",
+        "confirmation_code",
     }
 
     payload = {
@@ -198,6 +203,8 @@ def create_appointment(user_id, data):
         for key, value in data.items()
         if key in allowed_fields
     }
+    if not payload.get("scheduled_at"):
+        raise DatabaseError("scheduled_at is required to create an appointment.")
     payload["user_id"] = user_id
     payload.setdefault("status", "scheduled")
 
@@ -211,12 +218,14 @@ def create_appointment(user_id, data):
 
 def update_appointment(user_id, appointment_id, data):
     allowed_fields = {
-        "title",
-        "provider_name",
-        "appointment_date",
-        "location",
+        "provider_id",
+        "service_id",
+        "appointment_type",
+        "scheduled_at",
+        "reason",
         "notes",
         "status",
+        "confirmation_code",
     }
 
     payload = {
@@ -263,9 +272,11 @@ def create_task(user_id, data):
     allowed_fields = {
         "title",
         "description",
-        "due_date",
-        "category",
+        "task_type",
+        "due_at",
         "completed",
+        "completed_at",
+        "reminder_enabled",
     }
 
     payload = {
@@ -273,6 +284,8 @@ def create_task(user_id, data):
         for key, value in data.items()
         if key in allowed_fields
     }
+    if not payload.get("title"):
+        raise DatabaseError("title is required to create a health task.")
     payload["user_id"] = user_id
     payload.setdefault("completed", False)
 
@@ -288,9 +301,11 @@ def update_task(user_id, task_id, data):
     allowed_fields = {
         "title",
         "description",
-        "due_date",
-        "category",
+        "task_type",
+        "due_at",
         "completed",
+        "completed_at",
+        "reminder_enabled",
     }
 
     payload = {
@@ -326,7 +341,7 @@ def delete_task(user_id, task_id):
 def get_consent_settings(user_id):
     rows = _execute(
         get_db()
-        .table("privacy_consents")
+        .table("consent_preferences")
         .select("*")
         .eq("user_id", user_id)
         .limit(1)
@@ -336,10 +351,9 @@ def get_consent_settings(user_id):
 
 def save_consent_settings(user_id, data):
     allowed_fields = {
-        "data_processing",
-        "ai_analysis",
-        "share_with_providers",
-        "marketing",
+        "ai_processing",
+        "data_sharing",
+        "analytics",
     }
 
     payload = {
@@ -352,7 +366,7 @@ def save_consent_settings(user_id, data):
 
     rows = _execute(
         get_db()
-        .table("privacy_consents")
+        .table("consent_preferences")
         .upsert(payload, on_conflict="user_id")
     )
     return rows[0] if rows else payload
@@ -360,7 +374,7 @@ def save_consent_settings(user_id, data):
 
 def health_check():
     try:
-        get_db().table("profiles").select("user_id").limit(1).execute()
+        get_db().table("profiles").select("id").limit(1).execute()
         return {"connected": True, "message": "Supabase connection successful"}
     except Exception as exc:
         return {"connected": False, "message": str(exc)}

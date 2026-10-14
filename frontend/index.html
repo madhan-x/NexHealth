@@ -18,6 +18,22 @@
 </head>
 
 <body>
+    <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
+        <form class="auth-card" id="authForm" novalidate>
+            <span class="auth-brand-mark"><i data-lucide="heart-pulse" aria-hidden="true"></i></span>
+            <p class="auth-eyebrow">NEXHEALTH</p>
+            <h1 id="authTitle">Welcome back</h1>
+            <p class="auth-description" id="authDescription">Sign in to open your personal health workspace.</p>
+            <label for="authEmail">Email</label>
+            <input id="authEmail" name="email" type="email" autocomplete="email" required>
+            <label for="authPassword">Password</label>
+            <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="8" required>
+            <p class="auth-feedback" id="authFeedback" role="status" aria-live="polite"></p>
+            <button class="button button-primary auth-submit" id="authSubmit" type="submit">Sign in</button>
+            <button class="auth-mode-toggle" id="authModeToggle" type="button">Create an account</button>
+        </form>
+    </section>
+
     <div class="app-shell" id="appShell">
 
         <aside class="sidebar" id="sidebar" aria-label="Main navigation">
@@ -31,14 +47,14 @@
                 </span>
             </a>
 
-            <div class="workspace-switcher">
+            <button class="workspace-switcher" type="button" data-screen="overview" aria-label="Open the personal workspace dashboard">
                 <span class="workspace-avatar">NH</span>
                 <span class="workspace-details">
                     <strong>Personal workspace</strong>
                     <small>Health dashboard</small>
                 </span>
-                <i data-lucide="chevrons-up-down"></i>
-            </div>
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+            </button>
 
             <div class="sidebar-section">
                 <p class="sidebar-label">WORKSPACE</p>
@@ -49,32 +65,23 @@
                         <span>Overview</span>
                     </button>
 
-                    <button class="nav-item" type="button" data-screen="medical-records">
-                        <i data-lucide="folder-heart"></i>
-                        <span>Medical records</span>
-                        <span class="nav-count" id="recordsNavCount">0</span>
-                    </button>
-
-                    <button class="nav-item" type="button" data-screen="ai-analyzer">
-                        <i data-lucide="scan-search"></i>
-                        <span>AI analyzer</span>
-                        <span class="nav-indicator"></span>
-                    </button>
-
                     <button class="nav-item" type="button" data-screen="diet-tasks">
                         <i data-lucide="salad"></i>
                         <span>Diet & tasks</span>
                     </button>
 
-                    <button class="nav-item" type="button" data-screen="appointments">
-                        <i data-lucide="calendar-days"></i>
-                        <span>Appointments</span>
+                    <button class="nav-item" type="button" data-screen="ai-mentor">
+                        <i data-lucide="bot"></i>
+                        <span>AI health mentor</span>
+                        <span class="nav-beta">AI</span>
                     </button>
 
-                    <button class="nav-item" type="button" data-screen="abdm-readiness">
-    <i data-lucide="shield-check"></i>
-    <span>ABDM / ABHA (MOCK)</span>
-</button>
+                    <button class="nav-item" type="button" data-screen="ai-analyzer">
+                        <i data-lucide="scan-search"></i>
+                        <span>AI analyzer</span>
+                        <span class="nav-beta">AI</span>
+                    </button>
+
                 </nav>
             </div>
 
@@ -82,15 +89,24 @@
                 <p class="sidebar-label">HEALTH NETWORK</p>
 
                 <nav class="primary-navigation">
+                    <button class="nav-item" type="button" data-screen="abdm-readiness">
+                        <i data-lucide="shield-check"></i>
+                        <span>ABDM / ABHA</span>
+                    </button>
+
                     <button class="nav-item" type="button" data-screen="health-services">
                         <i data-lucide="stethoscope"></i>
                         <span>Health services</span>
                     </button>
 
-                    <button class="nav-item" type="button" data-screen="ai-mentor">
-                        <i data-lucide="bot"></i>
-                        <span>AI health mentor</span>
-                        <span class="nav-beta">AI</span>
+                    <button class="nav-item" type="button" data-screen="medical-records">
+                        <i data-lucide="folder-heart"></i>
+                        <span>Medical records</span>
+                    </button>
+
+                    <button class="nav-item" type="button" data-screen="appointments">
+                        <i data-lucide="calendar-days"></i>
+                        <span>Appointments</span>
                     </button>
                 </nav>
             </div>
@@ -110,6 +126,10 @@
             </div>
 
             <div class="sidebar-section sidebar-bottom-navigation">
+                <button class="nav-item" type="button" data-screen="settings">
+                    <i data-lucide="settings-2"></i>
+                    <span>Settings</span>
+                </button>
                 <button class="nav-item" type="button" data-screen="privacy-consent">
                     <i data-lucide="shield-check"></i>
                     <span>Privacy & consent</span>
@@ -124,16 +144,11 @@
                     <strong>Your health. Your control.</strong>
                     <small>Privacy-first by design</small>
                 </span>
+                <button class="auth-signout" id="signOutButton" type="button" aria-label="Sign out" title="Sign out">
+                    <i data-lucide="log-out" aria-hidden="true"></i>
+                </button>
             </div>
         </aside>
-<div class="language-picker">
-    <label for="siteLanguage">🌐 Language / భాష / भाषा</label>
-    <select id="siteLanguage">
-        <option value="en">English</option>
-        <option value="te">తెలుగు</option>
-        <option value="hi">हिन्दी</option>
-    </select>
-</div>
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
         <main class="main-area" id="mainArea">
@@ -151,6 +166,15 @@
                 </div>
 
                 <div class="topbar-actions">
+                    <div class="language-picker">
+                        <i data-lucide="globe-2" aria-hidden="true"></i>
+                        <label class="visually-hidden" for="siteLanguage">Language</label>
+                        <select id="siteLanguage" aria-label="Language">
+                            <option value="en">English</option>
+                            <option value="te">తెలుగు</option>
+                            <option value="hi">हिन्दी</option>
+                        </select>
+                    </div>
                     <div class="search-box">
                         <i data-lucide="search"></i>
                         <input id="globalSearch" type="search" placeholder="Search your workspace..." aria-label="Search workspace">
@@ -383,7 +407,7 @@
                 </section>
 
 <section class="screen" id="screen-abdm-readiness" data-screen-panel="abdm-readiness" aria-labelledby="abdmTitle" hidden>
-    <div class="page-heading">
+    <div class="page-heading abdm-heading">
         <div>
             <div class="eyebrow">
                 <span class="status-dot"></span>
@@ -394,7 +418,7 @@
                 Explore digital health identity, records, consent, and healthcare connectivity.
             </p>
         </div>
-        <span class="badge">DEMO MODE</span>
+        <span class="badge abdm-demo-badge"><i data-lucide="flask-conical" aria-hidden="true"></i> DEMO MODE</span>
     </div>
 
     <div class="metrics-grid">
@@ -439,7 +463,7 @@
         </article>
     </div>
 
-    <section class="panel">
+    <section class="panel abdm-panel">
         <div class="panel-heading">
             <div>
                 <h3>ABHA identity</h3>
@@ -470,7 +494,7 @@
         </form>
     </section>
 
-    <section class="panel">
+    <section class="panel abdm-panel">
         <div class="panel-heading">
             <div>
                 <h3>Digital health records</h3>
@@ -498,7 +522,7 @@
         </p>
     </section>
 
-    <section class="panel">
+    <section class="panel abdm-panel">
         <div class="panel-heading">
             <div>
                 <h3>Consent-based sharing</h3>
@@ -523,7 +547,7 @@
         </p>
     </section>
 
-    <section class="panel">
+    <section class="panel abdm-panel">
         <div class="panel-heading">
             <div>
                 <h3>Connected healthcare services</h3>
@@ -742,10 +766,16 @@
                             <h1 id="dietTitle">Build your daily rhythm.</h1>
                             <p class="page-description">Keep your meals, habits, and health reminders in one manageable plan.</p>
                         </div>
-                        <button class="button button-primary" type="button" data-action="add-task">
-                            <i data-lucide="plus"></i>
-                            Add a task
-                        </button>
+                        <div class="page-heading-actions">
+                            <button class="button button-secondary" type="button" id="personalizedPlanButton">
+                                <i data-lucide="sparkles"></i>
+                                Personalized plan
+                            </button>
+                            <button class="button button-primary" type="button" data-action="add-task">
+                                <i data-lucide="plus"></i>
+                                Add a task
+                            </button>
+                        </div>
                     </div>
 
                     <div class="diet-overview-banner">
@@ -756,6 +786,11 @@
                         </div>
                         <span class="diet-banner-icon"><i data-lucide="sprout"></i></span>
                     </div>
+
+                    <section class="panel personalized-plan-panel" id="personalizedPlanPanel" aria-live="polite" hidden>
+                        <div class="personalized-plan-content" id="personalizedPlanContent"></div>
+                    </section>
+                    <p class="personalized-plan-privacy-note">Your saved profile and routine details are sent to the AI service only when you request a plan.</p>
 
                     <div class="diet-layout">
                         <div class="diet-main-column">
@@ -829,7 +864,7 @@
                                 <form id="dietPreferencesForm">
                                     <div class="form-field">
                                         <label for="dietPreference">Diet preference</label>
-                                        <select id="dietPreference">
+                                        <select id="dietPreference" required>
                                             <option value="">Choose preference</option>
                                             <option value="vegetarian">Vegetarian</option>
                                             <option value="vegan">Vegan</option>
@@ -846,7 +881,7 @@
 
                                     <div class="form-field">
                                         <label for="wellnessGoal">Primary wellness goal</label>
-                                        <select id="wellnessGoal">
+                                        <select id="wellnessGoal" required>
                                             <option value="">Choose a goal</option>
                                             <option value="balanced">Balanced eating</option>
                                             <option value="energy">Support daily energy</option>
@@ -854,6 +889,16 @@
                                             <option value="weight-management">Weight management</option>
                                             <option value="other">Other</option>
                                         </select>
+                                    </div>
+
+                                    <div class="form-field">
+                                        <label for="currentDailySteps">Average daily steps</label>
+                                        <input id="currentDailySteps" type="number" min="0" max="100000" step="500" placeholder="e.g. 4000" required>
+                                    </div>
+
+                                    <div class="form-field">
+                                        <label for="usualSleepHours">Usual sleep per night (hours)</label>
+                                        <input id="usualSleepHours" type="number" min="0" max="24" step="0.5" placeholder="e.g. 7" required>
                                     </div>
 
                                     <button class="button button-primary button-full" type="submit">Save preferences</button>
@@ -1109,6 +1154,122 @@
                     </div>
                 </section>
 
+                <section class="screen" id="screen-settings" data-screen-panel="settings" aria-labelledby="settingsTitle" hidden>
+                    <div class="page-heading">
+                        <div>
+                            <div class="eyebrow">YOUR ACCOUNT</div>
+                            <h1 id="settingsTitle">Settings</h1>
+                            <p class="page-description">Manage your account and app preferences.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-layout">
+                        <div class="settings-main-column">
+                            <section class="panel settings-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Account</h2>
+                                        <p>Update the health details used across your workspace.</p>
+                                    </div>
+                                    <i data-lucide="user-round-cog"></i>
+                                </div>
+                                <button class="settings-action-row" type="button" data-action="edit-profile">
+                                    <span class="settings-action-icon"><i data-lucide="user-round-pen"></i></span>
+                                    <span><strong>Edit health profile</strong><small>Review age, health profile, and personal details.</small></span>
+                                    <i data-lucide="chevron-right"></i>
+                                </button>
+                            </section>
+
+                            <section class="panel settings-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Language</h2>
+                                        <p>Choose the language used throughout NexHealth.</p>
+                                    </div>
+                                    <i data-lucide="languages"></i>
+                                </div>
+                                <label class="form-field" for="settingsLanguage">
+                                    <span>Preferred language</span>
+                                    <select id="settingsLanguage" aria-label="Preferred language">
+                                        <option value="en">English</option>
+                                        <option value="te">తెలుగు</option>
+                                        <option value="hi">हिन्दी</option>
+                                    </select>
+                                </label>
+                            </section>
+
+                            <section class="panel settings-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Privacy & consent</h2>
+                                        <p>Review privacy and consent options.</p>
+                                    </div>
+                                    <i data-lucide="shield-check"></i>
+                                </div>
+                                <button class="settings-action-row" type="button" data-screen="privacy-consent">
+                                    <span class="settings-action-icon"><i data-lucide="shield-check"></i></span>
+                                    <span><strong>Open privacy settings</strong><small>Review consent and data rights.</small></span>
+                                    <i data-lucide="chevron-right"></i>
+                                </button>
+                            </section>
+
+                            <section class="panel settings-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Your data</h2>
+                                        <p>Export a backup or remove data saved in this browser.</p>
+                                    </div>
+                                    <i data-lucide="database"></i>
+                                </div>
+                                <div class="settings-data-actions">
+                                    <button class="button button-secondary" type="button" data-action="export-data">
+                                        <i data-lucide="download"></i> Export your data
+                                    </button>
+                                    <button class="button button-secondary settings-delete-button" type="button" data-action="delete-local-data">
+                                        <i data-lucide="trash-2"></i> Delete data from this browser
+                                    </button>
+                                </div>
+                            </section>
+                        </div>
+
+                        <aside class="settings-side-column">
+                            <section class="panel settings-faq-panel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Help & FAQ suggestions</h2>
+                                        <p>Choose a question to ask the AI health mentor.</p>
+                                    </div>
+                                    <i data-lucide="messages-square"></i>
+                                </div>
+                                <div class="settings-faq-list">
+                                    <button type="button" data-mentor-prompt="How do I analyze a medical report in NexHealth?">
+                                        <span>How do I analyze a medical report?</span><i data-lucide="arrow-up-right"></i>
+                                    </button>
+                                    <button type="button" data-mentor-prompt="How does my personalized plan use my profile and routine information?">
+                                        <span>How does my personalized plan work?</span><i data-lucide="arrow-up-right"></i>
+                                    </button>
+                                    <button type="button" data-mentor-prompt="Are my records shared with ABDM through NexHealth?">
+                                        <span>Are my records shared with ABDM?</span><i data-lucide="arrow-up-right"></i>
+                                    </button>
+                                    <button type="button" data-mentor-prompt="How can I prepare for a healthcare appointment?">
+                                        <span>How do I prepare for an appointment?</span><i data-lucide="arrow-up-right"></i>
+                                    </button>
+                                </div>
+                            </section>
+
+                            <section class="panel settings-signout-panel">
+                                <div>
+                                    <h2>Sign out of NexHealth</h2>
+                                    <p>End your current session on this device.</p>
+                                </div>
+                                <button class="button button-secondary settings-signout-button" id="settingsSignOutButton" type="button">
+                                    <i data-lucide="log-out"></i> Sign out
+                                </button>
+                            </section>
+                        </aside>
+                    </div>
+                </section>
+
                 <section class="screen" id="screen-privacy-consent" data-screen-panel="privacy-consent" aria-labelledby="privacyTitle" hidden>
                     <div class="page-heading">
                         <div>
@@ -1290,6 +1451,12 @@
                 <button type="button" class="footer-link" data-screen="privacy-consent">Privacy & consent</button>
             </footer>
         </main>
+    <button class="floating-mentor-button" type="button" data-screen="ai-mentor"
+        aria-label="Open AI health mentor" aria-controls="screen-ai-mentor" title="Open AI health mentor">
+        <i data-lucide="message-circle" aria-hidden="true"></i>
+        <span class="floating-mentor-spark" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+        <span class="visually-hidden">Open AI health mentor</span>
+    </button>
     </div>
 
     <div class="modal-backdrop" id="modalBackdrop" hidden>

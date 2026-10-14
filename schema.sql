@@ -69,9 +69,11 @@ ALTER TABLE public.consent_preferences
     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
 
-CREATE UNIQUE INDEX IF NOT EXISTS consent_preferences_user_id_uidx
-    ON public.consent_preferences(user_id)
-    WHERE user_id IS NOT NULL;
+-- Keep this compatible with PostgREST upserts that specify user_id as
+-- the conflict target. PostgreSQL unique indexes allow multiple NULLs.
+DROP INDEX IF EXISTS public.consent_preferences_user_id_uidx;
+CREATE UNIQUE INDEX consent_preferences_user_id_uidx
+    ON public.consent_preferences(user_id);
 
 CREATE TABLE IF NOT EXISTS public.consent_history (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
