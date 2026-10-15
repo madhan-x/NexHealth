@@ -5,12 +5,13 @@ import json
 import base64
 import uuid
 import mimetypes
+from io import BytesIO
 from pathlib import Path
 from datetime import datetime, timezone
-from urllib.parse import urlsplit
+from urllib.parse import quote, urlsplit
 
 import requests
-from flask import Flask, g, jsonify, request, send_from_directory
+from flask import Flask, g, jsonify, request, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from dotenv import load_dotenv
@@ -396,6 +397,62 @@ def save_upload(file_info, owner_id):
         "created_at": utc_now(),
         "status": "Uploaded",
         "storage": "local"
+    }
+
+
+class MedicalStorageError(Exception):
+    """Raised when a signed-in user's private document storage is unavailable."""
+
+
+def current_auth_access_token():
+    refreshed_tokens = getattr(g, "refreshed_auth_tokens", None)
+    if refreshed_tokens:
+        return refreshed_tokens.get("access_token", "")
+    return request.cookies.get("nexhealth_access_token", "")
+
+
+def save_upload_to_supabase(file_info, owner_id):
+    access_token = current_auth_access_token()
+    if not access_token or not SUPABASE_URL or not SUPABASE_ANON_KEY:
+        raise MedicalStorageError("Sign in again before uploading this record.")
+
+    record_id = str(uuid.uuid4())
+    storage_path = f"{owner_id}/{record_id}{file_info['extension']}"
+    encoded_path = quote(storage_path, safe="/")
+    headers = {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": file_info["mime_type"],
+        "x-upsert": "false",
+    }
+    try:
+        response = requests.post(
+            f"{SUPABASE_URL}/storage/v1/object/medical-documents/{encoded_path}",
+            headers=headers,
+            data=file_info["content"],
+            timeout=SUPABASE_DATA_TIMEOUT,
+        )
+    except requests.RequestException as error:
+        app.logger.warning("Supabase medical document upload request failed.")
+        raise MedicalStorageError("Secure document storage is unavailable. Try again shortly.") from error
+
+    if response.status_code not in {200, 201}:
+        app.logger.warning(
+            "Supabase medical document upload failed with HTTP %s.",
+            response.status_code,
+        )
+        raise MedicalStorageError("The record could not be saved to your account. Try again shortly.")
+
+    return {
+        "id": record_id,
+        "name": file_info["original_name"],
+        "file_name": file_info["original_name"],
+        "storage_path": storage_path,
+        "mime_type": file_info["mime_type"],
+        "size": len(file_info["content"]),
+        "created_at": utc_now(),
+        "status": "Uploaded",
+        "storage": "supabase",
     }
 
 def openrouter_chat(messages, temperature=0.2, max_tokens=1200):
@@ -808,16 +865,22 @@ def upload_medical_record():
         owner_id = current_user.get("id") if isinstance(current_user, dict) else None
         if not owner_id:
             return error_response("Sign in to save a medical record.", 401)
-        record = save_upload(file_info, owner_id)
+        if not current_user.get("demo_mode") and SUPABASE_URL and SUPABASE_ANON_KEY:
+            record = save_upload_to_supabase(file_info, owner_id)
+        else:
+            record = save_upload(file_info, owner_id)
+    except MedicalStorageError as error:
+        return error_response(str(error), 503)
     except OSError:
         app.logger.exception("Medical record upload failed.")
         return error_response("The file could not be saved.", 500)
 
     return jsonify({
-        "message": "File uploaded to local server storage.",
+        "message": "File uploaded to your account storage.",
         "id": record["id"],
         "name": record["name"],
         "file_name": record["file_name"],
+        "storage_path": record.get("storage_path", ""),
         "mime_type": record["mime_type"],
         "size": record["size"],
         "created_at": record["created_at"],
@@ -833,38 +896,138 @@ def find_owned_medical_upload(record_id):
     except (ValueError, AttributeError):
         return None
 
+    current_user = getattr(g, "current_user", {})
+    owner_id = current_user.get("id") if isinstance(current_user, dict) else None
+    if not owner_id:
+        return None
+
     metadata_path = UPLOAD_DIR / f"{normalized_id}.json"
     try:
         with metadata_path.open("r", encoding="utf-8") as source:
             metadata = json.load(source)
     except (OSError, ValueError):
+        metadata = None
+
+    if isinstance(metadata, dict) and metadata.get("owner_id") == str(owner_id):
+        extension = metadata.get("extension")
+        original_name = secure_filename(metadata.get("original_name", ""))
+        mime_type = metadata.get("mime_type")
+        stored_name = f"{normalized_id}{extension}" if extension in ALLOWED_EXTENSIONS else ""
+        if (
+            stored_name
+            and original_name
+            and mime_type in ALLOWED_MIME_TYPES.values()
+            and (UPLOAD_DIR / stored_name).is_file()
+        ):
+            return {
+                "storage": "local",
+                "stored_name": stored_name,
+                "storage_path": "",
+                "original_name": original_name,
+                "mime_type": mime_type,
+            }
+
+    # Signed-in records are listed from workspace_state on every device. Resolve
+    # their private Storage object from that same owner-scoped workspace data.
+    if not SUPABASE_URL or not SUPABASE_ANON_KEY:
         return None
-    if not isinstance(metadata, dict):
+    workspace_result = supabase_workspace_request()
+    if not workspace_result or workspace_result[0] != 200:
+        return None
+    rows = workspace_result[1] if isinstance(workspace_result[1], list) else []
+    workspace = rows[0].get("data") if rows and isinstance(rows[0], dict) else None
+    records = workspace.get("records", []) if isinstance(workspace, dict) else []
+    document = next(
+        (
+            item for item in records
+            if isinstance(item, dict) and str(item.get("id", "")) == normalized_id
+        ),
+        None,
+    ) if isinstance(records, list) else None
+    if not document:
+        return None
+    if document.get("storage") != "supabase":
+        if document.get("storage") == "local" and document.get("file_available"):
+            return {
+                "storage": "missing",
+                "stored_name": "",
+                "storage_path": "",
+                "original_name": secure_filename(document.get("file_name", "")),
+                "mime_type": document.get("mime_type", "application/octet-stream"),
+            }
         return None
 
-    current_user = getattr(g, "current_user", {})
-    owner_id = current_user.get("id") if isinstance(current_user, dict) else None
-    if not owner_id or metadata.get("owner_id") != str(owner_id):
+    storage_path = document.get("storage_path", "")
+    path_parts = storage_path.split("/") if isinstance(storage_path, str) else []
+    if len(path_parts) != 2 or path_parts[0] != str(owner_id):
         return None
-
-    extension = metadata.get("extension")
-    original_name = secure_filename(metadata.get("original_name", ""))
-    mime_type = metadata.get("mime_type")
+    stored_name = path_parts[1]
+    extension = Path(stored_name).suffix.lower()
+    original_name = secure_filename(document.get("file_name", ""))
+    mime_type = document.get("mime_type")
     if (
-        extension not in ALLOWED_EXTENSIONS
+        Path(stored_name).stem != normalized_id
+        or extension not in ALLOWED_EXTENSIONS
         or not original_name
         or mime_type not in ALLOWED_MIME_TYPES.values()
     ):
         return None
 
-    stored_name = f"{normalized_id}{extension}"
-    if not (UPLOAD_DIR / stored_name).is_file():
-        return None
-
-    return normalized_id, stored_name, {
+    return {
+        "storage": "supabase",
+        "stored_name": stored_name,
+        "storage_path": storage_path,
         "original_name": original_name,
         "mime_type": mime_type,
     }
+
+
+def send_owned_medical_upload(record, *, as_attachment):
+    if record["storage"] == "missing":
+        return error_response(
+            "This older record was saved only in temporary server storage, which is no longer available. Re-upload it to view it across devices.",
+            410,
+        )
+    if record["storage"] == "local":
+        return send_from_directory(
+            str(UPLOAD_DIR),
+            record["stored_name"],
+            mimetype=record["mime_type"],
+            as_attachment=as_attachment,
+            download_name=record["original_name"],
+            conditional=True,
+        )
+
+    access_token = current_auth_access_token()
+    if not access_token:
+        return error_response("Sign in again to access this medical record.", 401)
+    encoded_path = quote(record["storage_path"], safe="/")
+    try:
+        response = requests.get(
+            f"{SUPABASE_URL}/storage/v1/object/authenticated/medical-documents/{encoded_path}",
+            headers={
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": f"Bearer {access_token}",
+            },
+            timeout=SUPABASE_DATA_TIMEOUT,
+        )
+    except requests.RequestException:
+        app.logger.warning("Supabase medical document download request failed.")
+        return error_response("Secure document storage is unavailable. Try again shortly.", 503)
+
+    if response.status_code != 200:
+        app.logger.warning(
+            "Supabase medical document read failed with HTTP %s.",
+            response.status_code,
+        )
+        return error_response("This medical record is unavailable.", 404)
+
+    return send_file(
+        BytesIO(response.content),
+        mimetype=record["mime_type"],
+        as_attachment=as_attachment,
+        download_name=record["original_name"],
+    )
 
 
 @app.get("/api/medical-records/<record_id>/file")
@@ -872,16 +1035,7 @@ def view_medical_record_file(record_id):
     record = find_owned_medical_upload(record_id)
     if not record:
         return error_response("This medical record is unavailable.", 404)
-
-    _normalized_id, stored_name, metadata = record
-    return send_from_directory(
-        str(UPLOAD_DIR),
-        stored_name,
-        mimetype=metadata["mime_type"],
-        as_attachment=False,
-        download_name=metadata["original_name"],
-        conditional=True,
-    )
+    return send_owned_medical_upload(record, as_attachment=False)
 
 
 @app.get("/api/medical-records/<record_id>/download")
@@ -889,16 +1043,7 @@ def download_medical_record_file(record_id):
     record = find_owned_medical_upload(record_id)
     if not record:
         return error_response("This medical record is unavailable.", 404)
-
-    _normalized_id, stored_name, metadata = record
-    return send_from_directory(
-        str(UPLOAD_DIR),
-        stored_name,
-        mimetype=metadata["mime_type"],
-        as_attachment=True,
-        download_name=metadata["original_name"],
-        conditional=True,
-    )
+    return send_owned_medical_upload(record, as_attachment=True)
 
 
 @app.post("/api/analyze-report")

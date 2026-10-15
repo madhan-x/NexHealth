@@ -1104,6 +1104,7 @@ const observeTranslatedContent = () => {
                     name: form.get("name").trim() || file.name,
                     category: form.get("category"),
                     file_name: data.file_name || file.name,
+                    storage_path: data.storage_path || "",
                     size: data.size || file.size,
                     mime_type: data.mime_type || file.type,
                     created_at: data.created_at || new Date().toISOString(),
