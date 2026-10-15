@@ -5928,3 +5928,89 @@ textarea:focus-visible {
 .emergency-note p {
     color: #654b48;
 }
+
+/* Keep the Settings page readable on narrow screens. The base grid is declared
+   later than the original tablet rule, so repeat the single-column layout here. */
+@media (max-width: 760px) {
+    .settings-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .settings-main-column,
+    .settings-side-column {
+        width: 100%;
+        min-width: 0;
+        gap: 14px;
+    }
+
+    .settings-panel,
+    .settings-account-panel,
+    .settings-faq-panel,
+    .settings-signout-panel {
+        min-width: 0;
+        padding: 17px;
+    }
+
+    .settings-action-row,
+    .settings-faq-list button {
+        min-width: 0;
+    }
+
+    .settings-action-row strong,
+    .settings-action-row small,
+    .settings-faq-list button span {
+        overflow-wrap: anywhere;
+    }
+
+    .settings-data-actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .settings-data-actions .button {
+        width: 100%;
+        min-width: 0;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .settings-signout-panel {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .settings-signout-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 430px) {
+    .settings-layout {
+        gap: 14px;
+    }
+
+    .settings-panel,
+    .settings-account-panel,
+    .settings-faq-panel,
+    .settings-signout-panel {
+        padding: 15px;
+    }
+
+    .settings-panel .panel-heading,
+    .settings-account-panel .panel-heading,
+    .settings-faq-panel .panel-heading {
+        gap: 10px;
+    }
+
+    .settings-panel .panel-heading > i,
+    .settings-account-panel .panel-heading > i,
+    .settings-faq-panel .panel-heading > i {
+        flex: 0 0 auto;
+    }
+
+    .settings-content-art {
+        width: 86px;
+        height: 64px;
+    }
+}
