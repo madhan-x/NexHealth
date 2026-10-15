@@ -64,6 +64,15 @@ LOCAL_DEMO_USER = {
 
 
 def local_demo_auth_bypass_enabled():
+    # Vercel opens in guest demo mode by default for evaluation. Set
+    # PUBLIC_DEMO_MODE=false to require accounts again. Demo sessions never
+    # receive access to a Supabase user's saved workspace.
+    public_demo_setting = os.getenv("PUBLIC_DEMO_MODE")
+    if public_demo_setting is None and os.getenv("VERCEL"):
+        return True
+    if (public_demo_setting or "").strip().lower() in {"1", "true", "yes", "on"}:
+        return True
+
     if SUPABASE_URL and SUPABASE_ANON_KEY:
         return False
     if os.getenv("VERCEL"):
@@ -355,13 +364,27 @@ def validate_upload(file):
         )
     }, None
 
-def save_upload(file_info):
+def save_upload(file_info, owner_id):
     record_id = str(uuid.uuid4())
     stored_name = f"{record_id}{file_info['extension']}"
     destination = UPLOAD_DIR / stored_name
+    metadata_path = UPLOAD_DIR / f"{record_id}.json"
+    metadata = {
+        "owner_id": str(owner_id),
+        "original_name": file_info["original_name"],
+        "extension": file_info["extension"],
+        "mime_type": file_info["mime_type"],
+    }
 
-    with destination.open("xb") as output:
-        output.write(file_info["content"])
+    try:
+        with destination.open("xb") as output:
+            output.write(file_info["content"])
+        with metadata_path.open("x", encoding="utf-8") as output:
+            json.dump(metadata, output)
+    except OSError:
+        destination.unlink(missing_ok=True)
+        metadata_path.unlink(missing_ok=True)
+        raise
 
     return {
         "id": record_id,
@@ -596,6 +619,10 @@ def health():
 
 @app.get("/api/workspace")
 def load_workspace():
+    user = getattr(g, "current_user", {})
+    if isinstance(user, dict) and user.get("demo_mode"):
+        return jsonify({"workspace": None})
+
     if not SUPABASE_URL or not SUPABASE_ANON_KEY:
         return error_response("Database connection is not configured on the server.", 503)
 
@@ -617,10 +644,13 @@ def load_workspace():
 
 @app.put("/api/workspace")
 def save_workspace():
+    user = getattr(g, "current_user", {})
+    if isinstance(user, dict) and user.get("demo_mode"):
+        return error_response("Guest demo data is saved only in this browser.", 401)
+
     if not SUPABASE_URL or not SUPABASE_ANON_KEY:
         return error_response("Database connection is not configured on the server.", 503)
 
-    user = getattr(g, "current_user", {})
     user_id = user.get("id") if isinstance(user, dict) else None
     if not user_id or user.get("demo_mode"):
         return error_response("Sign in with a Supabase account to save workspace data.", 401)
@@ -630,6 +660,7 @@ def save_workspace():
     allowed_keys = {
         "records", "tasks", "appointments", "meals", "analyses",
         "messages", "profile", "dietPreferences", "consent",
+        "consentHistory", "personalizedPlan",
     }
     if not isinstance(workspace, dict) or set(workspace) - allowed_keys:
         return error_response("Workspace data is invalid.")
@@ -756,7 +787,11 @@ def upload_medical_record():
         return error_response(error)
 
     try:
-        record = save_upload(file_info)
+        current_user = getattr(g, "current_user", {})
+        owner_id = current_user.get("id") if isinstance(current_user, dict) else None
+        if not owner_id:
+            return error_response("Sign in to save a medical record.", 401)
+        record = save_upload(file_info, owner_id)
     except OSError:
         app.logger.exception("Medical record upload failed.")
         return error_response("The file could not be saved.", 500)
@@ -770,8 +805,83 @@ def upload_medical_record():
         "size": record["size"],
         "created_at": record["created_at"],
         "status": record["status"],
-        "storage": record["storage"]
+        "storage": record["storage"],
+        "file_available": True
     }), 201
+
+
+def find_owned_medical_upload(record_id):
+    try:
+        normalized_id = str(uuid.UUID(record_id))
+    except (ValueError, AttributeError):
+        return None
+
+    metadata_path = UPLOAD_DIR / f"{normalized_id}.json"
+    try:
+        with metadata_path.open("r", encoding="utf-8") as source:
+            metadata = json.load(source)
+    except (OSError, ValueError):
+        return None
+    if not isinstance(metadata, dict):
+        return None
+
+    current_user = getattr(g, "current_user", {})
+    owner_id = current_user.get("id") if isinstance(current_user, dict) else None
+    if not owner_id or metadata.get("owner_id") != str(owner_id):
+        return None
+
+    extension = metadata.get("extension")
+    original_name = secure_filename(metadata.get("original_name", ""))
+    mime_type = metadata.get("mime_type")
+    if (
+        extension not in ALLOWED_EXTENSIONS
+        or not original_name
+        or mime_type not in ALLOWED_MIME_TYPES.values()
+    ):
+        return None
+
+    stored_name = f"{normalized_id}{extension}"
+    if not (UPLOAD_DIR / stored_name).is_file():
+        return None
+
+    return normalized_id, stored_name, {
+        "original_name": original_name,
+        "mime_type": mime_type,
+    }
+
+
+@app.get("/api/medical-records/<record_id>/file")
+def view_medical_record_file(record_id):
+    record = find_owned_medical_upload(record_id)
+    if not record:
+        return error_response("This medical record is unavailable.", 404)
+
+    _normalized_id, stored_name, metadata = record
+    return send_from_directory(
+        str(UPLOAD_DIR),
+        stored_name,
+        mimetype=metadata["mime_type"],
+        as_attachment=False,
+        download_name=metadata["original_name"],
+        conditional=True,
+    )
+
+
+@app.get("/api/medical-records/<record_id>/download")
+def download_medical_record_file(record_id):
+    record = find_owned_medical_upload(record_id)
+    if not record:
+        return error_response("This medical record is unavailable.", 404)
+
+    _normalized_id, stored_name, metadata = record
+    return send_from_directory(
+        str(UPLOAD_DIR),
+        stored_name,
+        mimetype=metadata["mime_type"],
+        as_attachment=True,
+        download_name=metadata["original_name"],
+        conditional=True,
+    )
 
 
 @app.post("/api/analyze-report")

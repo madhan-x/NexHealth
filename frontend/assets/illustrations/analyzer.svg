@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" fill="none">
+<style>
+@keyframes speak { 0%,18%,100% { transform: scaleY(.45) } 8%,13% { transform: scaleY(1) } }
+@keyframes explain { 0%,100% { transform: rotate(0deg) } 45% { transform: rotate(-8deg) } 70% { transform: rotate(4deg) } }
+@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-4px) } }
+.mouth { transform-box: fill-box; transform-origin: center; animation: speak 2.1s ease-in-out infinite; }
+.gesture { transform-box: fill-box; transform-origin: 20% 80%; animation: explain 3.2s ease-in-out infinite; }
+.bubble { animation: float 3s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .mouth,.gesture,.bubble { animation: none; } }
+</style>
+<path d="M24 135C16 97 49 54 96 47c42-7 73 12 112 7 42-5 82 15 86 53 5 42-26 83-72 92-43 9-76-5-112 4-43 11-75-25-86-68Z" fill="#fff0dc"/>
+<!-- Male doctor -->
+<path d="M49 183c4-39 18-59 48-59s46 20 50 59v21H49z" fill="#fff" stroke="#517464" stroke-width="4" stroke-linejoin="round"/>
+<path d="m83 126 14 18 14-18 10 11-15 47H88l-15-47z" fill="#4f9c81"/>
+<path d="m83 126 14 18-12 22-15-30zm28 0-14 18 12 22 15-30z" fill="#e8f5f0" stroke="#517464" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="97" cy="77" r="30" fill="#edb87b" stroke="#875d42" stroke-width="3"/>
+<path d="M68 76c-1-24 11-42 31-42 19 0 31 15 30 37-8-8-14-14-29-14-13 0-22 9-32 19Z" fill="#4d4b49"/>
+<path d="M84 79h1m24 0h1" stroke="#40342e" stroke-width="4" stroke-linecap="round"/>
+<path class="mouth" d="M91 92q6 5 12 0" stroke="#9e5749" stroke-width="3" stroke-linecap="round"/>
+<path d="M85 143c-4 15 1 28 12 28s16-13 12-28" stroke="#2c8b72" stroke-width="4"/>
+<circle cx="85" cy="150" r="4" fill="#efbd65"/>
+<!-- Explaining hand -->
+<g class="gesture"><path d="M132 140q14-17 19-31l4-14q2-6 7-4 4 2 2 9l-2 8 8-10q4-4 7 0 2 3-2 7l-8 11q-1 11-12 29" fill="#edb87b" stroke="#875d42" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="m141 137 12 8" stroke="#517464" stroke-width="4" stroke-linecap="round"/></g>
+<!-- Report card -->
+<g class="bubble"><rect x="194" y="73" width="91" height="111" rx="12" fill="#fff" stroke="#c27b5a" stroke-width="3"/><path d="M210 94h51m-51 11h39" stroke="#e7b899" stroke-width="4" stroke-linecap="round"/><path d="m211 151 13-13 12 8 20-25" stroke="#48a783" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="256" cy="121" r="3" fill="#48a783"/><path d="M210 163h38" stroke="#e7b899" stroke-width="4" stroke-linecap="round"/><path d="M225 60h58q11 0 11 11v10l-15-9h-54z" fill="#fff" stroke="#c27b5a" stroke-width="3" stroke-linejoin="round"/><circle cx="239" cy="68" r="2.3" fill="#d88664"/><circle cx="248" cy="68" r="2.3" fill="#d88664"/><circle cx="257" cy="68" r="2.3" fill="#d88664"/></g>
+<path d="M66 191h60" stroke="#d5e5dd" stroke-width="5" stroke-linecap="round"/>
+</svg>

@@ -160,8 +160,44 @@ body:not(.auth-ready) #appShell {
     display: none;
 }
 
+.auth-startup {
+    display: none;
+}
+
+body.auth-pending .auth-startup {
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #fff;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+body.auth-pending .auth-startup::before {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-strong);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    content: "";
+    animation: auth-startup-spin 800ms linear infinite;
+}
+
+@keyframes auth-startup-spin {
+    to { transform: rotate(360deg); }
+}
+
+body.auth-pending .auth-gate {
+    display: none;
+}
+
 .auth-gate {
-    display: grid;
+    display: none;
     min-height: 100vh;
     place-items: center;
     padding: 24px;
@@ -276,6 +312,40 @@ body:not(.auth-ready) #appShell {
 
 body.auth-ready .auth-gate {
     display: none;
+}
+
+body.auth-prompt .auth-gate {
+    position: fixed;
+    z-index: 10001;
+    inset: 0;
+    display: grid;
+    min-height: 100vh;
+    overflow-y: auto;
+    background: rgba(18, 35, 27, 0.46);
+    backdrop-filter: blur(5px);
+}
+
+.auth-cancel {
+    align-self: center;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border: 0;
+    background: transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.auth-cancel:hover {
+    color: var(--text);
+}
+
+.settings-account-panel .panel-heading > i {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+    color: var(--primary);
 }
 
 body.local-demo-mode .auth-signout {
@@ -1330,6 +1400,21 @@ p {
     transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
+.metrics-grid > a.metric-card {
+    display: block;
+    width: 100%;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.metrics-grid > a.metric-card:focus-visible {
+    outline: 3px solid rgba(18, 96, 68, 0.4);
+    outline-offset: 3px;
+}
+
 .metric-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
@@ -1934,12 +2019,31 @@ p {
     display: flex;
     align-items: center;
     gap: 6px;
+    flex-shrink: 0;
 }
 
 .record-row-actions .icon-button {
     width: 32px;
     height: 32px;
     border-radius: 8px;
+}
+
+.record-file-link {
+    white-space: nowrap;
+}
+
+@media (max-width: 680px) {
+    .record-row {
+        flex-wrap: wrap;
+    }
+
+    .record-row-copy {
+        flex-basis: calc(100% - 60px);
+    }
+
+    .record-row-actions {
+        margin-left: 56px;
+    }
 }
 
 .privacy-note {
@@ -2212,6 +2316,29 @@ p {
 
 .upload-dropzone > small {
     margin-top: 12px;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.upload-camera-action {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.upload-camera-action .button {
+    flex-shrink: 0;
+}
+
+.upload-camera-action .button svg {
+    width: 16px;
+    height: 16px;
+}
+
+.upload-camera-action > span {
+    flex: 1 1 160px;
     color: var(--text-muted);
     font-size: 12px;
 }
@@ -2538,17 +2665,58 @@ p {
 
 .personalized-plan-group {
     min-width: 0;
-    padding: 16px 18px 8px;
+    padding: 0;
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface);
 }
 
+.personalized-plan-group > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 18px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.personalized-plan-group > summary::-webkit-details-marker {
+    display: none;
+}
+
 .personalized-plan-group h3 {
-    margin: 0 0 5px;
+    margin: 0;
     color: var(--text);
     font-size: 15px;
     font-weight: 750;
+}
+
+.plan-group-count {
+    margin-left: auto;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.plan-group-chevron {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 auto;
+    margin-left: 2px;
+    border-right: 2px solid var(--text-secondary);
+    border-bottom: 2px solid var(--text-secondary);
+    transform: rotate(45deg);
+    transition: transform 160ms ease;
+}
+
+.personalized-plan-group[open] .plan-group-chevron {
+    transform: rotate(225deg);
+}
+
+.personalized-plan-group .compact-task-list {
+    padding: 0 16px 6px;
 }
 
 .personalized-plan-group .task-row {
@@ -2558,6 +2726,22 @@ p {
 
 .personalized-plan-group .task-checkbox {
     margin-top: 2px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.personalized-plan-group .task-checkbox.checked::after {
+    color: white;
+    content: "✓";
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.personalized-plan-row.is-complete .task-row-copy strong {
+    color: var(--text-secondary);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
 }
 
 .personalized-plan-row .task-row-copy strong {
@@ -2715,6 +2899,17 @@ p {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 11px;
+}
+
+.task-heading-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#resetCompletedTasksButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
 }
 
 .meal-placeholder,
@@ -5146,7 +5341,7 @@ button {
     inset: 0;
     background-color: var(--bg);
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)),
+        linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)),
         url("assets/healthcare-background-doodles.png");
     background-repeat: no-repeat, no-repeat;
     background-position: center, center bottom;
@@ -5156,39 +5351,283 @@ button {
 }
 
 .main-area:has(#screen-overview:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/healthcare-background-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/healthcare-background-doodles.png");
 }
 
 .main-area:has(#screen-abdm-readiness:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/abdm-access-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/abdm-access-doodles.png");
 }
 
 .main-area:has(#screen-medical-records:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/records-access-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/records-access-doodles.png");
 }
 
 .main-area:has(#screen-ai-analyzer:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/analyzer-review-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/analyzer-review-doodles.png");
 }
 
 .main-area:has(#screen-diet-tasks:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/nutrition-planning-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/nutrition-planning-doodles.png");
 }
 
 .main-area:has(#screen-appointments:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/appointments-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/appointments-doodles.png");
 }
 
 .main-area:has(#screen-health-services:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/community-services-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/community-services-doodles.png");
 }
 
 .main-area:has(#screen-ai-mentor:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/mentor-companion-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/mentor-companion-doodles.png");
 }
 
 .main-area:has(#screen-privacy-consent:not([hidden]))::before {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)), url("assets/privacy-support-doodles.png");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.77), rgba(255, 255, 255, 0.77)), url("assets/privacy-support-doodles.png");
+}
+
+/* Small, section-specific illustrations live inside the existing content cards. */
+.section-content-art {
+    display: block;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Keep the character art visibly alive even when its SVG is rendered as an image. */
+@media (prefers-reduced-motion: no-preference) {
+    .section-content-art {
+        transform-origin: center;
+        animation: section-art-float 4.8s ease-in-out infinite;
+        will-change: transform;
+    }
+
+    .abha-content-art,
+    .records-content-art,
+    .nutrition-content-art,
+    .appointments-content-art,
+    .settings-content-art {
+        animation-delay: -0.8s;
+    }
+
+    .analyzer-content-art,
+    .services-content-art,
+    .privacy-content-art {
+        animation-delay: -1.5s;
+    }
+
+    .mentor-header-art {
+        animation-delay: -0.4s;
+    }
+}
+
+@keyframes section-art-float {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-2px) scale(1.008);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-content-art {
+        animation: none;
+        will-change: auto;
+    }
+}
+
+.welcome-art {
+    overflow: hidden;
+}
+
+.overview-content-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.welcome-art > :not(.overview-content-art) {
+    display: none;
+}
+
+.abha-identity-panel .panel-heading {
+    align-items: center;
+}
+
+.abha-content-art {
+    width: 100px;
+    height: 76px;
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+.summary-card:first-child {
+    position: relative;
+    overflow: hidden;
+    padding-right: 78px;
+}
+
+.records-content-art {
+    position: absolute;
+    right: 2px;
+    bottom: -7px;
+    width: 86px;
+    height: 86px;
+    opacity: 0.9;
+}
+
+.guidance-panel,
+.nutrition-note,
+#screen-ai-mentor .safety-panel,
+.settings-faq-panel,
+.privacy-help-panel {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 102px;
+}
+
+.analyzer-content-art,
+.nutrition-content-art,
+.settings-content-art,
+.privacy-content-art {
+    position: absolute;
+    right: 8px;
+    bottom: 2px;
+    width: 132px;
+    height: 96px;
+    opacity: 0.94;
+}
+
+.mentor-header-art {
+    width: 126px;
+    height: 82px;
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+.appointment-intro,
+.services-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.appointment-intro > div:nth-child(2) {
+    padding-right: 130px;
+}
+
+.appointments-content-art {
+    position: absolute;
+    right: 12px;
+    bottom: 0;
+    width: 126px;
+    height: 106px;
+}
+
+.services-hero {
+    padding-right: 155px;
+}
+
+.services-content-art {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    width: 132px;
+    height: 118px;
+}
+
+.services-hero-icon {
+    display: none;
+}
+
+@media (max-width: 680px) {
+    .abha-content-art {
+        width: 70px;
+        height: 60px;
+    }
+
+    .records-content-art {
+        width: 66px;
+        height: 70px;
+    }
+
+    .guidance-panel,
+    .nutrition-note,
+    #screen-ai-mentor .safety-panel,
+    .settings-faq-panel,
+    .privacy-help-panel {
+        padding-bottom: 82px;
+    }
+
+    .analyzer-content-art,
+    .nutrition-content-art,
+    .settings-content-art,
+    .privacy-content-art {
+        width: 104px;
+        height: 76px;
+    }
+
+    .mentor-header-art {
+        width: 94px;
+        height: 68px;
+    }
+
+    .appointment-intro > div:nth-child(2) {
+        padding-right: 72px;
+    }
+
+    .appointments-content-art {
+        right: -2px;
+        width: 82px;
+        height: 76px;
+    }
+
+    .services-hero {
+        padding-right: 95px;
+    }
+
+    .services-content-art {
+        right: -4px;
+        width: 92px;
+        height: 88px;
+    }
+}
+
+/* A compact health-pulse signature for the home heading. */
+.overview-heading .eyebrow::after {
+    width: 42px;
+    height: 14px;
+    flex: 0 0 auto;
+    margin-left: 4px;
+    background: currentColor;
+    clip-path: polygon(0 48%, 26% 48%, 33% 34%, 39% 62%, 48% 7%, 57% 92%, 65% 48%, 100% 48%, 100% 61%, 67% 61%, 57% 100%, 48% 26%, 40% 81%, 33% 62%, 0 62%);
+    content: "";
+    opacity: 0.78;
+}
+
+/* Reuse the existing friendly companion art as the AI mentor's signature. */
+#screen-ai-mentor .mentor-avatar {
+    overflow: hidden;
+    border: 1px solid rgba(19, 131, 93, 0.18);
+    background: linear-gradient(145deg, #218160, #125a43);
+    box-shadow: 0 4px 12px rgba(19, 105, 76, 0.13);
+}
+
+#screen-ai-mentor .feature-badge,
+#screen-ai-analyzer .feature-badge {
+    border-color: rgba(118, 82, 213, 0.22);
+    background: linear-gradient(120deg, #f0eaff, #e7f4ff);
+    color: #4f3998;
+}
+
+@media (max-width: 760px) {
+    .overview-heading .eyebrow::after {
+        width: 30px;
+        height: 12px;
+    }
 }
 
 @media (max-width: 760px) {
@@ -5358,4 +5797,134 @@ textarea:focus-visible {
     .quick-access-item:hover {
         box-shadow: 0 12px 28px rgba(30, 75, 54, 0.14);
     }
+}
+
+@media (max-width: 760px) {
+    .welcome-banner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 150px;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .welcome-copy {
+        position: relative;
+        z-index: 2;
+        max-width: none;
+        min-width: 0;
+    }
+
+    .welcome-art {
+        position: relative;
+        inset: auto;
+        grid-column: 2;
+        grid-row: 1;
+        width: 100%;
+        height: 138px;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 430px) {
+    .welcome-banner {
+        grid-template-columns: minmax(0, 1fr) 102px;
+        gap: 4px;
+    }
+
+    .welcome-copy h2 {
+        font-size: 22px;
+        letter-spacing: -0.6px;
+    }
+
+    .welcome-art {
+        height: 112px;
+    }
+}
+
+/* Stronger text and outline contrast throughout the workspace. */
+:root {
+    --text-secondary: #1f3027;
+    --text-muted: #29382f;
+    --border: #b8c5bc;
+    --border-strong: #98a79d;
+    --border-color: #aebbb2;
+}
+
+.sidebar-label,
+.breadcrumb,
+.nav-item,
+.nav-item > svg,
+.nav-count,
+.metric-caption,
+.metric-footnote,
+.service-category,
+.filter-tab,
+.medical-disclaimer,
+.quick-access-item small,
+.search-box input::placeholder {
+    color: var(--text-muted);
+}
+
+.panel,
+.service-card {
+    border-color: #bcc9c0;
+}
+
+.quick-access-item,
+.subtle-badge,
+.filter-tab.active {
+    border-color: #bcc9c0;
+}
+
+.record-row,
+.records-toolbar {
+    border-color: var(--border);
+}
+
+.search-box > svg,
+.profile-trigger > svg,
+.inline-search > svg,
+.quick-access-item > svg {
+    color: #3b4a41;
+}
+
+.search-box kbd,
+.step-indicator,
+.optional-label,
+.task-row.completed .task-row-copy strong {
+    color: #3b4a41;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder,
+.mentor-composer textarea::placeholder {
+    color: #4b5a51;
+}
+
+.chat-disclaimer,
+.footer-status {
+    color: #3b4a41;
+}
+
+.task-row.completed .task-row-copy strong,
+.search-box kbd,
+.step-indicator,
+.optional-label {
+    color: #34443a;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder,
+.mentor-composer textarea::placeholder,
+.search-box input::placeholder {
+    color: #46564c;
+}
+
+.safety-panel p {
+    color: #59482f;
+}
+
+.emergency-note p {
+    color: #654b48;
 }

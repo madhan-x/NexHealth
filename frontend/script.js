@@ -203,6 +203,52 @@ Object.assign(uiTextTranslations.hi, {
     "Start voice input. Speech is processed by your browser's speech service.": "वॉइस इनपुट शुरू करें। बोली गई आवाज़ आपके ब्राउज़र की स्पीच सेवा द्वारा संसाधित होती है।"
 });
 
+Object.assign(uiTextTranslations.te, {
+    "Upload a medical record": "వైద్య రికార్డును అప్‌లోడ్ చేయండి",
+    "View": "చూడండి",
+    "Download": "డౌన్‌లోడ్ చేయండి",
+    "Discharge summary": "డిశ్చార్జ్ సారాంశం",
+    "Discharge summaries": "డిశ్చార్జ్ సారాంశాలు",
+    "Open lab reports in medical records": "వైద్య రికార్డుల్లో ల్యాబ్ నివేదికలను తెరవండి",
+    "Open discharge summaries in medical records": "వైద్య రికార్డుల్లో డిశ్చార్జ్ సారాంశాలను తెరవండి",
+    "Open prescriptions in medical records": "వైద్య రికార్డుల్లో ప్రిస్క్రిప్షన్‌లను తెరవండి"
+});
+
+Object.assign(uiTextTranslations.hi, {
+    "Upload a medical record": "मेडिकल रिकॉर्ड अपलोड करें",
+    "View": "देखें",
+    "Download": "डाउनलोड करें",
+    "Discharge summary": "डिस्चार्ज सारांश",
+    "Discharge summaries": "डिस्चार्ज सारांश",
+    "Open lab reports in medical records": "मेडिकल रिकॉर्ड में लैब रिपोर्ट खोलें",
+    "Open discharge summaries in medical records": "मेडिकल रिकॉर्ड में डिस्चार्ज सारांश खोलें",
+    "Open prescriptions in medical records": "मेडिकल रिकॉर्ड में प्रिस्क्रिप्शन खोलें"
+});
+
+Object.assign(uiTextTranslations.te, {
+    "Take a photo": "ఫోటో తీయండి",
+    "Use your camera to capture a report image": "నివేదిక చిత్రాన్ని తీయడానికి కెమెరాను ఉపయోగించండి"
+});
+
+Object.assign(uiTextTranslations.hi, {
+    "Take a photo": "फ़ोटो लें",
+    "Use your camera to capture a report image": "रिपोर्ट की तस्वीर लेने के लिए कैमरे का उपयोग करें"
+});
+
+Object.assign(uiTextTranslations.te, {
+    "Save your workspace": "మీ కార్యస్థలాన్ని సేవ్ చేయండి",
+    "Sign in or create an account to sync your data and access it on other devices.": "మీ డేటాను సమకాలీకరించి ఇతర పరికరాల్లో చూడటానికి సైన్ ఇన్ చేయండి లేదా ఖాతా సృష్టించండి.",
+    "Sign in or create account": "సైన్ ఇన్ చేయండి లేదా ఖాతా సృష్టించండి",
+    "Cancel": "రద్దు చేయండి"
+});
+
+Object.assign(uiTextTranslations.hi, {
+    "Save your workspace": "अपना कार्यक्षेत्र सहेजें",
+    "Sign in or create an account to sync your data and access it on other devices.": "अपने डेटा को सिंक करने और दूसरे डिवाइस पर देखने के लिए साइन इन करें या खाता बनाएँ।",
+    "Sign in or create account": "साइन इन करें या खाता बनाएँ",
+    "Cancel": "रद्द करें"
+});
+
 const NexHealth = (() => {
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -216,7 +262,9 @@ const NexHealth = (() => {
         messages: "nexhealth_messages",
         profile: "nexhealth_profile",
         dietPreferences: "nexhealth_diet_preferences",
-        consent: "nexhealth_consent"
+        consent: "nexhealth_consent",
+        consentHistory: "nexhealth_consent_history",
+        personalizedPlan: "nexhealth_personalized_plan"
     };
     let STORAGE = { ...STORAGE_BASE };
     let activeUserId = "";
@@ -226,6 +274,7 @@ const NexHealth = (() => {
     let workspaceSaveTimer = null;
     let workspaceSaveInFlight = false;
     let workspaceSaveQueued = false;
+    let welcomeGreetingIndex = 0;
 
     const userStorageKey = key => `${key}_${activeUserId}`;
 
@@ -255,6 +304,8 @@ const NexHealth = (() => {
             aiProcessing: false,
             healthcareSharing: false
         }),
+        consentHistory: read(STORAGE.consentHistory, []),
+        personalizedPlan: read(STORAGE.personalizedPlan, null),
         recordFilter: "all",
         taskFilter: "all",
         appointmentFilter: "upcoming",
@@ -281,6 +332,8 @@ const NexHealth = (() => {
             aiProcessing: false,
             healthcareSharing: false
         });
+        state.consentHistory = read(STORAGE.consentHistory, []);
+        state.personalizedPlan = read(STORAGE.personalizedPlan, null);
     };
 
     const save = (key, value) => {
@@ -407,7 +460,9 @@ const observeTranslatedContent = () => {
         messages: state.messages,
         profile: state.profile,
         dietPreferences: state.dietPreferences,
-        consent: state.consent
+        consent: state.consent,
+        consentHistory: state.consentHistory,
+        personalizedPlan: state.personalizedPlan
     });
 
     const applyWorkspaceSnapshot = workspace => {
@@ -421,6 +476,12 @@ const observeTranslatedContent = () => {
                 state[key] = workspace[key];
             }
         });
+        if (Array.isArray(workspace.consentHistory)) state.consentHistory = workspace.consentHistory;
+        if (workspace.personalizedPlan && typeof workspace.personalizedPlan === "object") {
+            state.personalizedPlan = workspace.personalizedPlan;
+        } else {
+            state.personalizedPlan = null;
+        }
         Object.entries(STORAGE).forEach(([name, key]) => save(key, state[name]));
         return true;
     };
@@ -461,9 +522,49 @@ const observeTranslatedContent = () => {
         save(STORAGE.profile, state.profile);
         save(STORAGE.dietPreferences, state.dietPreferences);
         save(STORAGE.consent, state.consent);
+        save(STORAGE.consentHistory, state.consentHistory);
+        save(STORAGE.personalizedPlan, state.personalizedPlan);
         if (workspaceHydrated && activeUserId && !document.body.classList.contains("local-demo-mode")) {
             scheduleWorkspaceSave();
         }
+    };
+
+    const hasWorkspaceData = workspace => {
+        if (!workspace) return false;
+        return ["records", "tasks", "appointments", "meals", "analyses", "messages", "consentHistory"]
+            .some(key => Array.isArray(workspace[key]) && workspace[key].length > 0)
+            || ["profile", "dietPreferences"].some(key =>
+                workspace[key] && Object.keys(workspace[key]).length > 0
+            )
+            || Boolean(workspace.personalizedPlan);
+    };
+
+    const mergeGuestWorkspace = guestWorkspace => {
+        ["records", "tasks", "appointments", "meals", "analyses", "messages", "consentHistory"]
+            .forEach(key => {
+                const accountItems = Array.isArray(state[key]) ? state[key] : [];
+                const guestItems = Array.isArray(guestWorkspace[key]) ? guestWorkspace[key] : [];
+                const seenIds = new Set(accountItems.map(item => item?.id).filter(Boolean));
+                state[key] = [
+                    ...accountItems,
+                    ...guestItems.filter(item => !item?.id || !seenIds.has(item.id))
+                ];
+            });
+        state.profile = { ...(guestWorkspace.profile || {}), ...(state.profile || {}) };
+        state.dietPreferences = { ...(guestWorkspace.dietPreferences || {}), ...(state.dietPreferences || {}) };
+        state.consent = { ...(guestWorkspace.consent || {}), ...(state.consent || {}) };
+        if (!state.personalizedPlan && guestWorkspace.personalizedPlan) {
+            state.personalizedPlan = guestWorkspace.personalizedPlan;
+        }
+        persist();
+    };
+
+    const updateSettingsAccountPanels = () => {
+        const signedIn = document.body.classList.contains("account-authenticated");
+        const loginPanel = $("#settingsLoginPanel");
+        const signoutPanel = $("#settingsSignoutPanel");
+        if (loginPanel) loginPanel.hidden = signedIn;
+        if (signoutPanel) signoutPanel.hidden = !signedIn;
     };
 
     const id = () =>
@@ -955,7 +1056,7 @@ const observeTranslatedContent = () => {
 
     const openUploadModal = () => {
         openModal(
-            "Add a medical record",
+            "Upload a medical record",
             field("Record title", "name", "text", {
                 required: true,
                 placeholder: "e.g. Blood test report"
@@ -965,6 +1066,7 @@ const observeTranslatedContent = () => {
                 choices: [
                     { value: "lab", label: "Lab report" },
                     { value: "prescription", label: "Prescription" },
+                    { value: "discharge", label: "Discharge summary" },
                     { value: "imaging", label: "Imaging" },
                     { value: "other", label: "Other" }
                 ]
@@ -1006,6 +1108,7 @@ const observeTranslatedContent = () => {
                     mime_type: data.mime_type || file.type,
                     created_at: data.created_at || new Date().toISOString(),
                     storage: data.storage || "server",
+                    file_available: data.file_available === true,
                     status: data.status || "uploaded"
                 });
 
@@ -1031,6 +1134,22 @@ const observeTranslatedContent = () => {
         task.completed = !task.completed;
         persist();
         renderAll();
+    };
+
+    const resetCompletedTasks = () => {
+        const completedTasks = state.tasks.filter(task => task.completed);
+        if (!completedTasks.length) {
+            toast("There are no completed tasks to reset.");
+            return;
+        }
+
+        state.tasks = state.tasks.map(task => task.completed
+            ? { ...task, completed: false }
+            : task
+        );
+        persist();
+        renderAll();
+        toast("Completed tasks have been reset.");
     };
 
     const deleteAppointment = appointmentId => {
@@ -1079,6 +1198,8 @@ const observeTranslatedContent = () => {
         const total = state.tasks.length;
         const completed = state.tasks.filter(task => task.completed).length;
         const percentage = total ? Math.round(completed / total * 100) : 0;
+        const taskCount = $("#dietTaskCount");
+        if (taskCount) taskCount.textContent = `${total} ${total === 1 ? "task" : "tasks"}`;
 
         const progressText = $("#taskProgressText");
         const progressBar = $("#taskProgressBar");
@@ -1094,6 +1215,8 @@ const observeTranslatedContent = () => {
 
         const remaining = $("#metricTasks");
         if (remaining) remaining.textContent = total - completed;
+        const resetButton = $("#resetCompletedTasksButton");
+        if (resetButton) resetButton.disabled = completed === 0;
 
         const overview = $("#overviewTaskList");
         if (overview) {
@@ -1252,42 +1375,130 @@ const observeTranslatedContent = () => {
             return;
         }
 
-        container.innerHTML = records.map(record => `
-            <article class="record-item">
-                <span class="record-icon">▤</span>
-                <div class="record-item-content">
-                    <strong>${escapeHTML(record.name || record.file_name)}</strong>
-                    <p>${escapeHTML(record.category || "other")} · ${escapeHTML(formatDate(record.created_at))}</p>
-                    <small>${escapeHTML(record.file_name || "")} · ${escapeHTML(formatSize(Number(record.size) || 0))}</small>
-                </div>
-                <span class="subtle-badge">${escapeHTML(record.status || "saved")}</span>
-            </article>
-        `).join("");
+        container.innerHTML = records.map(record => {
+            const recordId = encodeURIComponent(String(record.id || ""));
+            const fileActions = record.file_available && recordId
+                ? `<div class="record-row-actions">
+                    <a class="button button-secondary button-small record-file-link"
+                        href="/api/medical-records/${recordId}/file" target="_blank"
+                        rel="noopener noreferrer"><i data-lucide="eye"></i> View</a>
+                    <a class="button button-secondary button-small record-file-link"
+                        href="/api/medical-records/${recordId}/download"
+                        rel="noopener noreferrer"><i data-lucide="download"></i> Download</a>
+                </div>`
+                : "";
+
+            return `
+                <article class="record-row">
+                    <span class="record-icon"><i data-lucide="file-text"></i></span>
+                    <div class="record-row-copy">
+                        <strong>${escapeHTML(record.name || record.file_name)}</strong>
+                        <small>${escapeHTML(record.category || "other")} · ${escapeHTML(formatDate(record.created_at))}</small>
+                        <small>${escapeHTML(record.file_name || "")} · ${escapeHTML(formatSize(Number(record.size) || 0))}</small>
+                    </div>
+                    <span class="record-status">${escapeHTML(record.status || "saved")}</span>
+                    ${fileActions}
+                </article>
+            `;
+        }).join("");
+        refreshIcons();
     };
 
     const renderMeals = () => {
-        const container = $("#mealList") || $("#dietMealList");
+        const container = $("#mealPlanList");
         if (!container) return;
 
         const meals = state.meals.filter(meal => meal.date === today());
 
-        container.innerHTML = meals.length ? meals.map(meal => `
-            <article class="meal-item">
-                <div>
-                    <strong>${escapeHTML(meal.name)}</strong>
-                    <p>${escapeHTML(meal.meal_time)} · ${escapeHTML(formatDate(meal.date))}</p>
-                    ${meal.notes ? `<small>${escapeHTML(meal.notes)}</small>` : ""}
+        const mealSlots = [
+            { name: "Breakfast", icon: "sunrise" },
+            { name: "Lunch", icon: "sun" },
+            { name: "Dinner", icon: "sunset" },
+            { name: "Snack", icon: "coffee" }
+        ];
+        const hasSnack = meals.some(meal => meal.meal_time === "Snack");
+
+        container.innerHTML = mealSlots.filter(slot => slot.name !== "Snack" || hasSnack).map(slot => {
+            const slotMeals = meals.filter(meal => meal.meal_time === slot.name);
+            if (!slotMeals.length) {
+                return `<div class="meal-placeholder">
+                    <i data-lucide="${slot.icon}"></i>
+                    <strong>${escapeHTML(t(slot.name))}</strong>
+                    <span>${escapeHTML(t("No meal added"))}</span>
+                </div>`;
+            }
+
+            return slotMeals.map(meal => `<article class="meal-card">
+                <i data-lucide="${slot.icon}"></i>
+                <strong>${escapeHTML(t(slot.name))}</strong>
+                <p>${escapeHTML(meal.name)}</p>
+                ${meal.notes ? `<p>${escapeHTML(meal.notes)}</p>` : ""}
+                <div class="meal-card-actions">
+                    <button type="button" data-action="delete-meal" data-id="${escapeHTML(meal.id)}">Delete</button>
                 </div>
-                <button type="button" class="icon-button" data-action="delete-meal"
-                    data-id="${escapeHTML(meal.id)}" aria-label="Delete meal">×</button>
-            </article>
-        `).join("") : `
-            <div class="empty-state">
-                <strong>No meals planned for today</strong>
-                <p>Add meals to keep your routine organized.</p>
-                <button type="button" class="button button-secondary button-small"
-                    data-action="add-meal">Add a meal</button>
-            </div>`;
+            </article>`).join("");
+        }).join("");
+        refreshIcons();
+    };
+
+    const welcomeGreetings = [
+        {
+            en: ["Hello, {name}! Welcome back!", "Hello, welcome back!"],
+            te: ["హలో {name}, తిరిగి స్వాగతం!", "హలో, తిరిగి స్వాగతం!"],
+            hi: ["नमस्ते, {name}! आपका फिर से स्वागत है!", "नमस्ते, आपका फिर से स्वागत है!"]
+        },
+        {
+            en: ["It’s lovely to see you, {name}!", "It’s lovely to see you!"],
+            te: ["{name}, మిమ్మల్ని మళ్లీ చూడటం చాలా సంతోషంగా ఉంది!", "మిమ్మల్ని మళ్లీ చూడటం చాలా సంతోషంగా ఉంది!"],
+            hi: ["{name}, आपसे फिर मिलकर बहुत अच्छा लगा!", "आपसे फिर मिलकर बहुत अच्छा लगा!"]
+        },
+        {
+            en: ["A fresh start awaits you, {name}!", "A fresh start awaits you!"],
+            te: ["{name}, ఈ రోజు కొత్తగా ప్రారంభిద్దాం!", "ఈ రోజు కొత్తగా ప్రారంభిద్దాం!"],
+            hi: ["{name}, आज एक नई शुरुआत करें!", "आज एक नई शुरुआत करें!"]
+        },
+        {
+            en: ["Welcome, {name}! Let’s make today yours!", "Welcome! Let’s make today yours!"],
+            te: ["స్వాగతం {name}! ఈ రోజును మీకోసం ప్రత్యేకంగా చేసుకుందాం!", "స్వాగతం! ఈ రోజును మీకోసం ప్రత్యేకంగా చేసుకుందాం!"],
+            hi: ["स्वागत है, {name}! आज का दिन आपके नाम करें!", "स्वागत है! आज का दिन आपके नाम करें!"]
+        },
+        {
+            en: ["Ready for a brighter day, {name}?", "Ready for a brighter day?"],
+            te: ["{name}, మంచి రోజుకు సిద్ధంగా ఉన్నారా?", "మంచి రోజుకు సిద్ధంగా ఉన్నారా?"],
+            hi: ["{name}, एक अच्छे दिन के लिए तैयार हैं?", "एक अच्छे दिन के लिए तैयार हैं?"]
+        },
+        {
+            en: ["Glad you’re here, {name}!", "Glad you’re here!"],
+            te: ["{name}, మీరు ఇక్కడ ఉండటం ఆనందంగా ఉంది!", "మీరు ఇక్కడ ఉండటం ఆనందంగా ఉంది!"],
+            hi: ["{name}, आपका यहाँ होना अच्छा लगा!", "आपका यहाँ होना अच्छा लगा!"]
+        }
+    ];
+
+    const chooseWelcomeGreeting = () => {
+        let previous = -1;
+        try {
+            const stored = sessionStorage.getItem("nexhealth_welcome_greeting");
+            if (stored !== null) previous = Number(stored);
+        } catch {
+            // Keep a random greeting even when browser storage is unavailable.
+        }
+        const available = welcomeGreetings.map((_, index) => index).filter(index => index !== previous);
+        welcomeGreetingIndex = available[Math.floor(Math.random() * available.length)] ?? 0;
+        try {
+            sessionStorage.setItem("nexhealth_welcome_greeting", String(welcomeGreetingIndex));
+        } catch {
+            // The greeting still renders when session storage is unavailable.
+        }
+    };
+
+    const renderWelcomeGreeting = () => {
+        const heading = $("#welcomeGreeting");
+        if (!heading) return;
+        const profileName = String(state.profile?.name || "").trim().split(/\s+/)[0].slice(0, 32);
+        const greeting = welcomeGreetings[welcomeGreetingIndex] || welcomeGreetings[0];
+        const localizedGreeting = greeting[state.language] || greeting.en;
+        heading.textContent = (profileName ? localizedGreeting[0] : localizedGreeting[1])
+            .replace("{name}", profileName);
     };
 
     const renderProfile = () => {
@@ -1298,6 +1509,7 @@ const observeTranslatedContent = () => {
 
         if (nameElement) nameElement.textContent = name;
         if (avatar) avatar.textContent = name === "Your profile" ? "U" : name.charAt(0).toUpperCase();
+        renderWelcomeGreeting();
 
         $$("[data-profile-value]").forEach(element => {
             element.textContent = profile[element.dataset.profileValue] || "Not provided";
@@ -1348,6 +1560,36 @@ const observeTranslatedContent = () => {
         });
     };
 
+    const renderConsentHistory = () => {
+        const container = $("#consentHistoryList");
+        if (!container) return;
+        const entries = Array.isArray(state.consentHistory) ? state.consentHistory : [];
+        if (!entries.length) {
+            container.innerHTML = `<div class="empty-state compact-empty">
+                <i data-lucide="history"></i>
+                <strong>No consent history available</strong>
+                <p>Your saved preference changes will appear here.</p>
+            </div>`;
+            refreshIcons();
+            return;
+        }
+
+        container.innerHTML = [...entries].reverse().slice(0, 20).map(entry => {
+            const date = entry.createdAt ? new Date(entry.createdAt) : null;
+            const dateText = date && !Number.isNaN(date.getTime())
+                ? new Intl.DateTimeFormat(uiLocale(), { dateStyle: "medium", timeStyle: "short" }).format(date)
+                : "";
+            const updates = (Array.isArray(entry.changes) ? entry.changes : []).map(change =>
+                `${escapeHTML(change.label)}: ${change.enabled ? "On" : "Off"}`
+            ).join(" · ");
+            return `<div class="consent-history-entry">
+                <strong>Preferences updated</strong>
+                <span>${escapeHTML(dateText)}</span>
+                <p>${updates}</p>
+            </div>`;
+        }).join("");
+    };
+
     const renderDietPreferences = () => {
         const preferences = state.dietPreferences || {};
         if ($("#dietPreference")) $("#dietPreference").value = preferences.diet || "";
@@ -1378,7 +1620,9 @@ const observeTranslatedContent = () => {
         renderProfile();
         renderDietPreferences();
         renderConsent();
+        renderConsentHistory();
         renderMentorMessages();
+        renderSavedPersonalizedPlan();
     };
 
     const apiRequest = async (url, options = {}) => {
@@ -1442,13 +1686,40 @@ const observeTranslatedContent = () => {
         $("#authPassword").autocomplete = signup ? "new-password" : "current-password";
         $("#authPassword").minLength = signup ? 8 : 1;
         setAuthFeedback("");
+        applyTranslations();
     };
 
-    const startAuthenticatedApp = async user => {
+    const openAuthPrompt = () => {
+        authMode = "login";
+        updateAuthMode();
+        document.body.classList.add("auth-prompt");
+        window.requestAnimationFrame(() => $("#authEmail")?.focus());
+    };
+
+    const closeAuthPrompt = () => {
+        document.body.classList.remove("auth-prompt");
+        $("#authForm")?.reset();
+        authMode = "login";
+        updateAuthMode();
+    };
+
+    const startAuthenticatedApp = async (user, guestWorkspace = null) => {
         activateUser(user);
         document.body.classList.toggle("local-demo-mode", Boolean(user.demo_mode));
+        document.body.classList.toggle("account-authenticated", !user.demo_mode);
         await hydrateWorkspace(user);
+        if (guestWorkspace && hasWorkspaceData(guestWorkspace)) {
+            mergeGuestWorkspace(guestWorkspace);
+            const savedMessage = {
+                te: "మీ అతిథి కార్యస్థల డేటా మీ ఖాతాకు జోడించబడింది.",
+                hi: "आपके अतिथि कार्यक्षेत्र का डेटा आपके खाते में जोड़ दिया गया है."
+            }[state.language] || "Your guest workspace data has been added to your account.";
+            toast(savedMessage, "success");
+        }
+        chooseWelcomeGreeting();
         document.body.classList.add("auth-ready");
+        document.body.classList.remove("auth-prompt");
+        updateSettingsAccountPanels();
         if (!appEventsBound) {
             bindEvents();
             appEventsBound = true;
@@ -1468,7 +1739,30 @@ const observeTranslatedContent = () => {
         }
     };
 
+    const startGuestApp = () => {
+        activeUserId = "";
+        STORAGE = { ...STORAGE_BASE };
+        workspaceHydrated = true;
+        document.body.classList.add("local-demo-mode", "auth-ready");
+        document.body.classList.remove("account-authenticated", "auth-prompt");
+        updateSettingsAccountPanels();
+        chooseWelcomeGreeting();
+        if (!appEventsBound) {
+            bindEvents();
+            appEventsBound = true;
+        }
+        applyTranslations();
+        renderAll();
+        navigate("overview");
+        refreshIcons();
+    };
+
     const bindAuthEvents = () => {
+        $("#authCancelButton")?.addEventListener("click", closeAuthPrompt);
+        $("#authGate")?.addEventListener("click", event => {
+            if (event.target === event.currentTarget) closeAuthPrompt();
+        });
+
         $("#authModeToggle")?.addEventListener("click", () => {
             authMode = authMode === "login" ? "signup" : "login";
             updateAuthMode();
@@ -1501,8 +1795,11 @@ const observeTranslatedContent = () => {
                 if (!result.authenticated || !result.user?.id) {
                     throw new Error("The sign-in service did not return an active session.");
                 }
+                const guestWorkspace = document.body.classList.contains("account-authenticated")
+                    ? null
+                    : JSON.parse(JSON.stringify(workspaceSnapshot()));
                 form.reset();
-                await startAuthenticatedApp(result.user);
+                await startAuthenticatedApp(result.user, guestWorkspace);
             } catch (error) {
                 const message = error.message.includes("not configured")
                     ? "Server setup is incomplete. Add SUPABASE_URL and SUPABASE_ANON_KEY to the server environment."
@@ -1691,22 +1988,30 @@ const observeTranslatedContent = () => {
         }
     };
 
-    const renderPersonalizedPlan = plan => {
-        const rows = (entries = []) => entries.filter(item => item && (item.title || item.description))
-            .map(item => `
-                <div class="task-row personalized-plan-row">
-                    <span class="task-checkbox" aria-hidden="true"></span>
-                    <span class="task-row-copy">
-                        <strong>${escapeHTML(item.title || "")}</strong>
-                        ${item.description ? `<small>${escapeHTML(item.description)}</small>` : ""}
-                    </span>
-                </div>
-            `).join("");
-        const group = (title, entries) => entries.length ? `
-            <section class="personalized-plan-group">
-                <h3>${escapeHTML(t(title))}</h3>
-                <div class="compact-task-list">${rows(entries)}</div>
-            </section>` : "";
+    const renderPersonalizedPlan = (plan, completedItems = {}) => {
+        const validEntries = entries => entries.filter(item => item && (item.title || item.description));
+        const rows = (entries = [], groupKey = "") => validEntries(entries)
+            .map((item, index) => {
+                const itemKey = `${groupKey}-${index}`;
+                const completed = completedItems[itemKey] === true;
+                const itemTitle = item.title || "";
+                return `
+                    <div class="task-row personalized-plan-row${completed ? " is-complete" : ""}">
+                        <button class="task-checkbox${completed ? " checked" : ""}" type="button"
+                            data-action="toggle-plan-item" data-plan-item="${escapeHTML(itemKey)}"
+                            role="checkbox" aria-checked="${completed}" aria-label="${escapeHTML(itemTitle || t(groupKey))}"></button>
+                        <span class="task-row-copy">
+                            <strong>${escapeHTML(itemTitle)}</strong>
+                            ${item.description ? `<small>${escapeHTML(item.description)}</small>` : ""}
+                        </span>
+                    </div>
+                `;
+            }).join("");
+        const group = (title, key, entries) => validEntries(entries).length ? `
+            <details class="personalized-plan-group" data-plan-group="${key}" open>
+                <summary><h3>${escapeHTML(t(title))}</h3><span class="plan-group-count">${validEntries(entries).filter((_, index) => completedItems[`${key}-${index}`] === true).length}/${validEntries(entries).length}</span><span class="plan-group-chevron" aria-hidden="true"></span></summary>
+                <div class="compact-task-list">${rows(entries, key)}</div>
+            </details>` : "";
 
         const movement = plan.movement && typeof plan.movement === "object" ? plan.movement : {};
         const sleep = plan.sleep && typeof plan.sleep === "object" ? plan.sleep : {};
@@ -1723,14 +2028,36 @@ const observeTranslatedContent = () => {
         const habitRows = (Array.isArray(plan.habits) ? plan.habits : []).filter(habit => habit && typeof habit === "object")
             .map(habit => ({ title: habit.title || "", description: habit.details || "" }));
         const groups = [
-            group("Movement", movementRows),
-            group("Meals", mealRows),
-            group("Sleep", sleepRows),
-            group("Daily habits", habitRows)
+            group("Movement", "movement", movementRows),
+            group("Meals", "meals", mealRows),
+            group("Sleep", "sleep", sleepRows),
+            group("Daily habits", "habits", habitRows)
         ].join("");
 
         if (!groups) throw new Error(t("Could not create a structured plan. Please try again."));
         return `<h2>${escapeHTML(t("Your daily plan"))}</h2><div class="personalized-plan-checklist">${groups}</div>`;
+    };
+
+    const renderSavedPersonalizedPlan = () => {
+        const panel = $("#personalizedPlanPanel");
+        const content = $("#personalizedPlanContent");
+        if (!panel || !content) return;
+        const saved = state.personalizedPlan;
+        if (!saved || !saved.plan || typeof saved.plan !== "object") {
+            panel.hidden = true;
+            content.replaceChildren();
+            return;
+        }
+
+        try {
+            content.innerHTML = renderPersonalizedPlan(saved.plan, saved.completedItems || {});
+            refreshIcons();
+            panel.hidden = false;
+            panel.classList.remove("plan-error");
+            panel.classList.add("plan-ready");
+        } catch (error) {
+            console.warn("Could not render the saved personalized plan.", error);
+        }
     };
 
     const generatePersonalizedPlan = async () => {
@@ -1802,8 +2129,13 @@ const observeTranslatedContent = () => {
                 body: JSON.stringify(payload)
             });
             if (!data.plan || typeof data.plan !== "object") throw new Error(t("Could not create a structured plan. Please try again."));
-            content.innerHTML = renderPersonalizedPlan(data.plan);
-            panel.classList.add("plan-ready");
+            state.personalizedPlan = {
+                plan: data.plan,
+                createdAt: data.created_at || new Date().toISOString(),
+                completedItems: {}
+            };
+            persist();
+            renderSavedPersonalizedPlan();
         } catch (error) {
             content.innerHTML = `<p class="plan-error-message">${escapeHTML(error.message || t("Could not create a structured plan. Please try again."))}</p>`;
             panel.classList.add("plan-error");
@@ -1844,7 +2176,9 @@ const observeTranslatedContent = () => {
             messages: state.messages,
             profile: state.profile,
             diet_preferences: state.dietPreferences,
-            consent: state.consent
+            consent: state.consent,
+            consent_history: state.consentHistory,
+            personalized_plan: state.personalizedPlan
         };
 
         const blob = new Blob([JSON.stringify(data, null, 2)], {
@@ -1887,6 +2221,8 @@ const observeTranslatedContent = () => {
             aiProcessing: false,
             healthcareSharing: false
         };
+        state.consentHistory = [];
+        state.personalizedPlan = null;
 
         renderAll();
         toast("Browser data deleted.");
@@ -1953,6 +2289,7 @@ const observeTranslatedContent = () => {
         }
 
         $("#personalizedPlanButton")?.addEventListener("click", generatePersonalizedPlan);
+        $("#resetCompletedTasksButton")?.addEventListener("click", resetCompletedTasks);
 
         if (languageSelect) {
             languageSelect.value = state.language;
@@ -2088,6 +2425,13 @@ const observeTranslatedContent = () => {
 
 
         document.addEventListener("click", event => {
+            const recordCategoryButton = event.target.closest("[data-record-category]");
+            if (recordCategoryButton) {
+                state.recordFilter = recordCategoryButton.dataset.recordCategory;
+                navigate("medical-records");
+                return;
+            }
+
             const screenButton = event.target.closest("[data-screen]");
 
             if (screenButton) {
@@ -2116,6 +2460,24 @@ const observeTranslatedContent = () => {
             const itemId = actionButton.dataset.id;
 
             switch (action) {
+                case "toggle-plan-item": {
+                    const plan = state.personalizedPlan;
+                    const planItem = actionButton.dataset.planItem;
+                    if (!plan?.plan || !planItem) break;
+                    const completedItems = { ...(plan.completedItems || {}) };
+                    completedItems[planItem] = completedItems[planItem] !== true;
+                    state.personalizedPlan = { ...plan, completedItems };
+                    persist();
+                    actionButton.classList.toggle("checked", completedItems[planItem]);
+                    actionButton.setAttribute("aria-checked", String(completedItems[planItem]));
+                    actionButton.closest(".personalized-plan-row")?.classList.toggle("is-complete", completedItems[planItem]);
+                    const group = actionButton.closest(".personalized-plan-group");
+                    const groupChecks = group ? $$("[data-action='toggle-plan-item']", group) : [];
+                    const completeCount = groupChecks.filter(check => check.getAttribute("aria-checked") === "true").length;
+                    const countLabel = group?.querySelector(".plan-group-count");
+                    if (countLabel) countLabel.textContent = `${completeCount}/${groupChecks.length}`;
+                    break;
+                }
                 case "open-upload":
                     openUploadModal();
                     break;
@@ -2170,7 +2532,17 @@ const observeTranslatedContent = () => {
 
         $("#profileTrigger")?.addEventListener("click", openProfileModal);
 
+        $("#settingsLoginButton")?.addEventListener("click", openAuthPrompt);
+
         $("#notificationButton")?.addEventListener("click", () => {
+            if (!document.body.classList.contains("account-authenticated")) {
+                const guestNotice = {
+                    te: "అతిథి మోడ్: మీ డేటా ఈ బ్రౌజర్‌లో మాత్రమే సేవ్ అవుతుంది. ఇతర పరికరాల్లో ఉపయోగించడానికి సెట్టింగ్స్‌లో సైన్ ఇన్ చేయండి.",
+                    hi: "अतिथि मोड: आपका डेटा केवल इस ब्राउज़र में सहेजा जाता है। दूसरे डिवाइस पर उपयोग के लिए सेटिंग्स में साइन इन करें।"
+                }[state.language] || "Guest mode: your data is saved only in this browser. Sign in from Settings to sync it and use it on other devices.";
+                toast(guestNotice, "info");
+                return;
+            }
             const pending = state.tasks.filter(task => !task.completed).length;
             const upcoming = state.appointments.filter(item =>
                 new Date(`${item.date}T${item.time || "23:59"}`) >= new Date()
@@ -2237,6 +2609,22 @@ const observeTranslatedContent = () => {
             if ($("#selectedFileSize")) $("#selectedFileSize").textContent = formatSize(file.size);
         });
 
+        $("#takeReportPhoto")?.addEventListener("click", () => {
+            $("#reportCameraInput")?.click();
+        });
+
+        $("#reportCameraInput")?.addEventListener("change", event => {
+            const photo = event.target.files?.[0];
+            const reportInput = $("#reportFileInput");
+            if (!photo || !reportInput) return;
+
+            const transfer = new DataTransfer();
+            transfer.items.add(photo);
+            reportInput.files = transfer.files;
+            reportInput.dispatchEvent(new Event("change", { bubbles: true }));
+            event.target.value = "";
+        });
+
         $("#removeSelectedFile")?.addEventListener("click", () => {
             if ($("#reportFileInput")) $("#reportFileInput").value = "";
             if ($("#selectedReportFile")) $("#selectedReportFile").hidden = true;
@@ -2275,11 +2663,49 @@ const observeTranslatedContent = () => {
 
         $("#clearMentorButton")?.addEventListener("click", clearMentor);
 
-        $$("[data-consent]").forEach(input => {
-            input.addEventListener("change", () => {
-                state.consent[input.dataset.consent] = input.checked;
-                persist();
-                toast("Preference saved in this browser.");
+        $("#consentPreferencesForm")?.addEventListener("submit", event => {
+            event.preventDefault();
+            const nextConsent = {
+                ...state.consent,
+                aiProcessing: $("#consentAiProcessing")?.checked === true,
+                healthcareSharing: $("#consentDataSharing")?.checked === true,
+                analytics: $("#consentAnalytics")?.checked === true
+            };
+            const labels = {
+                aiProcessing: "AI processing",
+                healthcareSharing: "Healthcare data sharing",
+                analytics: "Optional analytics"
+            };
+            const changes = Object.keys(labels)
+                .filter(key => Boolean(state.consent[key]) !== nextConsent[key])
+                .map(key => ({ label: labels[key], enabled: nextConsent[key] }));
+            state.consent = nextConsent;
+            if (changes.length) {
+                state.consentHistory = [...(state.consentHistory || []), {
+                    createdAt: new Date().toISOString(),
+                    changes
+                }].slice(-100);
+            }
+            persist();
+            renderConsentHistory();
+            const status = $("#consentSaveStatus");
+            if (status) status.textContent = "Preferences saved.";
+            toast(changes.length ? "Consent preferences saved." : "Preferences are up to date.");
+        });
+
+        $$("[data-privacy-action]").forEach(button => {
+            button.addEventListener("click", () => {
+                switch (button.dataset.privacyAction) {
+                    case "export":
+                        exportData();
+                        break;
+                    case "correct":
+                        openProfileModal();
+                        break;
+                    case "delete":
+                        deleteLocalData();
+                        break;
+                }
             });
         });
 
@@ -2305,14 +2731,15 @@ const observeTranslatedContent = () => {
             const session = await apiRequest("/api/auth/session");
             if (session.authenticated && session.user?.id) {
                 await startAuthenticatedApp(session.user);
+            } else {
+                startGuestApp();
             }
         } catch (error) {
-            const message = error.message.includes("not configured")
-                ? "Server setup is incomplete. Add SUPABASE_URL and SUPABASE_ANON_KEY to the server environment."
-                : error.message;
-            setAuthFeedback(message);
+            console.warn("NexHealth session restore failed; opening a local guest workspace.", error.message);
+            startGuestApp();
         }
 
+        document.body.classList.remove("auth-pending");
         refreshIcons();
         console.info("NexHealth authentication initialized.");
     };

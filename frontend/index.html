@@ -17,8 +17,9 @@
     <script src="/static/script.js" defer></script>
 </head>
 
-<body>
-    <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
+<body class="auth-pending">
+    <div class="auth-startup" role="status" aria-live="polite">Opening your workspace…</div>
+    <section class="auth-gate" id="authGate" role="dialog" aria-modal="true" aria-labelledby="authTitle">
         <form class="auth-card" id="authForm" novalidate>
             <span class="auth-brand-mark"><i data-lucide="heart-pulse" aria-hidden="true"></i></span>
             <p class="auth-eyebrow">NEXHEALTH</p>
@@ -31,6 +32,7 @@
             <p class="auth-feedback" id="authFeedback" role="status" aria-live="polite"></p>
             <button class="button button-primary auth-submit" id="authSubmit" type="submit">Sign in</button>
             <button class="auth-mode-toggle" id="authModeToggle" type="button">Create an account</button>
+            <button class="auth-cancel" id="authCancelButton" type="button">Cancel</button>
         </form>
     </section>
 
@@ -178,7 +180,6 @@
                     <div class="search-box">
                         <i data-lucide="search"></i>
                         <input id="globalSearch" type="search" placeholder="Search your workspace..." aria-label="Search workspace">
-                        <kbd>⌘ K</kbd>
                     </div>
 
                     <button class="icon-button notification-button" id="notificationButton" type="button" aria-label="Notifications">
@@ -224,7 +225,7 @@
                     <div class="welcome-banner">
                         <div class="welcome-copy">
                             <span class="welcome-label">YOUR DAILY CHECK-IN</span>
-                            <h2>Small steps. Better health.</h2>
+                            <h2 id="welcomeGreeting">Small steps. Better health.</h2>
                             <p>Keep your records organized, stay on top of your routine, and make informed decisions with the right support.</p>
                             <button class="button button-light" type="button" data-screen="diet-tasks">
                                 View today's plan
@@ -232,6 +233,7 @@
                             </button>
                         </div>
                         <div class="welcome-art" aria-hidden="true">
+                            <img class="section-content-art overview-content-art" src="/static/assets/illustrations/overview.svg" alt="">
                             <div class="orbit orbit-one"></div>
                             <div class="orbit orbit-two"></div>
                             <div class="welcome-heart">
@@ -258,7 +260,7 @@
                     </div>
 
                     <div class="metrics-grid">
-                        <article class="metric-card">
+                        <a class="metric-card" href="#medical-records" data-screen="medical-records" aria-label="Open medical records">
                             <div class="metric-top">
                                 <span class="metric-icon metric-purple">
                                     <i data-lucide="files"></i>
@@ -268,9 +270,9 @@
                             <strong class="metric-value" id="metricRecords">0</strong>
                             <span class="metric-label">Medical records</span>
                             <span class="metric-footnote">Reports and prescriptions</span>
-                        </article>
+                        </a>
 
-                        <article class="metric-card">
+                        <a class="metric-card" href="#appointments" data-screen="appointments" aria-label="Open upcoming appointments">
                             <div class="metric-top">
                                 <span class="metric-icon metric-blue">
                                     <i data-lucide="calendar-check"></i>
@@ -280,9 +282,9 @@
                             <strong class="metric-value" id="metricAppointments">0</strong>
                             <span class="metric-label">Upcoming appointments</span>
                             <span class="metric-footnote">Based on your saved bookings</span>
-                        </article>
+                        </a>
 
-                        <article class="metric-card">
+                        <a class="metric-card" href="#diet-tasks" data-screen="diet-tasks" aria-label="Open your routine">
                             <div class="metric-top">
                                 <span class="metric-icon metric-green">
                                     <i data-lucide="check-circle-2"></i>
@@ -292,9 +294,9 @@
                             <strong class="metric-value" id="metricTasks">0</strong>
                             <span class="metric-label">Tasks remaining</span>
                             <span class="metric-footnote">From your personal checklist</span>
-                        </article>
+                        </a>
 
-                        <article class="metric-card">
+                        <a class="metric-card" href="#ai-analyzer" data-screen="ai-analyzer" aria-label="Open your insights">
                             <div class="metric-top">
                                 <span class="metric-icon metric-orange">
                                     <i data-lucide="sparkles"></i>
@@ -304,7 +306,7 @@
                             <strong class="metric-value" id="metricAnalyses">0</strong>
                             <span class="metric-label">Reports analyzed</span>
                             <span class="metric-footnote">Your saved AI analyses</span>
-                        </article>
+                        </a>
                     </div>
 
                     <div class="overview-columns">
@@ -422,7 +424,7 @@
     </div>
 
     <div class="metrics-grid">
-        <article class="metric-card">
+        <a class="metric-card" href="https://abha.abdm.gov.in/abha/v3/register?source=3icons" target="_blank" rel="noopener noreferrer" aria-label="Open the official ABHA portal in a new tab">
             <div class="metric-top">
                 <span class="metric-icon metric-purple"><i data-lucide="id-card"></i></span>
                 <span class="metric-caption">HEALTH IDENTITY</span>
@@ -430,9 +432,9 @@
             <strong class="metric-value">Mock ABHA</strong>
             <span class="metric-label">ABHA number and address</span>
             <span class="metric-footnote">No real ABHA account is connected</span>
-        </article>
+        </a>
 
-        <article class="metric-card">
+        <a class="metric-card" href="https://nrces.in/ndhm/fhir/r4/index.html" target="_blank" rel="noopener noreferrer" aria-label="Open the ABDM FHIR implementation guide in a new tab">
             <div class="metric-top">
                 <span class="metric-icon metric-blue"><i data-lucide="files"></i></span>
                 <span class="metric-caption">RECORDS</span>
@@ -440,9 +442,9 @@
             <strong class="metric-value">FHIR-style</strong>
             <span class="metric-label">Structured health records</span>
             <span class="metric-footnote">Mapping concept, not a live exchange</span>
-        </article>
+        </a>
 
-        <article class="metric-card">
+        <a class="metric-card" href="https://play.google.com/store/apps/details?id=in.ndhm.phr" target="_blank" rel="noopener noreferrer" aria-label="Open the National Health Authority ABHA app information in a new tab">
             <div class="metric-top">
                 <span class="metric-icon metric-green"><i data-lucide="shield-check"></i></span>
                 <span class="metric-caption">CONSENT</span>
@@ -450,9 +452,9 @@
             <strong class="metric-value" id="abdmConsentStatus">Not granted</strong>
             <span class="metric-label">Record-sharing permission</span>
             <span class="metric-footnote">Demo consent only</span>
-        </article>
+        </a>
 
-        <article class="metric-card">
+        <a class="metric-card" href="https://sandbox.abdm.gov.in/" target="_blank" rel="noopener noreferrer" aria-label="Open the official ABDM integration sandbox in a new tab">
             <div class="metric-top">
                 <span class="metric-icon metric-orange"><i data-lucide="network"></i></span>
                 <span class="metric-caption">CONNECTIVITY</span>
@@ -460,15 +462,16 @@
             <strong class="metric-value">Not connected</strong>
             <span class="metric-label">Healthcare network</span>
             <span class="metric-footnote">Live ABDM services are not integrated</span>
-        </article>
+        </a>
     </div>
 
-    <section class="panel abdm-panel">
+    <section class="panel abdm-panel abha-identity-panel">
         <div class="panel-heading">
             <div>
                 <h3>ABHA identity</h3>
                 <p>Use fictional information for this demonstration.</p>
             </div>
+            <img class="section-content-art abha-content-art" src="/static/assets/illustrations/abha.svg" alt="" aria-hidden="true">
             <i data-lucide="fingerprint"></i>
         </div>
 
@@ -503,18 +506,18 @@
         </div>
 
         <div class="quick-access-grid">
-            <article class="quick-access-item">
+            <button class="quick-access-item" type="button" data-record-category="lab" aria-label="Open lab reports in medical records">
                 <span class="quick-access-icon quick-blue"><i data-lucide="test-tube"></i></span>
                 <span><strong>Lab reports</strong><small>Diagnostic reports and observations</small></span>
-            </article>
-            <article class="quick-access-item">
+            </button>
+            <button class="quick-access-item" type="button" data-record-category="discharge" aria-label="Open discharge summaries in medical records">
                 <span class="quick-access-icon quick-purple"><i data-lucide="file-text"></i></span>
                 <span><strong>Discharge summaries</strong><small>Encounter and discharge information</small></span>
-            </article>
-            <article class="quick-access-item">
+            </button>
+            <button class="quick-access-item" type="button" data-record-category="prescription" aria-label="Open prescriptions in medical records">
                 <span class="quick-access-icon quick-green"><i data-lucide="pill"></i></span>
                 <span><strong>Prescriptions</strong><small>Medication and dosage information</small></span>
-            </article>
+            </button>
         </div>
 
         <p class="page-description">
@@ -580,7 +583,7 @@
                         </div>
                         <button class="button button-primary" type="button" data-action="open-upload">
                             <i data-lucide="upload"></i>
-                            Add a record
+                            Upload record
                         </button>
                     </div>
 
@@ -589,6 +592,7 @@
                             <span class="summary-card-icon"><i data-lucide="files"></i></span>
                             <span>Total documents</span>
                             <strong id="recordsTotal">0</strong>
+                            <img class="section-content-art records-content-art" src="/static/assets/illustrations/records.svg" alt="" aria-hidden="true">
                         </article>
                         <article class="summary-card">
                             <span class="summary-card-icon"><i data-lucide="test-tube"></i></span>
@@ -608,6 +612,7 @@
                                 <button class="filter-tab active" type="button" data-record-filter="all">All records</button>
                                 <button class="filter-tab" type="button" data-record-filter="lab">Lab reports</button>
                                 <button class="filter-tab" type="button" data-record-filter="prescription">Prescriptions</button>
+                                <button class="filter-tab" type="button" data-record-filter="discharge">Discharge summaries</button>
                                 <button class="filter-tab" type="button" data-record-filter="imaging">Imaging</button>
                                 <button class="filter-tab" type="button" data-record-filter="other">Other</button>
                             </div>
@@ -624,7 +629,7 @@
                                 <p>Add a report or prescription to begin organizing your health documents.</p>
                                 <button class="button button-primary button-small" type="button" data-action="open-upload">
                                     <i data-lucide="upload"></i>
-                                    Add your first record
+                                    Upload record
                                 </button>
                             </div>
                         </div>
@@ -664,6 +669,14 @@
                                     <span>or <span class="upload-browse">browse files</span></span>
                                     <small>PDF or image · Maximum 10 MB</small>
                                 </label>
+                                <input type="file" id="reportCameraInput" accept="image/*" capture="environment" hidden>
+                                <div class="upload-camera-action">
+                                    <button class="button button-secondary" type="button" id="takeReportPhoto">
+                                        <i data-lucide="camera"></i>
+                                        Take a photo
+                                    </button>
+                                    <span>Use your camera to capture a report image</span>
+                                </div>
 
                                 <div class="selected-file" id="selectedReportFile" hidden>
                                     <span class="file-type-icon"><i data-lucide="file-text"></i></span>
@@ -743,6 +756,7 @@
                                     <li><i data-lucide="check-circle-2"></i> Questions for your doctor</li>
                                     <li><i data-lucide="check-circle-2"></i> Uncertain text flagged for review</li>
                                 </ul>
+                                <img class="section-content-art analyzer-content-art" src="/static/assets/illustrations/analyzer.svg" alt="" aria-hidden="true">
                             </section>
 
                             <section class="panel safety-panel">
@@ -806,7 +820,10 @@
                                         <h2>Your daily checklist</h2>
                                         <p>Track the tasks you choose to complete.</p>
                                     </div>
-                                    <span class="subtle-badge" id="dietTaskCount">0 tasks</span>
+                                    <div class="task-heading-actions">
+                                        <span class="subtle-badge" id="dietTaskCount">0 tasks</span>
+                                        <button class="text-button" id="resetCompletedTasksButton" type="button" disabled>Reset completed</button>
+                                    </div>
                                 </div>
 
                                 <div class="task-filter-row">
@@ -915,6 +932,7 @@
                                 <span class="side-panel-icon"><i data-lucide="apple"></i></span>
                                 <h3>A note on nutrition</h3>
                                 <p>Nutrition suggestions are general education. Medical conditions, allergies, pregnancy, and prescribed diets may require advice from a qualified professional.</p>
+                                <img class="section-content-art nutrition-content-art" src="/static/assets/illustrations/nutrition.svg" alt="" aria-hidden="true">
                             </section>
                         </aside>
                     </div>
@@ -939,6 +957,7 @@
                             <h2>Your care, organized.</h2>
                             <p>Keep appointment details in one place so important visits are easier to manage.</p>
                         </div>
+                        <img class="section-content-art appointments-content-art" src="/static/assets/illustrations/appointments.svg" alt="" aria-hidden="true">
                     </div>
 
                     <div class="appointment-tabs" role="group" aria-label="Appointment status">
@@ -991,6 +1010,7 @@
                             <p>Discover care categories and organize the next step in your healthcare journey.</p>
                         </div>
                         <span class="services-hero-icon"><i data-lucide="heart-handshake"></i></span>
+                        <img class="section-content-art services-content-art" src="/static/assets/illustrations/services.svg" alt="" aria-hidden="true">
                     </div>
 
                     <div class="section-heading">
@@ -1001,45 +1021,45 @@
                     </div>
 
                     <div class="services-grid">
-                        <article class="service-card">
+                        <a class="service-card" href="https://www.google.com/maps/search/?api=1&amp;query=doctors+near+me" target="_blank" rel="noopener noreferrer" aria-label="Find doctors near me on Google Maps">
                             <span class="service-icon service-purple"><i data-lucide="stethoscope"></i></span>
                             <span class="service-category">CONSULTATIONS</span>
                             <h3>Doctor consultations</h3>
                             <p>Explore primary care and specialist consultation options.</p>
-                            <button class="text-button" type="button" data-service-type="consultation">
+                            <span class="text-button">
                                 Explore options <i data-lucide="arrow-right"></i>
-                            </button>
-                        </article>
+                            </span>
+                        </a>
 
-                        <article class="service-card">
+                        <a class="service-card" href="https://www.google.com/maps/search/?api=1&amp;query=diagnostic+labs+near+me" target="_blank" rel="noopener noreferrer" aria-label="Find diagnostic laboratories near me on Google Maps">
                             <span class="service-icon service-blue"><i data-lucide="test-tube"></i></span>
                             <span class="service-category">DIAGNOSTICS</span>
                             <h3>Lab tests</h3>
                             <p>Learn about laboratory testing and sample collection services.</p>
-                            <button class="text-button" type="button" data-service-type="lab">
+                            <span class="text-button">
                                 Explore options <i data-lucide="arrow-right"></i>
-                            </button>
-                        </article>
+                            </span>
+                        </a>
 
-                        <article class="service-card">
+                        <a class="service-card" href="https://www.google.com/maps/search/?api=1&amp;query=pharmacies+with+medicine+delivery+near+me" target="_blank" rel="noopener noreferrer" aria-label="Find pharmacies offering medicine delivery near me on Google Maps">
                             <span class="service-icon service-green"><i data-lucide="truck"></i></span>
                             <span class="service-category">PHARMACY</span>
                             <h3>Medicine delivery</h3>
                             <p>Review the steps involved in using a verified pharmacy service.</p>
-                            <button class="text-button" type="button" data-service-type="pharmacy">
+                            <span class="text-button">
                                 Explore options <i data-lucide="arrow-right"></i>
-                            </button>
-                        </article>
+                            </span>
+                        </a>
 
-                        <article class="service-card">
+                        <a class="service-card" href="https://www.google.com/maps/search/?api=1&amp;query=home+healthcare+services+near+me" target="_blank" rel="noopener noreferrer" aria-label="Find home healthcare services near me on Google Maps">
                             <span class="service-icon service-orange"><i data-lucide="house"></i></span>
                             <span class="service-category">AT-HOME CARE</span>
                             <h3>Home healthcare</h3>
                             <p>Explore home sample collection and other at-home care options.</p>
-                            <button class="text-button" type="button" data-service-type="home-care">
+                            <span class="text-button">
                                 Explore options <i data-lucide="arrow-right"></i>
-                            </button>
-                        </article>
+                            </span>
+                        </a>
                     </div>
 
                     <section class="panel service-directory-panel">
@@ -1087,6 +1107,7 @@
                                     <strong>NexHealth Mentor</strong>
                                     <span><span class="status-dot"></span> Health education assistant</span>
                                 </div>
+                                <img class="section-content-art mentor-header-art" src="/static/assets/illustrations/mentor.svg" alt="" aria-hidden="true">
                                 <button class="icon-button" id="clearMentorButton" type="button" aria-label="Clear conversation">
                                     <i data-lucide="rotate-ccw"></i>
                                 </button>
@@ -1177,6 +1198,19 @@
 
                     <div class="settings-layout">
                         <div class="settings-main-column">
+                            <section class="panel settings-account-panel" id="settingsLoginPanel">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2>Save your workspace</h2>
+                                        <p>Sign in or create an account to sync your data and access it on other devices.</p>
+                                    </div>
+                                    <i data-lucide="cloud-cog"></i>
+                                </div>
+                                <button class="button button-primary button-full" id="settingsLoginButton" type="button">
+                                    <i data-lucide="log-in"></i> Sign in or create account
+                                </button>
+                            </section>
+
                             <section class="panel settings-panel">
                                 <div class="panel-heading">
                                     <div>
@@ -1267,9 +1301,10 @@
                                         <span>How do I prepare for an appointment?</span><i data-lucide="arrow-up-right"></i>
                                     </button>
                                 </div>
+                                <img class="section-content-art settings-content-art" src="/static/assets/illustrations/settings.svg" alt="" aria-hidden="true">
                             </section>
 
-                            <section class="panel settings-signout-panel">
+                            <section class="panel settings-signout-panel" id="settingsSignoutPanel" hidden>
                                 <div>
                                     <h2>Sign out of NexHealth</h2>
                                     <p>End your current session on this device.</p>
@@ -1321,7 +1356,7 @@
                                             </div>
                                         </div>
                                         <label class="switch">
-                                            <input type="checkbox" id="consentAiProcessing">
+                                            <input type="checkbox" id="consentAiProcessing" data-consent="aiProcessing">
                                             <span class="switch-slider"></span>
                                             <span class="sr-only">Allow AI processing</span>
                                         </label>
@@ -1337,7 +1372,7 @@
                                             </div>
                                         </div>
                                         <label class="switch">
-                                            <input type="checkbox" id="consentDataSharing">
+                                            <input type="checkbox" id="consentDataSharing" data-consent="healthcareSharing">
                                             <span class="switch-slider"></span>
                                             <span class="sr-only">Allow healthcare data sharing</span>
                                         </label>
@@ -1353,7 +1388,7 @@
                                             </div>
                                         </div>
                                         <label class="switch">
-                                            <input type="checkbox" id="consentAnalytics">
+                                            <input type="checkbox" id="consentAnalytics" data-consent="analytics">
                                             <span class="switch-slider"></span>
                                             <span class="sr-only">Allow optional analytics</span>
                                         </label>
@@ -1398,10 +1433,10 @@
                                 <div class="data-right-row">
                                     <span class="data-right-icon data-right-danger"><i data-lucide="trash-2"></i></span>
                                     <div>
-                                        <strong>Request account or data deletion</strong>
-                                        <p>Understand the consequences and request deletion through the supported process.</p>
+                                        <strong>Delete data saved in this browser</strong>
+                                        <p>This clears browser data only. It does not remove database copies or uploaded server files.</p>
                                     </div>
-                                    <button class="text-button text-danger" type="button" data-privacy-action="delete">View options</button>
+                                    <button class="text-button text-danger" type="button" data-privacy-action="delete">Delete browser data</button>
                                 </div>
                             </section>
 
@@ -1449,6 +1484,7 @@
                                 <h3>Need privacy help?</h3>
                                 <p>Use the application's supported support channel to ask about data handling, access requests, or consent.</p>
                                 <button class="button button-secondary button-full" type="button" data-action="privacy-help">Privacy support</button>
+                                <img class="section-content-art privacy-content-art" src="/static/assets/illustrations/privacy.svg" alt="" aria-hidden="true">
                             </section>
                         </aside>
                     </div>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" fill="none">
+<style>
+@keyframes speak { 0%,18%,100% { transform: scaleY(.45) } 8%,13% { transform: scaleY(1) } }
+@keyframes explain { 0%,100% { transform: rotate(0deg) } 45% { transform: rotate(-9deg) } 70% { transform: rotate(4deg) } }
+@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-4px) } }
+.mouth { transform-box: fill-box; transform-origin: center; animation: speak 2.3s ease-in-out infinite; }
+.gesture { transform-box: fill-box; transform-origin: 15% 85%; animation: explain 3.5s ease-in-out infinite; }
+.bubble { animation: float 3.3s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .mouth,.gesture,.bubble { animation: none; } }
+</style>
+<path d="M24 135C16 97 49 54 96 47c42-7 73 12 112 7 42-5 82 15 86 53 5 42-26 83-72 92-43 9-76-5-112 4-43 11-75-25-86-68Z" fill="#def2e9"/>
+<!-- Female doctor, long hair and white coat -->
+<path d="M61 80c-3-30 12-53 39-53 28 0 44 22 38 59l-4 43H67z" fill="#514351"/>
+<path d="M48 185c4-39 20-60 51-60s47 21 51 60v19H48z" fill="#fff" stroke="#4e806d" stroke-width="4" stroke-linejoin="round"/>
+<path d="m83 127 16 18 16-18 12 12-13 49H82l-13-49z" fill="#7a69ad"/>
+<path d="m83 127 16 18-12 21-16-28zm32 0-16 18 12 21 16-28z" fill="#edf8f3" stroke="#4e806d" stroke-width="3" stroke-linejoin="round"/>
+<path d="M67 75c0-21 14-34 32-34s32 13 32 34v22c0 20-14 34-32 34S67 117 67 97z" fill="#efbd82" stroke="#875d42" stroke-width="3"/>
+<path d="M67 76c4-11 12-18 22-22 13 7 29 9 42 5v19c-8-10-17-15-28-15-14 0-25 6-36 17z" fill="#514351"/>
+<path d="M83 84h1m30 0h1" stroke="#40342e" stroke-width="4" stroke-linecap="round"/>
+<path class="mouth" d="M91 99q8 6 16 0" stroke="#a65e51" stroke-width="3" stroke-linecap="round"/>
+<path d="M84 144c-4 16 2 29 15 29s19-13 15-29" stroke="#378c74" stroke-width="4"/>
+<circle cx="84" cy="151" r="4" fill="#efbd65"/>
+<!-- Raised explaining hand -->
+<g class="gesture"><path d="M137 140q13-15 16-29l-1-15q0-6 5-6 4 0 5 6l1 9 6-12q3-5 7-2 3 2 0 7l-6 13q2 12-8 30" fill="#efbd82" stroke="#875d42" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="m141 139 12 8" stroke="#4e806d" stroke-width="4" stroke-linecap="round"/></g>
+<!-- Friendly conversation bubble -->
+<g class="bubble"><path d="M195 70q0-12 12-12h73q12 0 12 12v45q0 12-12 12h-36l-17 15v-15h-20q-12 0-12-12z" fill="#fff" stroke="#559478" stroke-width="3" stroke-linejoin="round"/><circle cx="222" cy="91" r="5" fill="#50a17f"/><circle cx="242" cy="91" r="5" fill="#50a17f"/><circle cx="262" cy="91" r="5" fill="#50a17f"/><path d="M207 151h74" stroke="#b7dec9" stroke-width="5" stroke-linecap="round"/><path d="M214 163h53" stroke="#b7dec9" stroke-width="5" stroke-linecap="round"/></g>
+<path d="M65 192h62" stroke="#cfe6d9" stroke-width="5" stroke-linecap="round"/>
+</svg>

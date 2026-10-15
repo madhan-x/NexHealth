@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" fill="none">
+<style>
+@keyframes character-breathe { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
+@keyframes prop-float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
+@keyframes soft-pulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.045) } }
+@keyframes gentle-turn { 0%,100% { transform: rotate(0deg) } 50% { transform: rotate(8deg) } }
+@keyframes check-draw { 0%,20% { stroke-dashoffset: 30 } 50%,100% { stroke-dashoffset: 0 } }
+.character { transform-box: fill-box; transform-origin: center bottom; animation: character-breathe 3.8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation: none !important; } }
+
+.calendar { transform-box: fill-box; transform-origin: center; animation: prop-float 4.2s ease-in-out infinite; }
+.clock-hand { transform-box: view-box; transform-origin: 275px 151px; animation: gentle-turn 4s linear infinite; }
+</style>
+<path d="M29 136C18 93 58 50 106 45c44-5 62 16 103 9 42-7 79 13 83 52 5 43-30 87-74 94-46 8-73-7-112 3-41 10-66-22-77-67Z" fill="#e3effb"/>
+<g class="character"><circle cx="91" cy="91" r="30" fill="#f3bd7a" stroke="#875d42" stroke-width="4"/>
+<path d="M62 88c1-25 17-39 34-39 19 0 31 16 29 34-10-8-20-12-34-11-8 1-18 8-29 16Z" fill="#554640"/>
+<circle cx="82" cy="92" r="2.7" fill="#40342e"/><circle cx="101" cy="92" r="2.7" fill="#40342e"/><path d="M84 104q8 8 16 0" stroke="#a85e4b" stroke-width="3" stroke-linecap="round"/>
+<path d="M43 186c3-44 18-66 48-66s46 22 49 66" fill="#5e88c0" stroke="#477560" stroke-width="4" stroke-linejoin="round"/>
+<path d="M62 132q-19 21-5 39m66-39q19 21 5 39" stroke="#f3bd7a" stroke-width="10" stroke-linecap="round"/>
+<path d="M70 185v19m43-19v19" stroke="#536b60" stroke-width="9" stroke-linecap="round"/></g>
+<g class="calendar"><rect x="214" y="83" width="76" height="81" rx="10" fill="#fff" stroke="#5278ab" stroke-width="4"/><path d="M214 105h76" stroke="#5278ab" stroke-width="4"/><path d="M231 75v16m42-16v16" stroke="#5278ab" stroke-width="5" stroke-linecap="round"/><path d="M229 122h10m12 0h10m12 0h10m-44 17h10m12 0h10" stroke="#91afd8" stroke-width="4" stroke-linecap="round"/><circle cx="275" cy="151" r="20" fill="#f5be77" stroke="#ad7746" stroke-width="3"/><path class="clock-hand" d="M275 139v13l8 5" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+</g>
+</svg>

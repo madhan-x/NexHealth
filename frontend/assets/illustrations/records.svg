@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" fill="none">
+<style>
+@keyframes character-breathe { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
+@keyframes prop-float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
+@keyframes soft-pulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.045) } }
+@keyframes gentle-turn { 0%,100% { transform: rotate(0deg) } 50% { transform: rotate(8deg) } }
+@keyframes check-draw { 0%,20% { stroke-dashoffset: 30 } 50%,100% { stroke-dashoffset: 0 } }
+.character { transform-box: fill-box; transform-origin: center bottom; animation: character-breathe 3.8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation: none !important; } }
+
+.document { transform-box: fill-box; transform-origin: center; animation: prop-float 3.8s ease-in-out infinite; }
+.record-check { transform-box: fill-box; transform-origin: center; animation: soft-pulse 3s ease-in-out infinite; }
+.check-mark { stroke-dasharray: 30; animation: check-draw 3.4s ease-in-out infinite; }
+</style>
+<path d="M29 136C18 93 58 50 106 45c44-5 62 16 103 9 42-7 79 13 83 52 5 43-30 87-74 94-46 8-73-7-112 3-41 10-66-22-77-67Z" fill="#dff0fa"/>
+<g class="character"><circle cx="91" cy="91" r="30" fill="#f3bd7a" stroke="#875d42" stroke-width="4"/>
+<path d="M62 88c1-25 17-39 34-39 19 0 31 16 29 34-10-8-20-12-34-11-8 1-18 8-29 16Z" fill="#554640"/>
+<circle cx="82" cy="92" r="2.7" fill="#40342e"/><circle cx="101" cy="92" r="2.7" fill="#40342e"/><path d="M84 104q8 8 16 0" stroke="#a85e4b" stroke-width="3" stroke-linecap="round"/>
+<path d="M43 186c3-44 18-66 48-66s46 22 49 66" fill="#518ab4" stroke="#477560" stroke-width="4" stroke-linejoin="round"/>
+<path d="M62 132q-19 21-5 39m66-39q19 21 5 39" stroke="#f3bd7a" stroke-width="10" stroke-linecap="round"/>
+<path d="M70 185v19m43-19v19" stroke="#536b60" stroke-width="9" stroke-linecap="round"/></g>
+<g class="document"><path d="M220 77h44l22 22v82h-66z" fill="#fff" stroke="#477ea7" stroke-width="4" stroke-linejoin="round"/><path d="M264 77v23h22" fill="#d6eafa" stroke="#477ea7" stroke-width="4" stroke-linejoin="round"/></g><path d="M234 119h38m-38 13h38m-38 13h25" stroke="#73a9ce" stroke-width="4" stroke-linecap="round"/><g class="record-check"><circle cx="232" cy="177" r="18" fill="#f5bd7d"/><path class="check-mark" d="m225 177 5 5 10-12" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
