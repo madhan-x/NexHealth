@@ -581,6 +581,17 @@ def require_authenticated_api_user():
     }:
         return None
     if local_demo_auth_bypass_enabled():
+        # Keep guest access available for the public demo, but honor a real
+        # signed-in session first so account data continues to use its owner.
+        has_auth_cookie = bool(
+            request.cookies.get("nexhealth_access_token")
+            or request.cookies.get("nexhealth_refresh_token")
+        )
+        if has_auth_cookie and SUPABASE_URL and SUPABASE_ANON_KEY:
+            user = resolve_auth_user()
+            if user:
+                g.current_user = user
+                return None
         g.current_user = LOCAL_DEMO_USER
         return None
     if not SUPABASE_URL or not SUPABASE_ANON_KEY:
@@ -691,6 +702,18 @@ def save_workspace():
 
 @app.get("/api/auth/session")
 def auth_session():
+    has_auth_cookie = bool(
+        request.cookies.get("nexhealth_access_token")
+        or request.cookies.get("nexhealth_refresh_token")
+    )
+    if has_auth_cookie and SUPABASE_URL and SUPABASE_ANON_KEY:
+        user = resolve_auth_user()
+        if user:
+            return jsonify({
+                "authenticated": True,
+                "user": {"id": user["id"], "email": user.get("email", "")},
+            })
+
     if local_demo_auth_bypass_enabled():
         return jsonify({
             "authenticated": True,
@@ -698,13 +721,7 @@ def auth_session():
         })
     if not SUPABASE_URL or not SUPABASE_ANON_KEY:
         return error_response("Authentication is not configured on the server.", 503)
-    user = resolve_auth_user()
-    if not user:
-        return jsonify({"authenticated": False})
-    return jsonify({
-        "authenticated": True,
-        "user": {"id": user["id"], "email": user.get("email", "")},
-    })
+    return jsonify({"authenticated": False})
 
 
 @app.post("/api/auth/login")
