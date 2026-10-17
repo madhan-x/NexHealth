@@ -249,6 +249,14 @@ Object.assign(uiTextTranslations.hi, {
     "Cancel": "रद्द करें"
 });
 
+Object.assign(uiTextTranslations.te, {
+    "Your prompts, uploaded reports, and relevant profile or routine details are sent to OpenRouter and its selected model provider for AI responses.": "AI సమాధానాల కోసం మీ ప్రశ్నలు, అప్‌లోడ్ చేసిన నివేదికలు, సంబంధిత ప్రొఫైల్ లేదా దినచర్య వివరాలు OpenRouter మరియు అది ఎంచుకున్న మోడల్ సేవాదారునికి పంపబడతాయి."
+});
+
+Object.assign(uiTextTranslations.hi, {
+    "Your prompts, uploaded reports, and relevant profile or routine details are sent to OpenRouter and its selected model provider for AI responses.": "AI जवाबों के लिए आपके सवाल, अपलोड की गई रिपोर्टें और संबंधित प्रोफ़ाइल या दिनचर्या की जानकारी OpenRouter और उसके चुने हुए मॉडल प्रदाता को भेजी जाती है।"
+});
+
 const NexHealth = (() => {
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -1654,6 +1662,14 @@ const observeTranslatedContent = () => {
     const hydrateWorkspace = async user => {
         workspaceHydrated = false;
         if (user.demo_mode) {
+            try {
+                const consent = await apiRequest("/api/consent/ai");
+                state.consent = { ...state.consent, aiProcessing: consent.enabled === true };
+                save(STORAGE.consent, state.consent);
+            } catch {
+                state.consent = { ...state.consent, aiProcessing: false };
+                save(STORAGE.consent, state.consent);
+            }
             workspaceHydrated = true;
             return;
         }
@@ -1671,9 +1687,17 @@ const observeTranslatedContent = () => {
             }
         } catch (error) {
             toast(`Database is not available: ${error.message}. Your current data remains in this browser.`, "error");
-        } finally {
-            workspaceHydrated = true;
         }
+
+        try {
+            const consent = await apiRequest("/api/consent/ai");
+            state.consent = { ...state.consent, aiProcessing: consent.enabled === true };
+            save(STORAGE.consent, state.consent);
+        } catch {
+            state.consent = { ...state.consent, aiProcessing: false };
+            save(STORAGE.consent, state.consent);
+        }
+        workspaceHydrated = true;
     };
 
     const updateAuthMode = () => {
@@ -2664,7 +2688,7 @@ const observeTranslatedContent = () => {
 
         $("#clearMentorButton")?.addEventListener("click", clearMentor);
 
-        $("#consentPreferencesForm")?.addEventListener("submit", event => {
+        $("#consentPreferencesForm")?.addEventListener("submit", async event => {
             event.preventDefault();
             const nextConsent = {
                 ...state.consent,
@@ -2672,6 +2696,23 @@ const observeTranslatedContent = () => {
                 healthcareSharing: $("#consentDataSharing")?.checked === true,
                 analytics: $("#consentAnalytics")?.checked === true
             };
+            const saveButton = event.currentTarget.querySelector('button[type="submit"]');
+            const status = $("#consentSaveStatus");
+            if (saveButton) saveButton.disabled = true;
+            if (status) status.textContent = "Saving preferences...";
+            try {
+                await apiRequest("/api/consent/ai", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ enabled: nextConsent.aiProcessing })
+                });
+            } catch (error) {
+                if (status) status.textContent = error.message;
+                toast(error.message, "error");
+                if (saveButton) saveButton.disabled = false;
+                return;
+            }
+
             const labels = {
                 aiProcessing: "AI processing",
                 healthcareSharing: "Healthcare data sharing",
@@ -2689,9 +2730,9 @@ const observeTranslatedContent = () => {
             }
             persist();
             renderConsentHistory();
-            const status = $("#consentSaveStatus");
             if (status) status.textContent = "Preferences saved.";
             toast(changes.length ? "Consent preferences saved." : "Preferences are up to date.");
+            if (saveButton) saveButton.disabled = false;
         });
 
         $$("[data-privacy-action]").forEach(button => {

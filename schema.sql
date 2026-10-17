@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS public.consent_preferences (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
     ai_processing BOOLEAN NOT NULL DEFAULT FALSE,
+    ai_processing_version INTEGER NOT NULL DEFAULT 0,
     data_sharing BOOLEAN NOT NULL DEFAULT FALSE,
     analytics BOOLEAN NOT NULL DEFAULT FALSE,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -77,6 +78,7 @@ CREATE TABLE IF NOT EXISTS public.consent_preferences (
 ALTER TABLE public.consent_preferences
     ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
     ADD COLUMN IF NOT EXISTS ai_processing BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS ai_processing_version INTEGER NOT NULL DEFAULT 0,
     ADD COLUMN IF NOT EXISTS data_sharing BOOLEAN NOT NULL DEFAULT FALSE,
     ADD COLUMN IF NOT EXISTS analytics BOOLEAN NOT NULL DEFAULT FALSE,
     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -555,6 +557,7 @@ USING (user_id = (SELECT auth.uid()))
 WITH CHECK (user_id = (SELECT auth.uid()));
 
 GRANT SELECT, INSERT, UPDATE ON public.workspace_state TO authenticated;
+GRANT SELECT, INSERT, UPDATE ON public.consent_preferences TO authenticated;
 
 -- Create consistent owner policies for user-owned tables.
 -- This also replaces the failing consent_preferences policies.

@@ -1,248 +1,134 @@
 # NexHealth
-URL: https://nex-health-two.vercel.app/
 
-## AI-Powered Health Companion for Medical Document Understanding and Personalized Wellness Guidance
+**Your health, connected.** NexHealth helps people understand medical reports, organize everyday health tasks, and get general wellness guidance.
 
-NexHealth is an open-source web application designed to simplify healthcare interactions by leveraging AI vision models to interpret medical documents, provide multilingual health education, and generate personalized wellness plans—all while prioritizing user privacy and data security.
+Live demo: [nex-health-two.vercel.app](https://nex-health-two.vercel.app/)
 
-## Overview / Problem Statement
+## What you can do
 
-Navigating healthcare systems can be overwhelming, especially when dealing with complex medical reports, prescription details, and maintaining consistent wellness routines. Patients often struggle to:
-- Understand technical jargon in lab results, discharge summaries, and imaging reports
-- Access reliable health information in their preferred language
-- Translate medical findings into actionable lifestyle changes
-- Maintain continuity of care across different providers and visits
+- **Analyze a medical report**: Upload a PDF or image and get an AI-generated plain-language explanation.
+- **Ask the AI Health Mentor**: Ask general health questions in English, Telugu, or Hindi.
+- **Create a personalized plan**: Generate daily suggestions for movement, meals, sleep, and habits from the information you provide.
+- **Organize your health workspace**: Keep records, tasks, meals, appointments, profile details, and saved plans together.
+- **Explore health services**: Browse the service discovery interface and appointment tools.
+- **Use the demo without signing in**: Guest mode is enabled by default on Vercel. Guest workspace data stays in that browser and does not sync across devices.
 
-NexHealth addresses these challenges by combining state-of-the-art vision-language models with secure data storage to create a private, intelligent health assistant that works directly with your medical documents.
+NexHealth is a demonstration and educational tool. It does not diagnose conditions, prescribe treatment, connect to live ABDM services, or replace a qualified healthcare professional.
 
-## Features
+## How data is handled
 
-- **Medical Document Analysis**: Upload PDFs or images of medical reports to get plain-language explanations of diagnoses, medications, lab values, and next steps—all powered by vision AI that understands document context
-- **Multilingual Voice Input**: Speak naturally in English, Telugu, or Hindi to interact with the application, breaking language barriers in healthcare access
-- **AI Health Mentor**: Ask general health questions and receive educational responses that encourage professional medical consultation
-- **Personalized Wellness Plans**: Generate customized daily routines for movement, nutrition, sleep, and habits based on your profile and preferences
-- **Secure Workspace Persistence**: Save your medical records, appointments, tasks, and analyses in your own Supabase account with end-to-end encryption
-- **Privacy-First Design**: Your data never leaves your control—medical documents are processed locally when possible, and AI APIs only receive anonymized extracts
-- **Cross-Platform Accessibility**: Responsive web interface works on desktop and mobile devices, deployable to Vercel or any Node.js-compatible host
-- **Open Source & Extensible**: MIT-licensed codebase welcoming contributions from developers and healthcare professionals
+- AI features require AI-processing consent. The submitted question, uploaded report, or relevant plan details are sent to OpenRouter and the selected model provider. Uploaded reports are sent as provided; the app does not anonymize them first.
+- Signed-in workspace data is stored in Supabase and protected by account-scoped access policies. This is not end-to-end encryption.
+- Signed-in medical files use a private Supabase Storage bucket. Medical file uploads are disabled in the Vercel guest demo because guest files cannot be stored durably across serverless sessions.
+- Guest workspace data is kept in the browser's `localStorage`. It is not encrypted and is not available on another device.
+- AI-generated medical explanations can be wrong. Check them against the source document and consult a healthcare professional before making care decisions.
 
-## Why a Vision Model rather than OCR?
+## Built with
 
-Traditional Optical Character Recognition (OCR) extracts text from documents but fails to understand medical context, often misreading handwritten notes, struggling with multi-column layouts, and ignoring visual cues like tables and icons. NexHealth employs vision-language models (VLMs) that:
+- **Frontend:** HTML, CSS, and vanilla JavaScript
+- **Backend:** Python and Flask
+- **Account data and file storage:** Supabase Auth, Postgres, and private Supabase Storage
+- **AI:** OpenRouter with a configurable model (default: `google/gemini-2.5-flash`)
+- **Hosting:** Vercel
 
-1. **Interpret Documents Holistically**: VLMs analyze the entire document layout, understanding relationships between text, tables, and figures—critical for interpreting lab reports with reference ranges or medication schedules with timing instructions
-2. **Handle Real-World Variations**: Unlike brittle OCR pipelines, VLMs robustly process diverse document formats, including scanned handwritten notes, faxed documents, and photos taken in varying lighting conditions
-3. **Provide Contextual Explanations**: Rather than outputting raw text, the AI explains *what the document means*—flagging abnormal values cautiously, clarifying ambiguous abbreviations, and distinguishing between factual findings and physician notes
-4. **Reduce Error Propagation**: By skipping the intermediate text extraction step, VLMs eliminate OCR-induced errors like misrecognized medication names or garbled dosage instructions that could lead to dangerous misunderstandings
-5. **Support Multilingual Documents**: VLMs can process documents containing multiple languages or region-specific medical terminology without requiring separate language models
+Voice input uses browser speech-recognition support where available. Speech support and behavior vary by browser.
 
-This approach transforms document analysis from a transcription task into a genuine medical comprehension aid, prioritizing patient understanding over character-perfect reproduction.
+## Run locally
 
-## Tech Stack
+You need Python 3.9 or newer. Supabase and OpenRouter credentials are needed for account persistence and AI features.
 
-### Frontend
-- HTML5, CSS3, Vanilla JavaScript (ES6+)
-- Responsive design for mobile and tablet compatibility
-- Audio API integration for voice input capabilities
+1. Clone the repository and enter its folder:
 
-### Backend
-- Python 3.9+ with Flask web framework
-- OpenRouter API for accessing vision and language models (Google Gemini 2.5 Flash)
-- Supabase for authenticated user data storage and Row Level Security (RLS)
-- Python-dotenv for environment variable management
-
-### AI Services
-- Vision-Language Model: Google Gemini 2.5 Flash via OpenRouter (for medical document analysis)
-- Large Language Model: Configurable via OpenRouter (default: Google Gemini 2.5 Flash) for mentor chat and wellness planning
-
-### Utilities
-- PyMuPDF for PDF text extraction (fallback for non-scanned documents)
-- Pillow and pytesseract for optional OCR preprocessing
-- Werkzeug for secure file handling and upload validation
-
-### Deployment
-- Vercel (primary deployment target)
-- Docker-ready for self-hosting
-- Compatible with any Node.js/Python hosting platform
-
-## Installation / Setup
-
-### Prerequisites
-- Git
-- Python 3.9 or higher
-- Node.js 16+ (for Vercel deployment, optional for local development)
-- Supabase account (for authentication and data persistence)
-- OpenRouter API key (for AI capabilities)
-
-### Local Development
-
-1. **Clone the repository**
    ```bash
    git clone https://github.com/madhan-x/NexHealth.git
    cd NexHealth
    ```
 
-2. **Set up Python virtual environment**
+2. Create and activate a virtual environment, then install dependencies:
+
    ```bash
    python -m venv .venv
-   # Windows
-   .\.venv\Scripts\activate
-   # macOS/Linux
+   ```
+
+   Windows PowerShell:
+
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+
+   macOS or Linux:
+
+   ```bash
    source .venv/bin/activate
    ```
 
-3. **Install dependencies**
+   Then install the Python packages:
+
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Configure environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` to add your:
-   - `OPENROUTER_API_KEY` (required for AI features)
-   - `SUPABASE_URL` and `SUPABASE_ANON_KEY` (for authentication and data storage)
-   - Optional: `OPENROUTER_MODEL` to specify a different AI model
+3. Copy `.env.example` to `.env` and set the values you need:
 
-5. **Initialize Supabase**
-   - Create a new Supabase project
-   - Apply the database schema: `supabase/migrations/20261014000000_workspace_state.sql`
-   - Enable email/password authentication in Supabase Auth settings
+   - `OPENROUTER_API_KEY` for AI features
+   - `SUPABASE_URL` and `SUPABASE_ANON_KEY` for Supabase accounts and storage
+   - `OPENROUTER_MODEL` is optional; it defaults to `google/gemini-2.5-flash`
 
-6. **Run the application**
+   Local development creates a temporary AI-consent signing secret if one is not set. Never commit `.env` or put private API keys in frontend files.
+
+4. For a new Supabase project, run `schema.sql` in its SQL Editor and enable email/password sign-in in Supabase Auth.
+
+5. Start the Flask app:
+
    ```bash
    python app.py
    ```
-   Visit `http://127.0.0.1:5000` in your browser
 
-### Deployment to Vercel
+   Open [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
-1. Fork this repository to your GitHub account
-2. Import the project in Vercel (ensure Root Directory is set to `.`)
-3. Add environment variables in Vercel Project Settings:
-   - `OPENROUTER_API_KEY`
-   - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY`
-   - Optional: `OPENROUTER_MODEL`
-4. Vercel will automatically detect the Flask app and deploy using `requirements.txt`
+## Vercel configuration
 
-## Usage
+Set environment variables in the Vercel project's **Production** environment:
 
-### Medical Document Analysis
-1. Click "Upload Medical Report" or drag-and-drop a PDF/image file
-2. Select your preferred language for the explanation (English, Telugu, Hindi)
-3. Receive a structured plain-language summary with:
-   - Document type and date identification
-   - Key values requiring review (with reference ranges when available)
-   - Suggested questions for your healthcare provider
-   - Limitations and next steps disclaimer
+| Variable | Purpose |
+| --- | --- |
+| `OPENROUTER_API_KEY` | Enables AI responses. Keep it server-side. |
+| `SUPABASE_URL` | Supabase project URL. |
+| `SUPABASE_ANON_KEY` | Supabase public/anon key used with authenticated user sessions and RLS. |
+| `AI_CONSENT_SECRET` | Required to sign guest AI-consent cookies. Use a new, long random value; it is not an API key. |
+| `OPENROUTER_MODEL` | Optional model override. |
+| `PUBLIC_DEMO_MODE` | Optional. Guest demo is enabled by default on Vercel; set this to `false` to require account sign-in. |
 
-### AI Health Mentor
-1. Type or speak your health question in the chat interface
-2. Select your preferred language
-3. Receive educational information with clear disclaimers about consulting professionals
+Generate a random consent secret locally with:
 
-### Personalized Wellness Plan
-1. Navigate to the "Wellness Plan" section
-2. Fill in your profile details (age, gender, height, weight)
-3. Set preferences (diet style, goals, activity levels)
-4. Review suggested meals, movement activities, sleep guidance, and daily habits
-5. Adjust and save your plan to your secure workspace
-
-### Voice Input
-1. Click the microphone icon in any input field
-2. Grant microphone permissions when prompted
-3. Speak naturally in your selected language
-4. View transcribed text and submit or continue speaking
-
-## API Endpoints
-
-All API endpoints require authentication unless otherwise noted. Base URL: `http://localhost:5000`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/health` | Health check service status |
-| `GET` | `/api/auth/session` | Check authentication status |
-| `POST` | `/api/auth/login` | Authenticate with email/password |
-| `POST` | `/api/auth/signup` | Create new account |
-| `POST` | `/api/auth/logout` | End user session |
-| `POST` | `/api/medical-records` | Upload medical document (PDF/image) |
-| `POST` | `/api/analyze-report` | Analyze uploaded medical document |
-| `POST` | `/api/mentor` | Ask general health question |
-| `POST` | `/api/personalized-plan` | Generate wellness routine |
-| `GET` | `/api/workspace` | Retrieve user workspace data |
-| `PUT` | `/api/workspace` | Save user workspace data |
-
-### Example: Analyze a Medical Report
 ```bash
-curl -X POST http://localhost:5000/api/analyze-report \
-  -H "Authorization: Bearer <access_token>" \
-  -F "file=@path/to/report.pdf" \
-  -F "language=en"
+python -c "import secrets; print(secrets.token_urlsafe(48))"
 ```
 
-## Demo / Screenshots
+Copy the generated value directly into Vercel's `AI_CONSENT_SECRET` environment variable. Do not place it in frontend code or commit it to Git. After changing Vercel environment variables, create a new deployment for the updated settings to take effect.
 
-![NexHealth Dashboard](<img width="1365" height="630" alt="Screenshot 2026-10-14 183246" src="https://github.com/user-attachments/assets/f2ae102d-5f13-47d3-bd22-abc4070a034b" />
-)
+## Main API routes
 
-*Main dashboard showing recent analyses and wellness plan*
+| Method | Route | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/health` | Basic service status. |
+| `GET` | `/api/auth/session` | Check the current session. |
+| `POST` | `/api/auth/login` | Sign in. |
+| `POST` | `/api/auth/signup` | Create an account. |
+| `POST` | `/api/auth/logout` | End the current session. |
+| `GET` / `POST` | `/api/consent/ai` | Read or update AI-processing consent. |
+| `POST` | `/api/analyze-report` | Analyze a selected report after consent. |
+| `POST` | `/api/mentor` | Get a general health education response after consent. |
+| `POST` | `/api/personalized-plan` | Generate a daily wellness plan after consent. |
+| `GET` / `PUT` | `/api/workspace` | Read or save signed-in workspace data. |
+| `POST` | `/api/medical-records` | Upload a medical file for a signed-in account. |
 
-![Document Analysis Result](<img width="1365" height="631" alt="Screenshot 2026-10-14 183407" src="https://github.com/user-attachments/assets/ddd78c2d-9158-4671-96e9-25fca8a899d7" />)
-*Plain-language explanation of an uploaded lab report*
-
-![AI Mentor & Multilingual Interface](<img width="1364" height="632" alt="Screenshot 2026-10-14 183338" src="https://github.com/user-attachments/assets/4613ee2a-5566-49c2-9b3e-808e164db503" />
-)
-*Health mentor conversation in Telugu*
-
-*Note: Screenshots directory to be added in future releases*
+Authentication uses secure, HTTP-only cookies. AI endpoints also verify AI-processing consent on the server.
 
 ## Contributing
 
-We welcome contributions from developers, healthcare professionals, and designers! Please follow these guidelines:
-
-1. **Fork the repository** and create your branch from `main`
-2. **Create a feature branch** for your changes: `git checkout -b feature/amazing-feature`
-3. **Make your changes** ensuring they align with our code style
-4. **Add tests** for any new functionality
-5. **Ensure all tests pass** before submitting
-6. **Submit a Pull Request** with a clear description of your changes
-
-### Development Guidelines
-- Follow PEP 8 for Python code
-- Use descriptive commit messages
-- Keep UI changes minimal and accessible
-- Ensure new AI prompts include appropriate medical disclaimers
-- Respect user privacy—never log or store sensitive health data unnecessarily
-
-### Reporting Issues
-Please use the [GitHub Issues](https://github.com/madhan-x/NexHealth/issues) tracker to report bugs or request features. Include:
-- Detailed steps to reproduce the issue
-- Expected vs. actual behavior
-- Screenshots or error logs when applicable
-- Browser and device information
+Please open an issue to discuss a substantial change before submitting a pull request. Keep changes focused, protect health information, and include validation steps for behavior you change.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact / Support
-
-- **Primary Contact**: Madhan (repository owner)
-- **Issue Tracker**: [GitHub Issues](https://github.com/madhan-x/NexHealth/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/madhan-x/NexHealth/discussions)
-- **Email**: opensource@nexhealth.example.com (placeholder)
-
-## Acknowledgements
-
-- **OpenRouter** for providing access to state-of-the-art AI models
-- **Supabase** for the open-source backend-as-a-service platform
-- **The Flask Team** for the lightweight web framework
-- **Contributors** to PyMuPDF, Pillow, and pytesseract for document processing capabilities
-- **Healthcare Professionals** who provided guidance on medical document interpretation and patient safety considerations
-- **Open Source Community** for the countless tools and libraries that make projects like NexHealth possible
-
----
-
-*Built with the goal of making healthcare information more accessible, understandable, and actionable for everyone.*
+This repository currently has no `LICENSE` file. Contact the repository owner before reusing or redistributing the code.
