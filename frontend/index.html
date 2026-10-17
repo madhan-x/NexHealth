@@ -21,8 +21,17 @@
     <div class="auth-startup" role="status" aria-live="polite">Opening your workspace…</div>
     <section class="auth-gate" id="authGate" role="dialog" aria-modal="true" aria-labelledby="authTitle">
         <form class="auth-card" id="authForm" novalidate>
-            <span class="auth-brand-mark"><i data-lucide="heart-pulse" aria-hidden="true"></i></span>
-            <p class="auth-eyebrow">NEXHEALTH</p>
+            <div class="brand-lockup auth-brand-lockup">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                        <path d="M3 12h4l2-4 3 8 2-5h2l1 2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
+                <span class="brand-copy">
+                    <span class="brand-name"><span>Nex</span><span class="brand-accent">Health</span></span>
+                    <span class="brand-caption">YOUR HEALTHSPACE</span>
+                </span>
+            </div>
             <h1 id="authTitle">Welcome back</h1>
             <p class="auth-description" id="authDescription">Sign in to open your personal health workspace.</p>
             <label for="authEmail">Email</label>
@@ -40,12 +49,16 @@
 
         <aside class="sidebar" id="sidebar" aria-label="Main navigation">
             <a href="#overview" class="brand" data-screen="overview" aria-label="NexHealth home">
-                <span class="brand-mark">
-                    <i data-lucide="heart-pulse"></i>
-                </span>
-                <span class="brand-copy">
-                    <span class="brand-name">NexHealth</span>
-                    <span class="brand-caption">YOUR HEALTHSPACE</span>
+                <span class="brand-lockup">
+                    <span class="brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                            <path d="M3 12h4l2-4 3 8 2-5h2l1 2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    <span class="brand-copy">
+                        <span class="brand-name"><span>Nex</span><span class="brand-accent">Health</span></span>
+                        <span class="brand-caption">YOUR HEALTHSPACE</span>
+                    </span>
                 </span>
             </a>
 
