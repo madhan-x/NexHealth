@@ -2600,6 +2600,16 @@ p {
     overflow-wrap: anywhere;
 }
 
+.analysis-pipeline-status {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #f7faf8;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
 .analysis-results-content h3 {
     margin-top: 18px;
 }

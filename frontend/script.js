@@ -257,6 +257,77 @@ Object.assign(uiTextTranslations.hi, {
     "Your prompts, uploaded reports, and relevant profile or routine details are sent to OpenRouter and its selected model provider for AI responses.": "AI जवाबों के लिए आपके सवाल, अपलोड की गई रिपोर्टें और संबंधित प्रोफ़ाइल या दिनचर्या की जानकारी OpenRouter और उसके चुने हुए मॉडल प्रदाता को भेजी जाती है।"
 });
 
+const privacyUiTranslations = {
+    te: {
+        "Healthcare sharing and analytics are preferences only; neither integration currently sends data to an external service.": "ఆరోగ్య సమాచారం భాగస్వామ్యం మరియు విశ్లేషణలు ప్రస్తుతం ప్రాధాన్యతలుగా మాత్రమే ఉన్నాయి; ఇవి బాహ్య సేవకు డేటాను పంపవు.",
+        "Delete synced health data": "సింక్ చేసిన ఆరోగ్య డేటాను తొలగించండి",
+        "Deletes the synced workspace and uploaded files. Your account stays active; browser copies on other devices clear when they next sync.": "సింక్ చేసిన కార్యస్థలం మరియు అప్‌లోడ్ చేసిన ఫైళ్లను తొలగిస్తుంది. మీ ఖాతా కొనసాగుతుంది; ఇతర పరికరాల్లోని బ్రౌజర్ కాపీలు తదుపరి సింక్ సమయంలో తొలగుతాయి.",
+        "Delete synced data": "సింక్ చేసిన డేటాను తొలగించండి",
+        "Permanently delete your synced health workspace and uploaded medical files from this account? This cannot be undone. Your NexHealth login account will remain active.": "ఈ ఖాతాలోని సింక్ చేసిన ఆరోగ్య కార్యస్థలం మరియు అప్‌లోడ్ చేసిన వైద్య ఫైళ్లను శాశ్వతంగా తొలగించాలా? దీన్ని తిరిగి మార్చలేరు. మీ NexHealth లాగిన్ ఖాతా యథాతథంగా ఉంటుంది.",
+        "Synced health data and uploaded files were deleted.": "సింక్ చేసిన ఆరోగ్య డేటా మరియు అప్‌లోడ్ చేసిన ఫైళ్లు తొలగించబడ్డాయి.",
+        "Could not fully delete synced data. Please try again or contact support.": "సింక్ చేసిన డేటాను పూర్తిగా తొలగించలేకపోయాం. మళ్లీ ప్రయత్నించండి లేదా సహాయ కేంద్రాన్ని సంప్రదించండి.",
+        "Deleting synced data…": "సింక్ చేసిన డేటాను తొలగిస్తోంది…",
+        "ABHA account": "ABHA ఖాతా",
+        "Open portal": "పోర్టల్ తెరవండి",
+        "Open the official ABHA portal": "అధికారిక ABHA పోర్టల్ తెరవండి",
+        "Create or manage your health ID through the official ABHA portal.": "అధికారిక ABHA పోర్టల్ ద్వారా మీ ఆరోగ్య గుర్తింపును సృష్టించండి లేదా నిర్వహించండి.",
+        "Open ABHA portal": "ABHA పోర్టల్ తెరవండి",
+        "ABDM record-sharing consent": "ABDM రికార్డు భాగస్వామ్య సమ్మతి",
+        "Manage through official ABHA services": "అధికారిక ABHA సేవల్లో నిర్వహించండి",
+        "NexHealth is not connected to ABDM": "NexHealth ABDMకు అనుసంధానించబడలేదు",
+        "Open a record category in your NexHealth medical library.": "మీ NexHealth వైద్య లైబ్రరీలో రికార్డు వర్గాన్ని తెరవండి.",
+        "Your records stay in NexHealth. This page does not share them with ABDM.": "మీ రికార్డులు NexHealthలోనే ఉంటాయి. ఈ పేజీ వాటిని ABDMతో పంచుకోదు.",
+        "Manage consent for linked health records through official ABHA services.": "అనుసంధానించిన ఆరోగ్య రికార్డుల సమ్మతిని అధికారిక ABHA సేవల్లో నిర్వహించండి.",
+        "NexHealth is not connected to ABDM, so it cannot view or change your ABDM sharing consent.": "NexHealth ABDMకు అనుసంధానించబడలేదు కాబట్టి మీ ABDM భాగస్వామ్య సమ్మతిని చూడలేను లేదా మార్చలేను.",
+        "Open official ABHA services": "అధికారిక ABHA సేవలను తెరవండి",
+        "Analysis method": "విశ్లేషణ విధానం",
+        "OCR + AI": "OCR + AI",
+        "OCR + AI with vision cross-check": "OCR + AI, విజన్ క్రాస్-చెక్‌తో",
+        "Vision model used because OCR was unavailable": "OCR అందుబాటులో లేక విజన్ మోడల్ ఉపయోగించబడింది",
+        "OCR text confidence": "OCR టెక్స్ట్ నమ్మక స్థాయి",
+        "OCR text confidence measures text recognition only, not medical accuracy.": "OCR టెక్స్ట్ నమ్మక స్థాయి టెక్స్ట్ గుర్తింపును మాత్రమే సూచిస్తుంది; వైద్య ఖచ్చితత్వాన్ని కాదు.",
+        "Additional verification recommended": "అదనపు ధృవీకరణ అవసరం",
+        "Vision cross-check unavailable": "విజన్ క్రాస్-చెక్ అందుబాటులో లేదు",
+        "PDF text + AI": "PDF టెక్స్ట్ + AI",
+        "PDF text + AI with vision cross-check": "PDF టెక్స్ట్ + AI, విజన్ క్రాస్-చెక్‌తో",
+        "AI readings can be wrong. Verify medicines and doses with the original document and a pharmacist.": "AI పఠనాలు తప్పుగా ఉండవచ్చు. మందులు మరియు మోతాదులను అసలు పత్రం, ఫార్మసిస్ట్‌తో ధృవీకరించండి."
+    },
+    hi: {
+        "Healthcare sharing and analytics are preferences only; neither integration currently sends data to an external service.": "स्वास्थ्य जानकारी साझा करना और एनालिटिक्स अभी केवल प्राथमिकताएँ हैं; इनमें से कोई भी सेवा बाहरी सेवा को डेटा नहीं भेजती।",
+        "Delete synced health data": "सिंक किया गया स्वास्थ्य डेटा हटाएँ",
+        "Deletes the synced workspace and uploaded files. Your account stays active; browser copies on other devices clear when they next sync.": "सिंक किया गया कार्यक्षेत्र और अपलोड की गई फ़ाइलें हटाता है। आपका खाता सक्रिय रहेगा; अन्य डिवाइस की ब्राउज़र कॉपी अगली बार सिंक होने पर हटेगी।",
+        "Delete synced data": "सिंक किया डेटा हटाएँ",
+        "Permanently delete your synced health workspace and uploaded medical files from this account? This cannot be undone. Your NexHealth login account will remain active.": "क्या आप इस खाते से सिंक किया गया स्वास्थ्य कार्यक्षेत्र और अपलोड की गई चिकित्सा फ़ाइलें स्थायी रूप से हटाना चाहते हैं? इसे वापस नहीं किया जा सकता। आपका NexHealth लॉगिन खाता सक्रिय रहेगा।",
+        "Synced health data and uploaded files were deleted.": "सिंक किया गया स्वास्थ्य डेटा और अपलोड की गई फ़ाइलें हटा दी गईं।",
+        "Could not fully delete synced data. Please try again or contact support.": "सिंक किया गया डेटा पूरी तरह नहीं हट सका। फिर से कोशिश करें या सहायता से संपर्क करें।",
+        "Deleting synced data…": "सिंक किया गया डेटा हटाया जा रहा है…",
+        "ABHA account": "ABHA खाता",
+        "Open portal": "पोर्टल खोलें",
+        "Open the official ABHA portal": "आधिकारिक ABHA पोर्टल खोलें",
+        "Create or manage your health ID through the official ABHA portal.": "आधिकारिक ABHA पोर्टल से अपना स्वास्थ्य पहचान-पत्र बनाएँ या प्रबंधित करें।",
+        "Open ABHA portal": "ABHA पोर्टल खोलें",
+        "ABDM record-sharing consent": "ABDM रिकॉर्ड साझा करने की सहमति",
+        "Manage through official ABHA services": "आधिकारिक ABHA सेवाओं में प्रबंधित करें",
+        "NexHealth is not connected to ABDM": "NexHealth, ABDM से कनेक्ट नहीं है",
+        "Open a record category in your NexHealth medical library.": "अपनी NexHealth मेडिकल लाइब्रेरी में रिकॉर्ड श्रेणी खोलें।",
+        "Your records stay in NexHealth. This page does not share them with ABDM.": "आपके रिकॉर्ड NexHealth में ही रहते हैं। यह पेज उन्हें ABDM के साथ साझा नहीं करता।",
+        "Manage consent for linked health records through official ABHA services.": "लिंक किए गए स्वास्थ्य रिकॉर्ड की सहमति आधिकारिक ABHA सेवाओं में प्रबंधित करें।",
+        "NexHealth is not connected to ABDM, so it cannot view or change your ABDM sharing consent.": "NexHealth, ABDM से कनेक्ट नहीं है, इसलिए यह आपकी ABDM साझा करने की सहमति देख या बदल नहीं सकता।",
+        "Open official ABHA services": "आधिकारिक ABHA सेवाएँ खोलें",
+        "Analysis method": "विश्लेषण का तरीका",
+        "OCR + AI": "OCR + AI",
+        "OCR + AI with vision cross-check": "विज़न की दोबारा जाँच के साथ OCR + AI",
+        "Vision model used because OCR was unavailable": "OCR उपलब्ध न होने के कारण विज़न मॉडल इस्तेमाल हुआ",
+        "OCR text confidence": "OCR टेक्स्ट विश्वसनीयता",
+        "OCR text confidence measures text recognition only, not medical accuracy.": "OCR टेक्स्ट विश्वसनीयता केवल टेक्स्ट पहचान बताती है, चिकित्सा की सटीकता नहीं।",
+        "Additional verification recommended": "अतिरिक्त जाँच की सलाह",
+        "Vision cross-check unavailable": "विज़न की दोबारा जाँच उपलब्ध नहीं",
+        "PDF text + AI": "PDF टेक्स्ट + AI",
+        "PDF text + AI with vision cross-check": "विज़न की दोबारा जाँच के साथ PDF टेक्स्ट + AI",
+        "AI readings can be wrong. Verify medicines and doses with the original document and a pharmacist.": "AI की रीडिंग गलत हो सकती है। दवाओं और खुराक को मूल दस्तावेज़ और फ़ार्मासिस्ट से जाँचें।"
+    }
+};
+
 const NexHealth = (() => {
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -282,6 +353,8 @@ const NexHealth = (() => {
     let workspaceSaveTimer = null;
     let workspaceSaveInFlight = false;
     let workspaceSaveQueued = false;
+    let accountCacheFallback = false;
+    let clearGuestCacheAfterCloudSave = false;
     let welcomeGreetingIndex = 0;
 
     const userStorageKey = key => `${key}_${activeUserId}`;
@@ -323,6 +396,7 @@ const NexHealth = (() => {
 
     const activateUser = user => {
         activeUserId = user.id;
+        accountCacheFallback = !user.demo_mode;
         STORAGE = Object.fromEntries(
             Object.entries(STORAGE_BASE).map(([name, key]) => [name, userStorageKey(key)])
         );
@@ -344,6 +418,18 @@ const NexHealth = (() => {
         state.personalizedPlan = read(STORAGE.personalizedPlan, null);
     };
 
+    const clearAccountLocalCache = () => {
+        Object.values(STORAGE).forEach(key => localStorage.removeItem(key));
+        localStorage.removeItem(userStorageKey("nexhealth_mock_abha"));
+        localStorage.removeItem(userStorageKey("nexhealth_mock_abha_consent"));
+    };
+
+    const clearGuestLocalCache = () => {
+        Object.values(STORAGE_BASE).forEach(key => localStorage.removeItem(key));
+        localStorage.removeItem("nexhealth_mock_abha");
+        localStorage.removeItem("nexhealth_mock_abha_consent");
+    };
+
     const save = (key, value) => {
         try {
             localStorage.setItem(key, JSON.stringify(value));
@@ -357,7 +443,7 @@ const NexHealth = (() => {
 
     const t = (key) => {
         const language = translations[state.language] || translations.en;
-        return language[key] || translations.en[key] || key;
+        return language[key] || privacyUiTranslations[state.language]?.[key] || translations.en[key] || key;
     };
 
 
@@ -399,6 +485,7 @@ const applyTranslations = (root = document.body) => {
         Object.entries(legacyLabels).map(([text, key]) => [text, translations[state.language]?.[key] || text])
     );
     Object.assign(dictionary, uiTextTranslations[state.language] || {});
+    Object.assign(dictionary, privacyUiTranslations[state.language] || {});
     const originalTitle = "NexHealth | Your Health, Connected";
     document.title = dictionary[originalTitle] || originalTitle;
     nodes.forEach((node) => {
@@ -490,14 +577,13 @@ const observeTranslatedContent = () => {
         } else {
             state.personalizedPlan = null;
         }
-        Object.entries(STORAGE).forEach(([name, key]) => save(key, state[name]));
         return true;
     };
 
     const flushWorkspaceSave = async () => {
         if (workspaceSaveInFlight) {
             workspaceSaveQueued = true;
-            return;
+            return false;
         }
         workspaceSaveInFlight = true;
         workspaceSaveQueued = false;
@@ -507,8 +593,19 @@ const observeTranslatedContent = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ workspace: workspaceSnapshot() })
             });
+            accountCacheFallback = false;
+            clearAccountLocalCache();
+            if (clearGuestCacheAfterCloudSave) {
+                clearGuestLocalCache();
+                clearGuestCacheAfterCloudSave = false;
+            }
+            return true;
         } catch (error) {
-            toast(`Database sync failed: ${error.message}. This change is saved only in this browser.`, "error");
+            const message = accountCacheFallback
+                ? `Database sync failed: ${error.message}. This change is saved only in this browser.`
+                : `Database sync failed: ${error.message}. Keep this tab open and retry before leaving.`;
+            toast(message, "error");
+            return false;
         } finally {
             workspaceSaveInFlight = false;
             if (workspaceSaveQueued) scheduleWorkspaceSave();
@@ -517,21 +614,27 @@ const observeTranslatedContent = () => {
 
     const scheduleWorkspaceSave = () => {
         if (workspaceSaveTimer) clearTimeout(workspaceSaveTimer);
-        workspaceSaveTimer = setTimeout(flushWorkspaceSave, 500);
+        workspaceSaveTimer = setTimeout(() => {
+            workspaceSaveTimer = null;
+            flushWorkspaceSave();
+        }, 500);
     };
 
     const persist = () => {
-        save(STORAGE.records, state.records);
-        save(STORAGE.tasks, state.tasks);
-        save(STORAGE.appointments, state.appointments);
-        save(STORAGE.meals, state.meals);
-        save(STORAGE.analyses, state.analyses);
-        save(STORAGE.messages, state.messages);
-        save(STORAGE.profile, state.profile);
-        save(STORAGE.dietPreferences, state.dietPreferences);
-        save(STORAGE.consent, state.consent);
-        save(STORAGE.consentHistory, state.consentHistory);
-        save(STORAGE.personalizedPlan, state.personalizedPlan);
+        const signedIn = Boolean(activeUserId) && !document.body.classList.contains("local-demo-mode");
+        if (!signedIn || accountCacheFallback) {
+            save(STORAGE.records, state.records);
+            save(STORAGE.tasks, state.tasks);
+            save(STORAGE.appointments, state.appointments);
+            save(STORAGE.meals, state.meals);
+            save(STORAGE.analyses, state.analyses);
+            save(STORAGE.messages, state.messages);
+            save(STORAGE.profile, state.profile);
+            save(STORAGE.dietPreferences, state.dietPreferences);
+            save(STORAGE.consent, state.consent);
+            save(STORAGE.consentHistory, state.consentHistory);
+            save(STORAGE.personalizedPlan, state.personalizedPlan);
+        }
         if (workspaceHydrated && activeUserId && !document.body.classList.contains("local-demo-mode")) {
             scheduleWorkspaceSave();
         }
@@ -564,6 +667,7 @@ const observeTranslatedContent = () => {
         if (!state.personalizedPlan && guestWorkspace.personalizedPlan) {
             state.personalizedPlan = guestWorkspace.personalizedPlan;
         }
+        clearGuestCacheAfterCloudSave = true;
         persist();
     };
 
@@ -571,8 +675,10 @@ const observeTranslatedContent = () => {
         const signedIn = document.body.classList.contains("account-authenticated");
         const loginPanel = $("#settingsLoginPanel");
         const signoutPanel = $("#settingsSignoutPanel");
+        const cloudDataDeletionRow = $("#cloudDataDeletionRow");
         if (loginPanel) loginPanel.hidden = signedIn;
         if (signoutPanel) signoutPanel.hidden = !signedIn;
+        if (cloudDataDeletionRow) cloudDataDeletionRow.style.display = signedIn ? "flex" : "none";
     };
 
     const id = () =>
@@ -888,6 +994,52 @@ const observeTranslatedContent = () => {
                 button.disabled = false;
             }
         });
+    };
+
+    const requestAIConsent = action => {
+        const copy = {
+            en: {
+                title: "Before you use AI",
+                explanation: "Your question or report may be sent to OpenRouter and its selected AI model provider to prepare a response.",
+                privacy: "Only continue if you agree. You can change this choice anytime in Privacy & consent.",
+                accept: "Allow and continue"
+            },
+            te: {
+                title: "AIని ఉపయోగించే ముందు",
+                explanation: "సమాధానం తయారు చేయడానికి మీ ప్రశ్న లేదా రిపోర్ట్ OpenRouter మరియు ఎంపిక చేసిన AI సేవకు పంపబడవచ్చు.",
+                privacy: "మీకు అంగీకారమైతేనే కొనసాగించండి. ఈ ఎంపికను గోప్యత & సమ్మతిలో ఎప్పుడైనా మార్చవచ్చు.",
+                accept: "అనుమతించి కొనసాగించండి"
+            },
+            hi: {
+                title: "AI इस्तेमाल करने से पहले",
+                explanation: "जवाब तैयार करने के लिए आपका सवाल या रिपोर्ट OpenRouter और चुने गए AI सेवा प्रदाता को भेजा जा सकता है।",
+                privacy: "सहमत होने पर ही आगे बढ़ें। आप यह विकल्प गोपनीयता और सहमति में कभी भी बदल सकते हैं।",
+                accept: "अनुमति दें और आगे बढ़ें"
+            }
+        }[state.language] || {
+            title: "Before you use AI",
+            explanation: "Your question or report may be sent to OpenRouter and its selected AI model provider to prepare a response.",
+            privacy: "Only continue if you agree. You can change this choice anytime in Privacy & consent.",
+            accept: "Allow and continue"
+        };
+
+        openModal(
+            copy.title,
+            `<p>${escapeHTML(copy.explanation)}</p><p>${escapeHTML(copy.privacy)}</p>`,
+            async () => {
+                await apiRequest("/api/consent/ai", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ enabled: true })
+                });
+                state.consent = { ...state.consent, aiProcessing: true };
+                persist();
+                renderConsent();
+                closeModal();
+                await action();
+            },
+            copy.accept
+        );
     };
 
     const closeModal = () => {
@@ -1685,6 +1837,8 @@ const observeTranslatedContent = () => {
                     body: JSON.stringify({ workspace: workspaceSnapshot() })
                 });
             }
+            accountCacheFallback = false;
+            clearAccountLocalCache();
         } catch (error) {
             toast(`Database is not available: ${error.message}. Your current data remains in this browser.`, "error");
         }
@@ -1692,10 +1846,8 @@ const observeTranslatedContent = () => {
         try {
             const consent = await apiRequest("/api/consent/ai");
             state.consent = { ...state.consent, aiProcessing: consent.enabled === true };
-            save(STORAGE.consent, state.consent);
         } catch {
             state.consent = { ...state.consent, aiProcessing: false };
-            save(STORAGE.consent, state.consent);
         }
         workspaceHydrated = true;
     };
@@ -1851,6 +2003,11 @@ const observeTranslatedContent = () => {
             return;
         }
 
+        if (!state.consent.aiProcessing) {
+            requestAIConsent(analyzeReport);
+            return;
+        }
+
         const button = $("#analyzeReportButton");
         const resultsPanel = $("#analysisResultsPanel");
         const results = $("#analysisResults");
@@ -1899,9 +2056,33 @@ const observeTranslatedContent = () => {
             persist();
 
             if (results) {
+                const analysisMethod = data.analysis_method === "vision_fallback"
+                    ? t("Vision model used because OCR was unavailable")
+                    : data.vision_check_used
+                        ? (data.analysis_method || "").startsWith("pdf_text_llm")
+                            ? t("PDF text + AI with vision cross-check")
+                            : t("OCR + AI with vision cross-check")
+                        : data.analysis_method === "pdf_text_llm"
+                            ? t("PDF text + AI")
+                            : t("OCR + AI");
+                const pipelineDetails = [
+                    `${t("Analysis method")}: ${analysisMethod}`
+                ];
+                if (Number.isFinite(data.ocr_confidence)) {
+                    pipelineDetails.push(`${t("OCR text confidence")}: ${data.ocr_confidence}%`);
+                    pipelineDetails.push(t("OCR text confidence measures text recognition only, not medical accuracy."));
+                }
+                if (data.vision_check_error) {
+                    pipelineDetails.push(t("Vision cross-check unavailable"));
+                }
+                if (data.ocr_error) {
+                    pipelineDetails.push(data.ocr_error);
+                }
                 results.innerHTML = `
                     <div class="analysis-answer">
                         <h3>Report explanation</h3>
+                        <p class="analysis-pipeline-status">${escapeHTML(pipelineDetails.join(" · "))}</p>
+                        ${data.ocr_review_required ? `<p class="medical-disclaimer">${escapeHTML(t("Additional verification recommended"))}. ${escapeHTML(t("AI readings can be wrong. Verify medicines and doses with the original document and a pharmacist."))}</p>` : ""}
                         <div class="analysis-text">${escapeHTML(answer).replace(/\n/g, "<br>")}</div>
                         ${data.extracted_text ? `
                             <details>
@@ -1962,6 +2143,11 @@ const observeTranslatedContent = () => {
 
         if (text.length > 4000) {
             toast("Keep your message under 4,000 characters.", "warning");
+            return;
+        }
+
+        if (!state.consent.aiProcessing) {
+            requestAIConsent(() => sendMentorMessage(text));
             return;
         }
 
@@ -2113,6 +2299,11 @@ const observeTranslatedContent = () => {
             return;
         }
 
+        if (!state.consent.aiProcessing) {
+            requestAIConsent(generatePersonalizedPlan);
+            return;
+        }
+
         const payload = {
             language: state.language,
             profile: {
@@ -2220,13 +2411,7 @@ const observeTranslatedContent = () => {
         toast("Export prepared.");
     };
 
-    const deleteLocalData = () => {
-        const confirmed = confirm(
-            "Delete NexHealth data stored in this browser? This does not delete server files or remote data."
-        );
-
-        if (!confirmed) return;
-
+    const clearBrowserWorkspace = () => {
         Object.values(STORAGE).forEach(key => localStorage.removeItem(key));
         localStorage.removeItem(userStorageKey("nexhealth_mock_abha"));
         localStorage.removeItem(userStorageKey("nexhealth_mock_abha_consent"));
@@ -2250,7 +2435,49 @@ const observeTranslatedContent = () => {
         state.personalizedPlan = null;
 
         renderAll();
+    };
+
+    const deleteLocalData = () => {
+        const confirmed = confirm(
+            "Delete NexHealth data stored in this browser? This does not delete server files or remote data."
+        );
+
+        if (!confirmed) return;
+        clearBrowserWorkspace();
         toast("Browser data deleted.");
+    };
+
+    const deleteSyncedHealthData = async () => {
+        if (!document.body.classList.contains("account-authenticated")) return;
+        const confirmed = confirm(t(
+            "Permanently delete your synced health workspace and uploaded medical files from this account? This cannot be undone. Your NexHealth login account will remain active."
+        ));
+        if (!confirmed) return;
+
+        const button = $("#deleteCloudHealthDataButton");
+        const status = $("#cloudDataDeletionStatus");
+        if (button) button.disabled = true;
+        if (status) status.textContent = t("Deleting synced data…");
+
+        try {
+            if (workspaceSaveTimer) {
+                clearTimeout(workspaceSaveTimer);
+                workspaceSaveTimer = null;
+            }
+            if (!await flushWorkspaceSave()) {
+                throw new Error("The workspace could not be synchronized before deletion.");
+            }
+            await apiRequest("/api/workspace", { method: "DELETE" });
+            clearBrowserWorkspace();
+            if (status) status.textContent = t("Synced health data and uploaded files were deleted.");
+            toast(t("Synced health data and uploaded files were deleted."), "success");
+        } catch {
+            const message = t("Could not fully delete synced data. Please try again or contact support.");
+            if (status) status.textContent = message;
+            toast(message, "error");
+        } finally {
+            if (button) button.disabled = false;
+        }
     };
 
     const runSearch = query => {
@@ -2345,107 +2572,6 @@ const observeTranslatedContent = () => {
             if (!mainLanguage) return;
             mainLanguage.value = event.target.value;
             mainLanguage.dispatchEvent(new Event("change", { bubbles: true }));
-        });
-
-
-        const abdmForm = $("#abdmMockForm");
-
-        if (abdmForm) {
-            const identityStatus = $("#abdmIdentityStatus");
-
-            let savedIdentity = null;
-            try {
-                savedIdentity = JSON.parse(
-                    localStorage.getItem(userStorageKey("nexhealth_mock_abha")) || "null"
-                );
-            } catch (error) {
-                console.warn("Could not load mock ABHA identity.", error);
-            }
-
-            if (savedIdentity) {
-                $("#mockAbhaNumber").value = savedIdentity.number || "";
-                $("#mockAbhaAddress").value = savedIdentity.address || "";
-
-                if (identityStatus) {
-                    identityStatus.textContent =
-                        "Demo identity loaded from this browser.";
-                }
-            }
-
-            abdmForm.addEventListener("submit", event => {
-                event.preventDefault();
-
-                const number = $("#mockAbhaNumber").value.trim();
-                const address = $("#mockAbhaAddress").value.trim();
-
-                if (!/^\d{14}$/.test(number.replace(/\D/g, ""))) {
-                    toast("Enter a fictional 14-digit demo number.", "warning");
-                    return;
-                }
-
-                if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+$/.test(address)) {
-                    toast("Enter a valid demo address.", "warning");
-                    return;
-                }
-
-                try {
-                    localStorage.setItem(
-                        userStorageKey("nexhealth_mock_abha"),
-                        JSON.stringify({
-                            number: number.replace(/\D/g, ""),
-                            address
-                        })
-                    );
-
-                    if (identityStatus) {
-                        identityStatus.textContent =
-                            "Mock identity saved in this browser only.";
-                    }
-
-                    toast("Demo identity saved.");
-                } catch (error) {
-                    toast("Could not save demo identity.", "error");
-                }
-            });
-        }
-
-        const updateDemoConsent = granted => {
-            const status = $("#abdmConsentStatus");
-            const description = $("#abdmConsentDescription");
-
-            if (status) {
-                status.textContent = granted ? "Demo granted" : "Not granted";
-            }
-
-            if (description) {
-                description.textContent = granted
-                    ? "Demo sharing permission is enabled locally."
-                    : "Demo sharing permission is disabled.";
-            }
-
-            try {
-                localStorage.setItem(
-                    userStorageKey("nexhealth_mock_abha_consent"),
-                    String(granted)
-                );
-            } catch (error) {
-                console.warn("Could not save demo consent.", error);
-                toast("Could not save demo consent.", "error");
-            }
-        };
-
-        updateDemoConsent(
-            localStorage.getItem(userStorageKey("nexhealth_mock_abha_consent")) === "true"
-        );
-
-        $("#grantAbdmConsent")?.addEventListener("click", () => {
-            updateDemoConsent(true);
-            toast("Demo consent granted locally.");
-        });
-
-        $("#revokeAbdmConsent")?.addEventListener("click", () => {
-            updateDemoConsent(false);
-            toast("Demo consent revoked locally.");
         });
 
 
@@ -2753,6 +2879,7 @@ const observeTranslatedContent = () => {
 
         $("#exportDataButton")?.addEventListener("click", exportData);
         $("#deleteLocalDataButton")?.addEventListener("click", deleteLocalData);
+        $("#deleteCloudHealthDataButton")?.addEventListener("click", deleteSyncedHealthData);
         $("#editProfileButton")?.addEventListener("click", openProfileModal);
         const signOut = async () => {
             try {

@@ -18,9 +18,10 @@ NexHealth is a demonstration and educational tool. It does not diagnose conditio
 ## How data is handled
 
 - AI features require AI-processing consent. The submitted question, uploaded report, or relevant plan details are sent to OpenRouter and the selected model provider. Uploaded reports are sent as provided; the app does not anonymize them first.
-- Signed-in workspace data is stored in Supabase and protected by account-scoped access policies. This is not end-to-end encryption.
+- Signed-in workspace data is stored in Supabase and protected by account-scoped access policies. Existing browser-cached account data is retained during initial sync recovery and cleared after successful synchronization. If a later save fails, unsynced changes remain in the open tab; they are not written to local storage. This is not end-to-end encryption.
 - Signed-in medical files use a private Supabase Storage bucket. Medical file uploads are disabled in the Vercel guest demo because guest files cannot be stored durably across serverless sessions.
 - Guest workspace data is kept in the browser's `localStorage`. It is not encrypted and is not available on another device.
+- Signed-in users can delete their synced workspace and uploaded files from Privacy & consent. This does not close the account; local browser copies on other devices are cleared when they next open the app and sync. Provider backups and retention are governed by the configured services.
 - AI-generated medical explanations can be wrong. Check them against the source document and consult a healthcare professional before making care decisions.
 
 ## Built with
@@ -121,6 +122,7 @@ Copy the generated value directly into Vercel's `AI_CONSENT_SECRET` environment 
 | `POST` | `/api/mentor` | Get a general health education response after consent. |
 | `POST` | `/api/personalized-plan` | Generate a daily wellness plan after consent. |
 | `GET` / `PUT` | `/api/workspace` | Read or save signed-in workspace data. |
+| `DELETE` | `/api/workspace` | Revoke AI consent, delete the signed-in user's uploaded files, and clear the saved workspace. |
 | `POST` | `/api/medical-records` | Upload a medical file for a signed-in account. |
 
 Authentication uses secure, HTTP-only cookies. AI endpoints also verify AI-processing consent on the server.

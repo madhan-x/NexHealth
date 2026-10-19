@@ -433,7 +433,6 @@
                 Explore digital health identity, records, consent, and healthcare connectivity.
             </p>
         </div>
-        <span class="badge abdm-demo-badge"><i data-lucide="flask-conical" aria-hidden="true"></i> DEMO MODE</span>
     </div>
 
     <div class="metrics-grid">
@@ -442,9 +441,9 @@
                 <span class="metric-icon metric-purple"><i data-lucide="id-card"></i></span>
                 <span class="metric-caption">HEALTH IDENTITY</span>
             </div>
-            <strong class="metric-value">Mock ABHA</strong>
+            <strong class="metric-value">ABHA account</strong>
             <span class="metric-label">ABHA number and address</span>
-            <span class="metric-footnote">No real ABHA account is connected</span>
+            <span class="metric-footnote">Open the official ABHA portal</span>
         </a>
 
         <a class="metric-card" href="https://nrces.in/ndhm/fhir/r4/index.html" target="_blank" rel="noopener noreferrer" aria-label="Open the ABDM FHIR implementation guide in a new tab">
@@ -462,9 +461,9 @@
                 <span class="metric-icon metric-green"><i data-lucide="shield-check"></i></span>
                 <span class="metric-caption">CONSENT</span>
             </div>
-            <strong class="metric-value" id="abdmConsentStatus">Not granted</strong>
-            <span class="metric-label">Record-sharing permission</span>
-            <span class="metric-footnote">Demo consent only</span>
+            <strong class="metric-value">Open portal</strong>
+            <span class="metric-label">ABDM record-sharing consent</span>
+            <span class="metric-footnote">Manage through official ABHA services</span>
         </a>
 
         <a class="metric-card" href="https://sandbox.abdm.gov.in/" target="_blank" rel="noopener noreferrer" aria-label="Open the official ABDM integration sandbox in a new tab">
@@ -474,7 +473,7 @@
             </div>
             <strong class="metric-value">Not connected</strong>
             <span class="metric-label">Healthcare network</span>
-            <span class="metric-footnote">Live ABDM services are not integrated</span>
+            <span class="metric-footnote">NexHealth is not connected to ABDM</span>
         </a>
     </div>
 
@@ -482,39 +481,23 @@
         <div class="panel-heading">
             <div>
                 <h3>ABHA identity</h3>
-                <p>Use fictional information for this demonstration.</p>
+                <p>Create or manage your health ID through the official ABHA portal.</p>
             </div>
             <img class="section-content-art abha-content-art" src="/static/assets/illustrations/abha.svg" alt="" aria-hidden="true">
             <i data-lucide="fingerprint"></i>
         </div>
 
-        <form id="abdmMockForm">
-            <div class="form-group">
-                <label for="mockAbhaNumber">Mock ABHA number</label>
-                <input id="mockAbhaNumber" type="text"
-                       placeholder="1234-5678-9012-34"
-                       inputmode="numeric" maxlength="17">
-            </div>
-            <div class="form-group">
-                <label for="mockAbhaAddress">Mock ABHA address</label>
-                <input id="mockAbhaAddress" type="text"
-                       placeholder="demo-user@abdm">
-            </div>
-            <button class="button button-primary" type="submit">
-                <i data-lucide="link"></i>
-                Save demo identity
-            </button>
-            <p class="page-description" id="abdmIdentityStatus" role="status">
-                No demo identity saved.
-            </p>
-        </form>
+        <a class="button button-primary" href="https://abha.abdm.gov.in/abha/v3/register?source=3icons" target="_blank" rel="noopener noreferrer">
+            <i data-lucide="external-link" aria-hidden="true"></i>
+            Open ABHA portal
+        </a>
     </section>
 
     <section class="panel abdm-panel">
         <div class="panel-heading">
             <div>
                 <h3>Digital health records</h3>
-                <p>Record categories that can be represented in a FHIR-style model.</p>
+                <p>Open a record category in your NexHealth medical library.</p>
             </div>
         </div>
 
@@ -534,33 +517,26 @@
         </div>
 
         <p class="page-description">
-            These are record categories for the demo. No records are being transmitted to an ABDM network.
+            Your records stay in NexHealth. This page does not share them with ABDM.
         </p>
     </section>
 
     <section class="panel abdm-panel">
         <div class="panel-heading">
             <div>
-                <h3>Consent-based sharing</h3>
-                <p>Demonstrate how a patient might control record-sharing permission.</p>
+                <h3>ABDM record-sharing consent</h3>
+                <p>Manage consent for linked health records through official ABHA services.</p>
             </div>
             <i data-lucide="shield-check"></i>
         </div>
 
-        <p id="abdmConsentDescription">
-            Demo sharing is currently disabled.
-        </p>
+        <p id="abdmConsentDescription">NexHealth is not connected to ABDM, so it cannot view or change your ABDM sharing consent.</p>
         <div class="heading-actions">
-            <button class="button button-primary" type="button" id="grantAbdmConsent">
-                Grant demo consent
-            </button>
-            <button class="button button-secondary" type="button" id="revokeAbdmConsent">
-                Revoke demo consent
-            </button>
+            <a class="button button-primary" href="https://play.google.com/store/apps/details?id=in.ndhm.phr" target="_blank" rel="noopener noreferrer">
+                <i data-lucide="external-link" aria-hidden="true"></i>
+                Open official ABHA services
+            </a>
         </div>
-        <p class="page-description">
-            These controls change only the local demo state. They do not grant or revoke real ABDM consent.
-        </p>
     </section>
 
     <section class="panel abdm-panel">
@@ -1407,6 +1383,8 @@
                                         </label>
                                     </div>
 
+                                    <p class="consent-detail consent-integration-note">Healthcare sharing and analytics are preferences only; neither integration currently sends data to an external service.</p>
+
                                     <div class="consent-actions">
                                         <button class="button button-primary" type="submit">
                                             <i data-lucide="save"></i>
@@ -1450,6 +1428,16 @@
                                         <p>This clears browser data only. It does not remove database copies or uploaded server files.</p>
                                     </div>
                                     <button class="text-button text-danger" type="button" data-privacy-action="delete">Delete browser data</button>
+                                </div>
+
+                                <div class="data-right-row" id="cloudDataDeletionRow" style="display: none;">
+                                    <span class="data-right-icon data-right-danger"><i data-lucide="trash-2"></i></span>
+                                    <div>
+                                        <strong>Delete synced health data</strong>
+                                        <p>Deletes the synced workspace and uploaded files. Your account stays active; browser copies on other devices clear when they next sync.</p>
+                                        <span id="cloudDataDeletionStatus" role="status" aria-live="polite"></span>
+                                    </div>
+                                    <button class="text-button text-danger" id="deleteCloudHealthDataButton" type="button">Delete synced data</button>
                                 </div>
                             </section>
 
