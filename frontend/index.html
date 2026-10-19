@@ -18,7 +18,6 @@
 </head>
 
 <body class="auth-pending">
-    <div class="auth-startup" role="status" aria-live="polite">Opening your workspace…</div>
     <section class="auth-gate" id="authGate" role="dialog" aria-modal="true" aria-labelledby="authTitle">
         <form class="auth-card" id="authForm" novalidate>
             <div class="brand-lockup auth-brand-lockup">
@@ -45,7 +44,7 @@
         </form>
     </section>
 
-    <div class="app-shell" id="appShell">
+    <div class="app-shell" id="appShell" inert aria-busy="true">
 
         <aside class="sidebar" id="sidebar" aria-label="Main navigation">
             <a href="#overview" class="brand" data-screen="overview" aria-label="NexHealth home">
@@ -280,7 +279,7 @@
                                 </span>
                                 <span class="metric-caption">YOUR LIBRARY</span>
                             </div>
-                            <strong class="metric-value" id="metricRecords">0</strong>
+                            <strong class="metric-value" id="metricRecords">Add your first record</strong>
                             <span class="metric-label">Medical records</span>
                             <span class="metric-footnote">Reports and prescriptions</span>
                         </a>
@@ -292,7 +291,7 @@
                                 </span>
                                 <span class="metric-caption">YOUR SCHEDULE</span>
                             </div>
-                            <strong class="metric-value" id="metricAppointments">0</strong>
+                            <strong class="metric-value" id="metricAppointments">Add an appointment</strong>
                             <span class="metric-label">Upcoming appointments</span>
                             <span class="metric-footnote">Based on your saved bookings</span>
                         </a>
@@ -304,7 +303,7 @@
                                 </span>
                                 <span class="metric-caption">YOUR ROUTINE</span>
                             </div>
-                            <strong class="metric-value" id="metricTasks">0</strong>
+                            <strong class="metric-value" id="metricTasks">Create your first task</strong>
                             <span class="metric-label">Tasks remaining</span>
                             <span class="metric-footnote">From your personal checklist</span>
                         </a>
@@ -316,7 +315,7 @@
                                 </span>
                                 <span class="metric-caption">YOUR INSIGHTS</span>
                             </div>
-                            <strong class="metric-value" id="metricAnalyses">0</strong>
+                            <strong class="metric-value" id="metricAnalyses">Analyze your first report</strong>
                             <span class="metric-label">Reports analyzed</span>
                             <span class="metric-footnote">Your saved AI analyses</span>
                         </a>
@@ -798,6 +797,9 @@
 
                     <section class="panel personalized-plan-panel" id="personalizedPlanPanel" aria-live="polite" hidden>
                         <div class="personalized-plan-content" id="personalizedPlanContent"></div>
+                        <div class="personalized-plan-actions">
+                            <button class="text-button" id="resetPersonalizedPlanButton" type="button">Reset today's checklist</button>
+                        </div>
                     </section>
                     <p class="personalized-plan-privacy-note">Your saved profile and routine details are sent to the AI service only when you request a plan.</p>
 
@@ -1091,6 +1093,10 @@
                     <div class="mentor-layout">
                         <section class="panel mentor-chat-panel">
                             <div class="mentor-chat-header">
+                                <button class="icon-button mentor-history-toggle" id="mentorHistoryToggle" type="button"
+                                    aria-label="Open chat history" aria-expanded="false" aria-controls="mentorHistoryPanel" title="Chat history">
+                                    <i data-lucide="menu"></i>
+                                </button>
                                 <span class="mentor-avatar"><i data-lucide="heart-pulse"></i></span>
                                 <div>
                                     <strong>NexHealth Mentor</strong>
@@ -1100,6 +1106,27 @@
                                 <button class="icon-button" id="clearMentorButton" type="button" aria-label="Clear conversation">
                                     <i data-lucide="rotate-ccw"></i>
                                 </button>
+                            </div>
+
+                            <div class="mentor-history-panel" id="mentorHistoryPanel" hidden>
+                                <div class="mentor-history-columns">
+                                    <section class="mentor-history-column" aria-labelledby="mentorChatHistoryTitle">
+                                        <div class="mentor-history-column-heading">
+                                            <button class="mentor-history-section-link" id="mentorChatHistoryTitle" type="button" data-screen="ai-mentor">AI Health Mentor</button>
+                                            <button class="button button-primary mentor-new-chat-button" id="newMentorConversationButton" type="button">
+                                                <i data-lucide="plus"></i>
+                                                <span>New chat</span>
+                                            </button>
+                                        </div>
+                                        <div class="mentor-conversation-list" id="mentorConversationTabs" aria-label="Your mentor chats"></div>
+                                    </section>
+                                    <section class="mentor-history-column" aria-labelledby="analyzerChatHistoryTitle">
+                                        <div class="mentor-history-column-heading">
+                                            <button class="mentor-history-section-link" id="analyzerChatHistoryTitle" type="button" data-screen="ai-analyzer">AI Analyzer</button>
+                                        </div>
+                                        <div class="mentor-conversation-list" id="analyzerConversationList" aria-label="Your analyzer conversations"></div>
+                                    </section>
+                                </div>
                             </div>
 
                             <div class="mentor-messages" id="mentorMessages" aria-live="polite">

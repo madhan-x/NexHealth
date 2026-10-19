@@ -937,7 +937,9 @@ def save_workspace():
     workspace = body.get("workspace") if isinstance(body, dict) else None
     allowed_keys = {
         "records", "tasks", "appointments", "meals", "analyses",
-        "messages", "profile", "dietPreferences", "consent",
+        "messages", "mentorConversations", "activeMentorConversationId",
+        "analyzerConversations", "activeAnalyzerConversationId", "activeConversationType",
+        "profile", "dietPreferences", "consent",
         "consentHistory", "personalizedPlan",
     }
     if not isinstance(workspace, dict) or set(workspace) - allowed_keys:
@@ -1667,6 +1669,20 @@ def mentor():
     if len(message) > 6000:
         return error_response("Your message must be shorter than 6000 characters.")
 
+    history = data.get("history", [])
+    if not isinstance(history, list):
+        history = []
+    conversation = []
+    for item in history[-12:]:
+        if not isinstance(item, dict) or item.get("role") not in {"user", "assistant"}:
+            continue
+        content = item.get("content")
+        if isinstance(content, str) and content.strip():
+            conversation.append({"role": item["role"], "content": content.strip()[:2000]})
+    # Only pass the selected chat's messages. Ensure the current prompt is last exactly once.
+    if not conversation or conversation[-1]["role"] != "user" or conversation[-1]["content"] != message:
+        conversation.append({"role": "user", "content": message})
+
     try:
         answer = openrouter_chat(
             [
@@ -1679,7 +1695,7 @@ def mentor():
                     ),
                 },
 
-                {"role": "user", "content": message}
+                *conversation
             ],
             temperature=0.3,
             max_tokens=1000

@@ -257,6 +257,46 @@ Object.assign(uiTextTranslations.hi, {
     "Your prompts, uploaded reports, and relevant profile or routine details are sent to OpenRouter and its selected model provider for AI responses.": "AI जवाबों के लिए आपके सवाल, अपलोड की गई रिपोर्टें और संबंधित प्रोफ़ाइल या दिनचर्या की जानकारी OpenRouter और उसके चुने हुए मॉडल प्रदाता को भेजी जाती है।"
 });
 
+Object.assign(uiTextTranslations.te, {
+    "New chat": "కొత్త చాట్",
+    "Your mentor chats": "మీ ఆరోగ్య సహాయక చాట్‌లు",
+    "Open chat history": "చాట్ చరిత్రను తెరవండి",
+    "Chat history": "చాట్ చరిత్ర",
+    "No conversations yet": "ఇంకా సంభాషణలు లేవు",
+    "Continue conversation in AI Health Mentor": "AI ఆరోగ్య సహాయకుడితో సంభాషణ కొనసాగించండి",
+    "AI Health Mentor": "AI ఆరోగ్య సహాయకుడు",
+    "AI Analyzer": "AI విశ్లేషణ",
+    "Add your first record": "మీ మొదటి రికార్డును జోడించండి",
+    "Add an appointment": "అపాయింట్‌మెంట్‌ను జోడించండి",
+    "Create your first task": "మీ మొదటి పనిని సృష్టించండి",
+    "Analyze your first report": "మీ మొదటి నివేదికను విశ్లేషించండి",
+    "Reset today's checklist": "ఈరోజు చెక్‌లిస్ట్‌ను రీసెట్ చేయండి",
+    "Today's plan checklist has been reset.": "ఈరోజు ప్రణాళిక చెక్‌లిస్ట్ రీసెట్ చేయబడింది.",
+    "Edit": "సవరించండి",
+    "Update and regenerate": "నవీకరించి మళ్లీ రూపొందించండి",
+    "Delete chat": "చాట్‌ను తొలగించండి"
+});
+
+Object.assign(uiTextTranslations.hi, {
+    "New chat": "नई चैट",
+    "Your mentor chats": "आपकी स्वास्थ्य सहायक चैट",
+    "Open chat history": "चैट इतिहास खोलें",
+    "Chat history": "चैट इतिहास",
+    "No conversations yet": "अभी कोई बातचीत नहीं",
+    "Continue conversation in AI Health Mentor": "AI स्वास्थ्य सहायक से बातचीत जारी रखें",
+    "AI Health Mentor": "AI स्वास्थ्य सहायक",
+    "AI Analyzer": "AI विश्लेषक",
+    "Add your first record": "अपना पहला रिकॉर्ड जोड़ें",
+    "Add an appointment": "अपॉइंटमेंट जोड़ें",
+    "Create your first task": "अपना पहला काम बनाएँ",
+    "Analyze your first report": "अपनी पहली रिपोर्ट का विश्लेषण करें",
+    "Reset today's checklist": "आज की चेकलिस्ट रीसेट करें",
+    "Today's plan checklist has been reset.": "आज की योजना चेकलिस्ट रीसेट कर दी गई है।",
+    "Edit": "संपादित करें",
+    "Update and regenerate": "अपडेट करें और नया जवाब बनाएँ",
+    "Delete chat": "चैट हटाएँ"
+});
+
 const privacyUiTranslations = {
     te: {
         "Healthcare sharing and analytics are preferences only; neither integration currently sends data to an external service.": "ఆరోగ్య సమాచారం భాగస్వామ్యం మరియు విశ్లేషణలు ప్రస్తుతం ప్రాధాన్యతలుగా మాత్రమే ఉన్నాయి; ఇవి బాహ్య సేవకు డేటాను పంపవు.",
@@ -339,6 +379,11 @@ const NexHealth = (() => {
         meals: "nexhealth_meals",
         analyses: "nexhealth_analyses",
         messages: "nexhealth_messages",
+        mentorConversations: "nexhealth_mentor_conversations",
+        activeMentorConversationId: "nexhealth_active_mentor_conversation",
+        analyzerConversations: "nexhealth_analyzer_conversations",
+        activeAnalyzerConversationId: "nexhealth_active_analyzer_conversation",
+        activeConversationType: "nexhealth_active_conversation_type",
         profile: "nexhealth_profile",
         dietPreferences: "nexhealth_diet_preferences",
         consent: "nexhealth_consent",
@@ -356,6 +401,7 @@ const NexHealth = (() => {
     let accountCacheFallback = false;
     let clearGuestCacheAfterCloudSave = false;
     let welcomeGreetingIndex = 0;
+    let preserveNextMentorNavigation = false;
 
     const userStorageKey = key => `${key}_${activeUserId}`;
 
@@ -377,6 +423,11 @@ const NexHealth = (() => {
         meals: read(STORAGE.meals, []),
         analyses: read(STORAGE.analyses, []),
         messages: read(STORAGE.messages, []),
+        mentorConversations: read(STORAGE.mentorConversations, []),
+        activeMentorConversationId: read(STORAGE.activeMentorConversationId, ""),
+        analyzerConversations: read(STORAGE.analyzerConversations, []),
+        activeAnalyzerConversationId: read(STORAGE.activeAnalyzerConversationId, ""),
+        activeConversationType: read(STORAGE.activeConversationType, "mentor"),
         profile: read(STORAGE.profile, {}),
         dietPreferences: read(STORAGE.dietPreferences, {}),
         consent: read(STORAGE.consent, {
@@ -406,6 +457,11 @@ const NexHealth = (() => {
         state.meals = read(STORAGE.meals, []);
         state.analyses = read(STORAGE.analyses, []);
         state.messages = read(STORAGE.messages, []);
+        state.mentorConversations = read(STORAGE.mentorConversations, []);
+        state.activeMentorConversationId = read(STORAGE.activeMentorConversationId, "");
+        state.analyzerConversations = read(STORAGE.analyzerConversations, []);
+        state.activeAnalyzerConversationId = read(STORAGE.activeAnalyzerConversationId, "");
+        state.activeConversationType = read(STORAGE.activeConversationType, "mentor") === "analyzer" ? "analyzer" : "mentor";
         state.profile = read(STORAGE.profile, {});
         state.dietPreferences = read(STORAGE.dietPreferences, {});
         state.consent = read(STORAGE.consent, {
@@ -546,19 +602,27 @@ const observeTranslatedContent = () => {
 
 
 
-    const workspaceSnapshot = () => ({
-        records: state.records,
-        tasks: state.tasks,
-        appointments: state.appointments,
-        meals: state.meals,
-        analyses: state.analyses,
-        messages: state.messages,
-        profile: state.profile,
-        dietPreferences: state.dietPreferences,
-        consent: state.consent,
-        consentHistory: state.consentHistory,
-        personalizedPlan: state.personalizedPlan
-    });
+    const workspaceSnapshot = () => {
+        syncActiveConversation();
+        return {
+            records: state.records,
+            tasks: state.tasks,
+            appointments: state.appointments,
+            meals: state.meals,
+            analyses: state.analyses,
+            messages: state.messages,
+            mentorConversations: state.mentorConversations,
+            activeMentorConversationId: state.activeMentorConversationId,
+            analyzerConversations: state.analyzerConversations,
+            activeAnalyzerConversationId: state.activeAnalyzerConversationId,
+            activeConversationType: state.activeConversationType,
+            profile: state.profile,
+            dietPreferences: state.dietPreferences,
+            consent: state.consent,
+            consentHistory: state.consentHistory,
+            personalizedPlan: state.personalizedPlan
+        };
+    };
 
     const applyWorkspaceSnapshot = workspace => {
         if (!workspace || typeof workspace !== "object" || Array.isArray(workspace)) return false;
@@ -566,6 +630,27 @@ const observeTranslatedContent = () => {
         arrayKeys.forEach(key => {
             if (Array.isArray(workspace[key])) state[key] = workspace[key];
         });
+        if (Array.isArray(workspace.mentorConversations)) {
+            state.mentorConversations = workspace.mentorConversations;
+        } else if (state.mentorConversations.length && state.messages.length) {
+            const legacyMessages = JSON.stringify(state.messages);
+            const alreadyStored = state.mentorConversations.some(conversation =>
+                JSON.stringify(conversation.messages) === legacyMessages);
+            if (!alreadyStored) state.mentorConversations.push(createMentorConversation(state.messages));
+        }
+        if (typeof workspace.activeMentorConversationId === "string") {
+            state.activeMentorConversationId = workspace.activeMentorConversationId;
+        }
+        if (Array.isArray(workspace.analyzerConversations)) {
+            state.analyzerConversations = workspace.analyzerConversations;
+        }
+        if (typeof workspace.activeAnalyzerConversationId === "string") {
+            state.activeAnalyzerConversationId = workspace.activeAnalyzerConversationId;
+        }
+        if (workspace.activeConversationType === "mentor" || workspace.activeConversationType === "analyzer") {
+            state.activeConversationType = workspace.activeConversationType;
+        }
+        ensureActiveConversation();
         ["profile", "dietPreferences", "consent"].forEach(key => {
             if (workspace[key] && typeof workspace[key] === "object" && !Array.isArray(workspace[key])) {
                 state[key] = workspace[key];
@@ -621,6 +706,7 @@ const observeTranslatedContent = () => {
     };
 
     const persist = () => {
+        syncActiveConversation();
         const signedIn = Boolean(activeUserId) && !document.body.classList.contains("local-demo-mode");
         if (!signedIn || accountCacheFallback) {
             save(STORAGE.records, state.records);
@@ -629,6 +715,11 @@ const observeTranslatedContent = () => {
             save(STORAGE.meals, state.meals);
             save(STORAGE.analyses, state.analyses);
             save(STORAGE.messages, state.messages);
+            save(STORAGE.mentorConversations, state.mentorConversations);
+            save(STORAGE.activeMentorConversationId, state.activeMentorConversationId);
+            save(STORAGE.analyzerConversations, state.analyzerConversations);
+            save(STORAGE.activeAnalyzerConversationId, state.activeAnalyzerConversationId);
+            save(STORAGE.activeConversationType, state.activeConversationType);
             save(STORAGE.profile, state.profile);
             save(STORAGE.dietPreferences, state.dietPreferences);
             save(STORAGE.consent, state.consent);
@@ -642,7 +733,7 @@ const observeTranslatedContent = () => {
 
     const hasWorkspaceData = workspace => {
         if (!workspace) return false;
-        return ["records", "tasks", "appointments", "meals", "analyses", "messages", "consentHistory"]
+        return ["records", "tasks", "appointments", "meals", "analyses", "messages", "mentorConversations", "analyzerConversations", "consentHistory"]
             .some(key => Array.isArray(workspace[key]) && workspace[key].length > 0)
             || ["profile", "dietPreferences"].some(key =>
                 workspace[key] && Object.keys(workspace[key]).length > 0
@@ -651,7 +742,8 @@ const observeTranslatedContent = () => {
     };
 
     const mergeGuestWorkspace = guestWorkspace => {
-        ["records", "tasks", "appointments", "meals", "analyses", "messages", "consentHistory"]
+        ensureMentorConversations();
+        ["records", "tasks", "appointments", "meals", "analyses", "consentHistory"]
             .forEach(key => {
                 const accountItems = Array.isArray(state[key]) ? state[key] : [];
                 const guestItems = Array.isArray(guestWorkspace[key]) ? guestWorkspace[key] : [];
@@ -661,6 +753,30 @@ const observeTranslatedContent = () => {
                     ...guestItems.filter(item => !item?.id || !seenIds.has(item.id))
                 ];
             });
+        const guestConversations = Array.isArray(guestWorkspace.mentorConversations)
+            ? guestWorkspace.mentorConversations
+            : (Array.isArray(guestWorkspace.messages) && guestWorkspace.messages.length
+                ? [createMentorConversation(guestWorkspace.messages)]
+                : []);
+        const existingConversationIds = new Set(state.mentorConversations.map(conversation => conversation.id));
+        state.mentorConversations.push(...guestConversations.filter(conversation =>
+            conversation?.id && !existingConversationIds.has(conversation.id)));
+        const guestAnalyzerConversations = Array.isArray(guestWorkspace.analyzerConversations)
+            ? guestWorkspace.analyzerConversations
+            : [];
+        const existingAnalyzerIds = new Set(state.analyzerConversations.map(conversation => conversation.id));
+        state.analyzerConversations.push(...guestAnalyzerConversations.filter(conversation =>
+            conversation?.id && !existingAnalyzerIds.has(conversation.id)));
+        if (guestWorkspace.activeConversationType === "analyzer" && guestWorkspace.activeAnalyzerConversationId && guestAnalyzerConversations.some(conversation =>
+            conversation.id === guestWorkspace.activeAnalyzerConversationId)) {
+            state.activeAnalyzerConversationId = guestWorkspace.activeAnalyzerConversationId;
+            state.activeConversationType = "analyzer";
+        } else if (guestWorkspace.activeMentorConversationId && guestConversations.some(conversation =>
+            conversation.id === guestWorkspace.activeMentorConversationId)) {
+            state.activeMentorConversationId = guestWorkspace.activeMentorConversationId;
+            state.activeConversationType = "mentor";
+        }
+        ensureActiveConversation();
         state.profile = { ...(guestWorkspace.profile || {}), ...(state.profile || {}) };
         state.dietPreferences = { ...(guestWorkspace.dietPreferences || {}), ...(state.dietPreferences || {}) };
         state.consent = { ...(guestWorkspace.consent || {}), ...(state.consent || {}) };
@@ -685,6 +801,93 @@ const observeTranslatedContent = () => {
         crypto.randomUUID?.() ||
         `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
+    const mentorConversationTitle = messages => {
+        const firstQuestion = (messages || []).find(message => message?.role === "user" && message.content)?.content;
+        if (!firstQuestion) return "New chat";
+        const title = String(firstQuestion).replace(/\s+/g, " ").trim();
+        return title.length > 42 ? `${title.slice(0, 39).trimEnd()}…` : title;
+    };
+
+    const createMentorConversation = (messages = []) => {
+        const now = new Date().toISOString();
+        return {
+            id: id(),
+            title: mentorConversationTitle(messages),
+            createdAt: now,
+            updatedAt: now,
+            messages: Array.isArray(messages) ? messages : []
+        };
+    };
+
+    const conversationGroup = type => type === "analyzer"
+        ? state.analyzerConversations
+        : state.mentorConversations;
+
+    const activeConversationId = type => type === "analyzer"
+        ? state.activeAnalyzerConversationId
+        : state.activeMentorConversationId;
+
+    const setActiveConversationId = (type, conversationId) => {
+        if (type === "analyzer") state.activeAnalyzerConversationId = conversationId;
+        else state.activeMentorConversationId = conversationId;
+    };
+
+    const ensureConversationGroup = (type, activate = false, createIfEmpty = true) => {
+        const list = conversationGroup(type);
+        const valid = Array.isArray(list)
+            ? list.filter(conversation => conversation && typeof conversation.id === "string" && Array.isArray(conversation.messages))
+            : [];
+        if (type === "analyzer") state.analyzerConversations = valid;
+        else state.mentorConversations = valid;
+
+        if (!valid.length && createIfEmpty) {
+            const legacy = type === "mentor" && state.activeConversationType === "mentor" && Array.isArray(state.messages)
+                ? state.messages
+                : [];
+            valid.push(createMentorConversation(legacy));
+            if (type === "analyzer") state.analyzerConversations = valid;
+            else state.mentorConversations = valid;
+        }
+        if (!valid.length) return null;
+
+        let active = valid.find(conversation => conversation.id === activeConversationId(type));
+        if (!active) {
+            active = [...valid].sort((left, right) =>
+                String(right.updatedAt || "").localeCompare(String(left.updatedAt || "")))[0];
+            setActiveConversationId(type, active.id);
+        }
+        if (activate) {
+            state.activeConversationType = type;
+            state.messages = active.messages;
+        }
+        return active;
+    };
+
+    const ensureMentorConversations = () => ensureConversationGroup(
+        "mentor", state.activeConversationType === "mentor", true
+    );
+
+    const ensureActiveConversation = () => {
+        if (state.activeConversationType === "analyzer" &&
+            (!Array.isArray(state.analyzerConversations) || !state.analyzerConversations.length)) {
+            state.activeConversationType = "mentor";
+        }
+        return ensureConversationGroup(
+            state.activeConversationType === "analyzer" ? "analyzer" : "mentor", true, true
+        );
+    };
+
+    const syncActiveConversation = (touch = false) => {
+        const conversation = ensureActiveConversation();
+        const type = state.activeConversationType;
+        if (!conversation) return null;
+        conversation.messages = state.messages;
+        if (type === "mentor") conversation.title = mentorConversationTitle(conversation.messages);
+        else conversation.title ||= "Report conversation";
+        if (touch) conversation.updatedAt = new Date().toISOString();
+        return conversation;
+    };
+
     const escapeHTML = value =>
         String(value ?? "").replace(/[&<>"']/g, char => ({
             "&": "&amp;",
@@ -698,6 +901,7 @@ const observeTranslatedContent = () => {
         const text = String(value ?? "")
             .replace(/\\\r?\n/g, "\n")
             .replace(/\r\n?/g, "\n")
+            .replace(/^\s*\\\s*$/gm, "")
             .replace(/\\([\\`*_{}#+.!>|~-])/g, "$1")
             .replace(/\\([\[\]()])/g, "$1")
             .replace(/^\s*(?:\*\*|__)?\s*NexHealth Mentor\s*(?:\*\*|__)?\s*\n+/i, "");
@@ -728,6 +932,79 @@ const observeTranslatedContent = () => {
             if (!line) {
                 flushParagraph();
                 flushList();
+                return;
+            }
+
+            const heading = line.match(/^#{1,6}\s+(.+?)\s*#*$/);
+            if (heading) {
+                flushParagraph();
+                flushList();
+                blocks.push(`<h4>${inline(heading[1])}</h4>`);
+                return;
+            }
+
+            const unordered = line.match(/^[-*+]\s+(.+)$/);
+            const ordered = line.match(/^\d+\.\s+(.+)$/);
+            const item = unordered || ordered;
+            if (item) {
+                flushParagraph();
+                const nextListType = unordered ? "ul" : "ol";
+                if (listType && listType !== nextListType) flushList();
+                listType = nextListType;
+                listItems.push(item[1]);
+                return;
+            }
+
+            flushList();
+            paragraph.push(line);
+        });
+
+        flushParagraph();
+        flushList();
+        return blocks.join("");
+    };
+
+    const formatAnalysisContent = value => {
+        const text = String(value ?? "")
+            .replace(/\\\r?\n/g, "\n")
+            .replace(/\r\n?/g, "\n")
+            .replace(/^\s*\\\s*$/gm, "")
+            .replace(/\\([\\`*_{}#+.!>|~-])/g, "$1")
+            .replace(/\\([\[\]()])/g, "$1");
+        const inline = value => escapeHTML(value)
+            .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+            .replace(/__(.+?)__/g, "<strong>$1</strong>")
+            .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        const blocks = [];
+        let paragraph = [];
+        let listType = "";
+        let listItems = [];
+
+        const flushParagraph = () => {
+            if (!paragraph.length) return;
+            blocks.push(`<p>${inline(paragraph.join(" "))}</p>`);
+            paragraph = [];
+        };
+        const flushList = () => {
+            if (!listItems.length) return;
+            blocks.push(`<${listType}>${listItems.map(item => `<li>${inline(item)}</li>`).join("")}</${listType}>`);
+            listItems = [];
+            listType = "";
+        };
+
+        text.split("\n").forEach(rawLine => {
+            const line = rawLine.trim();
+            if (!line) {
+                flushParagraph();
+                flushList();
+                return;
+            }
+
+            const heading = line.match(/^#{1,6}\s+(.+?)\s*#*$/) || line.match(/^\*\*(.+?)\*\*$/);
+            if (heading) {
+                flushParagraph();
+                flushList();
+                blocks.push(`<h4>${inline(heading[1])}</h4>`);
                 return;
             }
 
@@ -896,6 +1173,14 @@ const observeTranslatedContent = () => {
         if (!panel) {
             toast(`Screen "${target}" was not found.`, "error");
             return;
+        }
+
+        if (target === "ai-mentor" && state.screen !== target) {
+            if (preserveNextMentorNavigation) {
+                preserveNextMentorNavigation = false;
+            } else {
+                startMentorConversation();
+            }
         }
 
         state.screen = target;
@@ -1375,7 +1660,10 @@ const observeTranslatedContent = () => {
         if (progressBar) progressBar.style.width = `${percentage}%`;
 
         const remaining = $("#metricTasks");
-        if (remaining) remaining.textContent = total - completed;
+        if (remaining) {
+            remaining.textContent = total ? total - completed : t("Create your first task");
+            remaining.classList.toggle("metric-value-empty", total === 0);
+        }
         const resetButton = $("#resetCompletedTasksButton");
         if (resetButton) resetButton.disabled = completed === 0;
 
@@ -1463,9 +1751,11 @@ const observeTranslatedContent = () => {
 
         const metric = $("#metricAppointments");
         if (metric) {
-            metric.textContent = state.appointments.filter(item =>
+            const upcomingCount = state.appointments.filter(item =>
                 new Date(`${item.date}T${item.time || "23:59"}`) >= now
             ).length;
+            metric.textContent = upcomingCount || t("Add an appointment");
+            metric.classList.toggle("metric-value-empty", upcomingCount === 0);
         }
 
         const overview = $("#overviewAppointmentList");
@@ -1523,7 +1813,10 @@ const observeTranslatedContent = () => {
         if (lab) lab.textContent = state.records.filter(r => r.category === "lab").length;
         if (prescriptions) prescriptions.textContent = state.records.filter(r => r.category === "prescription").length;
         if (navCount) navCount.textContent = state.records.length;
-        if (metric) metric.textContent = state.records.length;
+        if (metric) {
+            metric.textContent = state.records.length || t("Add your first record");
+            metric.classList.toggle("metric-value-empty", state.records.length === 0);
+        }
 
         if (!records.length) {
             container.innerHTML = `
@@ -1772,7 +2065,10 @@ const observeTranslatedContent = () => {
         }
 
         const analyses = $("#metricAnalyses");
-        if (analyses) analyses.textContent = state.analyses.length;
+        if (analyses) {
+            analyses.textContent = state.analyses.length || t("Analyze your first report");
+            analyses.classList.toggle("metric-value-empty", state.analyses.length === 0);
+        }
 
         renderTasks();
         renderAppointments();
@@ -1826,29 +2122,35 @@ const observeTranslatedContent = () => {
             return;
         }
 
-        try {
-            const result = await apiRequest("/api/workspace");
-            if (result.workspace) {
-                applyWorkspaceSnapshot(result.workspace);
-            } else {
-                await apiRequest("/api/workspace", {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ workspace: workspaceSnapshot() })
-                });
+        const [workspaceResult, consentResult] = await Promise.all([
+            apiRequest("/api/workspace").then(value => ({ value }), error => ({ error })),
+            apiRequest("/api/consent/ai").then(value => ({ value }), error => ({ error }))
+        ]);
+
+        if (workspaceResult.error) {
+            toast(`Database is not available: ${workspaceResult.error.message}. Your current data remains in this browser.`, "error");
+        } else {
+            try {
+                if (workspaceResult.value.workspace) {
+                    applyWorkspaceSnapshot(workspaceResult.value.workspace);
+                } else {
+                    await apiRequest("/api/workspace", {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ workspace: workspaceSnapshot() })
+                    });
+                }
+                accountCacheFallback = false;
+                clearAccountLocalCache();
+            } catch (error) {
+                toast(`Database is not available: ${error.message}. Your current data remains in this browser.`, "error");
             }
-            accountCacheFallback = false;
-            clearAccountLocalCache();
-        } catch (error) {
-            toast(`Database is not available: ${error.message}. Your current data remains in this browser.`, "error");
         }
 
-        try {
-            const consent = await apiRequest("/api/consent/ai");
-            state.consent = { ...state.consent, aiProcessing: consent.enabled === true };
-        } catch {
-            state.consent = { ...state.consent, aiProcessing: false };
-        }
+        state.consent = {
+            ...state.consent,
+            aiProcessing: consentResult.value?.enabled === true
+        };
         workspaceHydrated = true;
     };
 
@@ -1884,6 +2186,20 @@ const observeTranslatedContent = () => {
         activateUser(user);
         document.body.classList.toggle("local-demo-mode", Boolean(user.demo_mode));
         document.body.classList.toggle("account-authenticated", !user.demo_mode);
+        document.body.classList.add("auth-ready");
+        document.body.classList.remove("auth-prompt", "auth-pending");
+        const appShell = $("#appShell");
+        if (appShell) {
+            appShell.inert = true;
+            appShell.setAttribute("aria-busy", "true");
+        }
+        chooseWelcomeGreeting();
+        updateSettingsAccountPanels();
+        applyTranslations();
+        renderAll();
+        navigate("overview");
+        refreshIcons();
+
         await hydrateWorkspace(user);
         if (guestWorkspace && hasWorkspaceData(guestWorkspace)) {
             mergeGuestWorkspace(guestWorkspace);
@@ -1893,9 +2209,6 @@ const observeTranslatedContent = () => {
             }[state.language] || "Your guest workspace data has been added to your account.";
             toast(savedMessage, "success");
         }
-        chooseWelcomeGreeting();
-        document.body.classList.add("auth-ready");
-        document.body.classList.remove("auth-prompt");
         updateSettingsAccountPanels();
         if (!appEventsBound) {
             bindEvents();
@@ -1905,15 +2218,18 @@ const observeTranslatedContent = () => {
         renderAll();
         navigate("overview");
         refreshIcons();
+        if (appShell) {
+            appShell.inert = false;
+            appShell.setAttribute("aria-busy", "false");
+        }
 
-        try {
-            const health = await apiRequest("/api/health");
+        apiRequest("/api/health").then(health => {
             if (!health.ai_configured) {
                 console.warn("NexHealth: OPENROUTER_API_KEY is not configured.");
             }
-        } catch (error) {
+        }).catch(error => {
             console.warn("NexHealth backend health check failed:", error.message);
-        }
+        });
     };
 
     const startGuestApp = () => {
@@ -1922,6 +2238,12 @@ const observeTranslatedContent = () => {
         workspaceHydrated = true;
         document.body.classList.add("local-demo-mode", "auth-ready");
         document.body.classList.remove("account-authenticated", "auth-prompt");
+        document.body.classList.remove("auth-pending");
+        const appShell = $("#appShell");
+        if (appShell) {
+            appShell.inert = false;
+            appShell.setAttribute("aria-busy", "false");
+        }
         updateSettingsAccountPanels();
         chooseWelcomeGreeting();
         if (!appEventsBound) {
@@ -2068,10 +2390,6 @@ const observeTranslatedContent = () => {
                 const pipelineDetails = [
                     `${t("Analysis method")}: ${analysisMethod}`
                 ];
-                if (Number.isFinite(data.ocr_confidence)) {
-                    pipelineDetails.push(`${t("OCR text confidence")}: ${data.ocr_confidence}%`);
-                    pipelineDetails.push(t("OCR text confidence measures text recognition only, not medical accuracy."));
-                }
                 if (data.vision_check_error) {
                     pipelineDetails.push(t("Vision cross-check unavailable"));
                 }
@@ -2082,14 +2400,19 @@ const observeTranslatedContent = () => {
                     <div class="analysis-answer">
                         <h3>Report explanation</h3>
                         <p class="analysis-pipeline-status">${escapeHTML(pipelineDetails.join(" · "))}</p>
-                        ${data.ocr_review_required ? `<p class="medical-disclaimer">${escapeHTML(t("Additional verification recommended"))}. ${escapeHTML(t("AI readings can be wrong. Verify medicines and doses with the original document and a pharmacist."))}</p>` : ""}
-                        <div class="analysis-text">${escapeHTML(answer).replace(/\n/g, "<br>")}</div>
+                        ${data.ocr_review_required ? `<p class="medical-disclaimer analysis-review-notice">${escapeHTML(t("Additional verification recommended"))}. ${escapeHTML(t("AI readings can be wrong. Verify medicines and doses with the original document and a pharmacist."))}</p>` : ""}
+                        <div class="analysis-text">${formatAnalysisContent(answer)}</div>
+                        <button class="button button-secondary analysis-continue-button" type="button"
+                            data-analysis-conversation="${escapeHTML(state.analyses[0].id)}">
+                            <i data-lucide="messages-square"></i>
+                            ${escapeHTML(t("Continue conversation in AI Health Mentor"))}
+                        </button>
                         ${data.extracted_text ? `
                             <details>
                                 <summary>Review extracted text</summary>
                                 <pre>${escapeHTML(data.extracted_text)}</pre>
                             </details>` : ""}
-                        <p class="medical-disclaimer">
+                        <p class="medical-disclaimer analysis-educational-note">
                             Educational information only. Verify extracted values against the
                             original document and discuss results with a qualified professional.
                         </p>
@@ -2113,22 +2436,276 @@ const observeTranslatedContent = () => {
         }
     };
 
+    const setMentorHistoryOpen = open => {
+        const panel = $("#mentorHistoryPanel");
+        const toggle = $("#mentorHistoryToggle");
+        if (!panel || !toggle) return;
+        panel.hidden = !open;
+        toggle.setAttribute("aria-expanded", String(open));
+    };
+
+    const renderConversationHistory = () => {
+        const renderList = (type, selector) => {
+            const container = $(selector);
+            if (!container) return;
+            const conversations = type === "analyzer"
+                ? (Array.isArray(state.analyzerConversations) ? state.analyzerConversations : [])
+                : (ensureMentorConversations(), state.mentorConversations);
+            if (!conversations.length) {
+                container.innerHTML = `<p class="mentor-history-empty">${escapeHTML(t("No conversations yet"))}</p>`;
+                return;
+            }
+            const selectedId = activeConversationId(type);
+            container.innerHTML = conversations.map(conversation => {
+                const label = conversation.title || "New chat";
+                const localizedLabel = label === "New chat" ? t(label) : label;
+                return `
+                    <div class="mentor-history-entry">
+                        <button class="mentor-conversation-item" type="button"
+                            aria-current="${state.activeConversationType === type && conversation.id === selectedId}"
+                            data-conversation-type="${type}"
+                            data-conversation-id="${escapeHTML(conversation.id)}"
+                            title="${escapeHTML(localizedLabel)}">
+                            <span>${escapeHTML(localizedLabel)}</span>
+                        </button>
+                        <button class="mentor-conversation-delete" type="button"
+                            data-delete-conversation="${type}"
+                            data-conversation-id="${escapeHTML(conversation.id)}"
+                            aria-label="Delete ${escapeHTML(localizedLabel)}" title="${escapeHTML(t("Delete chat"))}">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </div>`;
+            }).join("");
+        };
+
+        renderList("mentor", "#mentorConversationTabs");
+        renderList("analyzer", "#analyzerConversationList");
+    };
+
     const renderMentorMessages = () => {
         const container = $("#mentorMessages");
-        if (!container || !state.messages.length) return;
+        if (!container) return;
+        ensureActiveConversation();
+        renderConversationHistory();
 
-        container.innerHTML = state.messages.map(message => `
-            <article class="mentor-message ${message.role === "user" ? "mentor-message-user" : "mentor-message-assistant"}">
+        if (!state.messages.length) {
+            container.innerHTML = `
+                <div class="mentor-message mentor-message-assistant">
+                    <span class="message-avatar"><i data-lucide="sparkles"></i></span>
+                    <div class="message-content">
+                        <span class="message-author">NexHealth Mentor</span>
+                        <p>Welcome! I can help explain general health information, clarify medical terminology, or help you prepare questions for a healthcare professional.</p>
+                        <p>I cannot diagnose conditions, prescribe medication, or replace professional medical advice.</p>
+                    </div>
+                </div>`;
+            refreshIcons();
+            return;
+        }
+
+        container.innerHTML = state.messages.map((message, index) => `
+            <article class="mentor-message ${message.role === "user" ? "mentor-message-user" : "mentor-message-assistant"}" data-message-index="${index}">
                 <span class="message-avatar">${message.role === "user" ? "U" : "✦"}</span>
                 <div class="message-content">
-                    <span class="message-author">${message.role === "user" ? "You" : "NexHealth Mentor"}</span>
+                    <span class="message-author">${escapeHTML(message.author || (message.role === "user" ? "You" : "NexHealth Mentor"))}</span>
                     ${formatMentorContent(message.content)}
+                    ${message.role === "user" ? `<button class="mentor-message-edit" type="button" data-edit-message="${index}" aria-label="Edit your message" title="${escapeHTML(t("Edit"))}"><i data-lucide="pencil"></i><span>${escapeHTML(t("Edit"))}</span></button>` : ""}
                 </div>
             </article>
         `).join("");
 
         container.scrollTop = container.scrollHeight;
         refreshIcons();
+    };
+
+    const startMentorConversation = () => {
+        const active = ensureConversationGroup("mentor", true, true);
+        if (!active.messages.length) {
+            setMentorHistoryOpen(false);
+            $("#mentorInput")?.focus();
+            return;
+        }
+        const conversation = createMentorConversation();
+        state.mentorConversations.unshift(conversation);
+        state.activeMentorConversationId = conversation.id;
+        state.activeConversationType = "mentor";
+        state.messages = conversation.messages;
+        persist();
+        renderMentorMessages();
+        setMentorHistoryOpen(false);
+        $("#mentorInput")?.focus();
+    };
+
+    const selectConversation = (type, conversationId) => {
+        const conversation = conversationGroup(type).find(item => item.id === conversationId);
+        if (!conversation) return;
+        state.activeConversationType = type;
+        setActiveConversationId(type, conversation.id);
+        state.messages = conversation.messages;
+        persist();
+        renderMentorMessages();
+        setMentorHistoryOpen(false);
+    };
+
+    const deleteConversation = (type, conversationId) => {
+        if (state.busy) {
+            toast("Wait for the current reply before deleting a chat.", "warning");
+            return;
+        }
+        const conversations = conversationGroup(type);
+        const conversation = conversations.find(item => item.id === conversationId);
+        if (!conversation || !confirm(`Delete “${conversation.title || "New chat"}”? This cannot be undone.`)) return;
+        const wasActive = state.activeConversationType === type && activeConversationId(type) === conversationId;
+        if (type === "analyzer") {
+            state.analyzerConversations = conversations.filter(item => item.id !== conversationId);
+        } else {
+            state.mentorConversations = conversations.filter(item => item.id !== conversationId);
+        }
+        if (wasActive) {
+            if (type === "mentor") {
+                const replacement = createMentorConversation();
+                state.mentorConversations.unshift(replacement);
+                state.activeMentorConversationId = replacement.id;
+                state.activeConversationType = "mentor";
+                state.messages = replacement.messages;
+            } else {
+                const mentorConversation = ensureConversationGroup("mentor", true);
+                state.activeConversationType = "mentor";
+                state.activeMentorConversationId = mentorConversation.id;
+                state.messages = mentorConversation.messages;
+            }
+        }
+        persist();
+        renderMentorMessages();
+        toast("Chat deleted.");
+    };
+
+    const beginEditMentorMessage = messageIndex => {
+        if (state.busy) {
+            toast("Wait for the current reply before editing a message.", "warning");
+            return;
+        }
+        const message = state.messages[messageIndex];
+        const article = $(`#mentorMessages [data-message-index="${messageIndex}"]`);
+        const content = article?.querySelector(".message-content");
+        if (!message || message.role !== "user" || !content) return;
+        content.innerHTML = `
+            <span class="message-author">${escapeHTML(message.author || "You")}</span>
+            <form class="mentor-message-edit-form" data-edit-message-form="${messageIndex}">
+                <textarea maxlength="4000" required aria-label="Edit your message">${escapeHTML(message.content)}</textarea>
+                <div>
+                    <button class="button button-primary button-small" type="submit">${escapeHTML(t("Update and regenerate"))}</button>
+                    <button class="text-button" type="button" data-cancel-message-edit>${escapeHTML(t("Cancel"))}</button>
+                </div>
+            </form>`;
+        content.querySelector("textarea")?.focus();
+        content.querySelector("textarea")?.setSelectionRange(message.content.length, message.content.length);
+    };
+
+    const saveEditedMentorMessage = async (messageIndex, editedText) => {
+        const text = editedText.trim();
+        if (!text) {
+            toast("Enter a message first.", "warning");
+            return;
+        }
+        if (text.length > 4000) {
+            toast("Keep your message under 4,000 characters.", "warning");
+            return;
+        }
+        if (!state.consent.aiProcessing) {
+            requestAIConsent(() => saveEditedMentorMessage(messageIndex, text));
+            return;
+        }
+        if (state.busy) return;
+
+        const conversation = ensureActiveConversation();
+        const conversationType = state.activeConversationType;
+        const conversationId = conversation.id;
+        const targetMessage = conversation.messages[messageIndex];
+        if (!targetMessage || targetMessage.role !== "user") return;
+        targetMessage.content = text;
+        conversation.messages = conversation.messages.slice(0, messageIndex + 1);
+        conversation.updatedAt = new Date().toISOString();
+        state.messages = conversation.messages;
+        syncActiveConversation(true);
+        const history = conversation.messages.slice(-12).map(item => ({ role: item.role, content: item.content }));
+        persist();
+        renderMentorMessages();
+
+        const input = $("#mentorInput");
+        const button = $("#mentorSendButton");
+        if (button) button.disabled = true;
+        state.busy = true;
+        try {
+            const data = await apiRequest("/api/mentor", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text, language: state.language, history })
+            });
+            appendConversationMessage(conversationType, conversationId, {
+                id: id(), role: "assistant",
+                content: data.reply || data.answer || data.response || data.message || "The service did not return a response."
+            });
+        } catch (error) {
+            appendConversationMessage(conversationType, conversationId, {
+                id: id(), role: "assistant", content: `I couldn't connect to the mentor service. ${error.message}`
+            });
+            toast(error.message, "error");
+        } finally {
+            state.busy = false;
+            if (button) button.disabled = false;
+            input?.focus();
+        }
+    };
+
+    const appendConversationMessage = (type, conversationId, message) => {
+        const conversation = conversationGroup(type).find(item => item.id === conversationId);
+        if (!conversation) return;
+        conversation.messages.push(message);
+        conversation.updatedAt = new Date().toISOString();
+        if (state.activeConversationType === type && activeConversationId(type) === conversationId) {
+            state.messages = conversation.messages;
+        }
+        persist();
+        renderMentorMessages();
+    };
+
+    const continueAnalysisInMentor = analysisId => {
+        const analysis = state.analyses.find(item => item.id === analysisId);
+        if (!analysis) {
+            toast("This analysis is no longer available.", "error");
+            return;
+        }
+
+        let conversation = state.analyzerConversations.find(item => item.analysisId === analysis.id);
+        if (!conversation) {
+            const reportContext = [
+                `### Report analysis from AI Analyzer`,
+                `**Report:** ${analysis.file_name || "Uploaded report"}`,
+                "",
+                analysis.summary || "No report summary was saved.",
+                "",
+                "Use this prior analysis as context for follow-up questions. It is educational information, not a diagnosis. Verify important values with a healthcare professional."
+            ].join("\n");
+            conversation = {
+                ...createMentorConversation(),
+                title: `${analysis.file_name || "Report follow-up"}`.slice(0, 42),
+                source: "analyzer",
+                analysisId: analysis.id,
+                createdAt: analysis.created_at || new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                messages: [{ id: id(), role: "assistant", author: "AI Analyzer", content: reportContext }]
+            };
+            state.analyzerConversations.unshift(conversation);
+        }
+
+        state.activeConversationType = "analyzer";
+        state.activeAnalyzerConversationId = conversation.id;
+        state.messages = conversation.messages;
+        persist();
+        preserveNextMentorNavigation = true;
+        navigate("ai-mentor");
+        renderMentorMessages();
+        $("#mentorInput")?.focus();
     };
 
     const sendMentorMessage = async message => {
@@ -2153,7 +2730,12 @@ const observeTranslatedContent = () => {
 
         if (state.busy) return;
 
+        const conversation = ensureActiveConversation();
+        const conversationType = state.activeConversationType;
+        const conversationId = conversation.id;
         state.messages.push({ id: id(), role: "user", content: text });
+        syncActiveConversation(true);
+        const history = state.messages.slice(-12).map(item => ({ role: item.role, content: item.content }));
         persist();
         renderMentorMessages();
 
@@ -2166,31 +2748,26 @@ const observeTranslatedContent = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-    message: text,
-    language: state.language
-})
+                    message: text,
+                    language: state.language,
+                    history
+                })
             });
 
             const answer = data.reply || data.answer || data.response || data.message ||
             "The service did not return a response.";
 
-            state.messages.push({
+            appendConversationMessage(conversationType, conversationId, {
                 id: id(),
                 role: "assistant",
                 content: answer
             });
-
-            persist();
-            renderMentorMessages();
         } catch (error) {
-            state.messages.push({
+            appendConversationMessage(conversationType, conversationId, {
                 id: id(),
                 role: "assistant",
                 content: `I couldn't connect to the mentor service. ${error.message}`
             });
-
-            persist();
-            renderMentorMessages();
             toast(error.message, "error");
         } finally {
             state.busy = false;
@@ -2260,8 +2837,22 @@ const observeTranslatedContent = () => {
             return;
         }
 
+        const currentDay = today();
+        if (!saved.completedForDate) {
+            state.personalizedPlan = { ...saved, completedForDate: currentDay };
+            persist();
+        } else if (saved.completedForDate !== currentDay) {
+            state.personalizedPlan = {
+                ...saved,
+                completedForDate: currentDay,
+                completedItems: {}
+            };
+            persist();
+        }
+
         try {
-            content.innerHTML = renderPersonalizedPlan(saved.plan, saved.completedItems || {});
+            const currentPlan = state.personalizedPlan;
+            content.innerHTML = renderPersonalizedPlan(currentPlan.plan, currentPlan.completedItems || {});
             refreshIcons();
             panel.hidden = false;
             panel.classList.remove("plan-error");
@@ -2348,7 +2939,8 @@ const observeTranslatedContent = () => {
             state.personalizedPlan = {
                 plan: data.plan,
                 createdAt: data.created_at || new Date().toISOString(),
-                completedItems: {}
+                completedItems: {},
+                completedForDate: today()
             };
             persist();
             renderSavedPersonalizedPlan();
@@ -2360,25 +2952,33 @@ const observeTranslatedContent = () => {
         }
     };
 
+    const resetPersonalizedPlanChecklist = () => {
+        const saved = state.personalizedPlan;
+        if (!saved?.plan) return;
+        state.personalizedPlan = {
+            ...saved,
+            completedItems: {},
+            completedForDate: today()
+        };
+        persist();
+        renderSavedPersonalizedPlan();
+        toast(t("Today's plan checklist has been reset."));
+    };
+
     const clearMentor = () => {
-        if (!confirm("Clear this conversation from this browser?")) return;
-
-        state.messages = [];
-        save(STORAGE.messages, state.messages);
-
-        const container = $("#mentorMessages");
-        if (container) {
-            container.innerHTML = `
-                <div class="mentor-message mentor-message-assistant">
-                    <span class="message-avatar">✦</span>
-                    <div class="message-content">
-                        <span class="message-author">NexHealth Mentor</span>
-                        <p>Conversation cleared. What general health question can I help you understand?</p>
-                    </div>
-                </div>`;
+        if (state.busy) {
+            toast("Wait for the current reply before clearing this chat.", "warning");
+            return;
         }
-
-        toast("Conversation cleared.");
+        if (!confirm("Clear the messages in this chat?")) return;
+        const conversation = ensureActiveConversation();
+        conversation.messages = [];
+        if (state.activeConversationType === "mentor") conversation.title = "New chat";
+        conversation.updatedAt = new Date().toISOString();
+        state.messages = [];
+        persist();
+        renderMentorMessages();
+        toast("This chat was cleared.");
     };
 
     const exportData = () => {
@@ -2390,6 +2990,11 @@ const observeTranslatedContent = () => {
             meals: state.meals,
             analyses: state.analyses,
             messages: state.messages,
+            mentor_conversations: state.mentorConversations,
+            active_mentor_conversation_id: state.activeMentorConversationId,
+            analyzer_conversations: state.analyzerConversations,
+            active_analyzer_conversation_id: state.activeAnalyzerConversationId,
+            active_conversation_type: state.activeConversationType,
             profile: state.profile,
             diet_preferences: state.dietPreferences,
             consent: state.consent,
@@ -2422,6 +3027,11 @@ const observeTranslatedContent = () => {
         state.meals = [];
         state.analyses = [];
         state.messages = [];
+        state.mentorConversations = [];
+        state.activeMentorConversationId = "";
+        state.analyzerConversations = [];
+        state.activeAnalyzerConversationId = "";
+        state.activeConversationType = "mentor";
         state.profile = {};
         state.dietPreferences = {};
         $("#dietPreferencesForm")?.reset();
@@ -2541,6 +3151,7 @@ const observeTranslatedContent = () => {
         }
 
         $("#personalizedPlanButton")?.addEventListener("click", generatePersonalizedPlan);
+        $("#resetPersonalizedPlanButton")?.addEventListener("click", resetPersonalizedPlanChecklist);
         $("#resetCompletedTasksButton")?.addEventListener("click", resetCompletedTasks);
 
         if (languageSelect) {
@@ -2617,7 +3228,7 @@ const observeTranslatedContent = () => {
                     if (!plan?.plan || !planItem) break;
                     const completedItems = { ...(plan.completedItems || {}) };
                     completedItems[planItem] = completedItems[planItem] !== true;
-                    state.personalizedPlan = { ...plan, completedItems };
+                    state.personalizedPlan = { ...plan, completedItems, completedForDate: today() };
                     persist();
                     actionButton.classList.toggle("checked", completedItems[planItem]);
                     actionButton.setAttribute("aria-checked", String(completedItems[planItem]));
@@ -2812,7 +3423,63 @@ const observeTranslatedContent = () => {
             sendMentorMessage($("#mentorInput")?.value || "");
         });
 
+        $("#mentorInput")?.addEventListener("keydown", event => {
+            if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+            event.preventDefault();
+            if (!state.busy) sendMentorMessage(event.currentTarget.value || "");
+        });
+
         $("#clearMentorButton")?.addEventListener("click", clearMentor);
+        $("#newMentorConversationButton")?.addEventListener("click", startMentorConversation);
+        $("#mentorHistoryToggle")?.addEventListener("click", () => {
+            setMentorHistoryOpen($("#mentorHistoryPanel")?.hidden !== false);
+        });
+        $("#mentorConversationTabs")?.addEventListener("click", event => {
+            const deleteButton = event.target.closest("[data-delete-conversation]");
+            if (deleteButton) {
+                deleteConversation("mentor", deleteButton.dataset.conversationId);
+                return;
+            }
+            const item = event.target.closest("[data-conversation-id]");
+            if (item) selectConversation("mentor", item.dataset.conversationId);
+        });
+        $("#analyzerConversationList")?.addEventListener("click", event => {
+            const deleteButton = event.target.closest("[data-delete-conversation]");
+            if (deleteButton) {
+                deleteConversation("analyzer", deleteButton.dataset.conversationId);
+                return;
+            }
+            const item = event.target.closest("[data-conversation-id]");
+            if (item) selectConversation("analyzer", item.dataset.conversationId);
+        });
+        $("#mentorMessages")?.addEventListener("click", event => {
+            const editButton = event.target.closest("[data-edit-message]");
+            if (editButton) {
+                beginEditMentorMessage(Number(editButton.dataset.editMessage));
+                return;
+            }
+            const cancelButton = event.target.closest("[data-cancel-message-edit]");
+            if (cancelButton) renderMentorMessages();
+        });
+        $("#mentorMessages")?.addEventListener("submit", event => {
+            const form = event.target.closest("[data-edit-message-form]");
+            if (!form) return;
+            event.preventDefault();
+            const text = form.querySelector("textarea")?.value || "";
+            saveEditedMentorMessage(Number(form.dataset.editMessageForm), text);
+        });
+        $("#analysisResults")?.addEventListener("click", event => {
+            const button = event.target.closest("[data-analysis-conversation]");
+            if (button) continueAnalysisInMentor(button.dataset.analysisConversation);
+        });
+        document.addEventListener("click", event => {
+            if (!event.target.closest("#mentorHistoryPanel, #mentorHistoryToggle")) {
+                setMentorHistoryOpen(false);
+            }
+        });
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") setMentorHistoryOpen(false);
+        });
 
         $("#consentPreferencesForm")?.addEventListener("submit", async event => {
             event.preventDefault();
