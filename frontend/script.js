@@ -472,6 +472,15 @@ Object.assign(uiTextTranslations.hi, {
     "Other": "अन्य"
 });
 
+Object.assign(uiTextTranslations.te, {
+    "Analyzed documents are added to Medical records. Signed-in users can view them across devices; guest records stay in this browser. Medical documents are private and are never shared by an ID alone.": "విశ్లేషించిన పత్రాలు Medical records‌లో చేరతాయి. సైన్ ఇన్ చేసినవారు వాటిని పలు పరికరాల్లో చూడవచ్చు; అతిథి రికార్డులు ఈ బ్రౌజర్‌లోనే ఉంటాయి. వైద్య పత్రాలు ప్రైవేట్‌గా ఉంటాయి; ID ఒక్కటితో పంచుకోబడవు.",
+    "View saved analysis": "సేవ్ చేసిన విశ్లేషణను చూడండి"
+});
+Object.assign(uiTextTranslations.hi, {
+    "Analyzed documents are added to Medical records. Signed-in users can view them across devices; guest records stay in this browser. Medical documents are private and are never shared by an ID alone.": "विश्लेषित दस्तावेज़ मेडिकल रिकॉर्ड में जोड़े जाते हैं। साइन-इन उपयोगकर्ता उन्हें कई डिवाइस पर देख सकते हैं; अतिथि रिकॉर्ड इसी ब्राउज़र में रहते हैं। मेडिकल दस्तावेज़ निजी हैं और केवल ID से साझा नहीं होते।",
+    "View saved analysis": "सहेजा गया विश्लेषण देखें"
+});
+
 const NexHealth = (() => {
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -510,6 +519,7 @@ const NexHealth = (() => {
     let welcomeGreetingIndex = 0;
     let preserveNextMentorNavigation = false;
     let medicationReminderTimer = null;
+    let recordSharing = { active: false, requests: [], shares: [], code: "" };
 
     const userStorageKey = key => `${key}_${activeUserId}`;
 
@@ -1200,6 +1210,9 @@ const observeTranslatedContent = () => {
         return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
     };
 
+    const isSupportedMedicalDocument = file =>
+        /\.(pdf|jpe?g|png|webp|docx)$/i.test(String(file?.name || ""));
+
     const toast = (message, type = "success") => {
         let region = $("#toast-region") || $(".toast-region");
 
@@ -1330,6 +1343,7 @@ const observeTranslatedContent = () => {
         }
 
         state.screen = target;
+        if (target === "abdm-readiness") loadRecordSharing();
 
         $$("[data-screen-panel]").forEach(item => {
             const active = item === panel;
@@ -1525,7 +1539,7 @@ const observeTranslatedContent = () => {
     };
 
     const openTaskModal = (suggestion = {}, sourceReport = "") => {
-        const suggestedNotes = [suggestion.notes, suggestion.evidence ? `Prescription note: ${suggestion.evidence}` : "", sourceReport ? `Source: ${sourceReport}` : ""]
+        const suggestedNotes = [suggestion.notes, suggestion.evidence ? `Source note: ${suggestion.evidence}` : "", sourceReport ? `Source: ${sourceReport}` : ""]
             .filter(Boolean).join("\n");
         openModal(
             "Add a health task",
@@ -1541,7 +1555,7 @@ const observeTranslatedContent = () => {
             }) +
             field("Due date", "due_date", "date", {
                 required: true,
-                value: today()
+                value: suggestion.due_date || today()
             }) +
             field("Notes", "notes", "textarea", {
                 value: suggestedNotes,
@@ -1564,6 +1578,9 @@ const observeTranslatedContent = () => {
                 if (suggestion._analysisId && Number.isInteger(suggestion._draftIndex)) {
                     const analysis = state.analyses.find(item => item.id === suggestion._analysisId);
                     analysis?.care_action_draft?.follow_up_tasks?.splice(suggestion._draftIndex, 1);
+                }
+                if (suggestion._healthInsightCardId) {
+                    document.querySelector(`[data-health-insight-card="${suggestion._healthInsightCardId}"]`)?.remove();
                 }
                 persist();
                 renderAll();
@@ -1760,14 +1777,17 @@ const observeTranslatedContent = () => {
                 ]
             }) +
             `<div class="form-field">
-                <label for="recordFile">Document (PDF or image)</label>
+                <label for="recordFile">Document (PDF, JPG, PNG, WebP, or DOCX)</label>
                 <input type="file" id="recordFile" name="file"
-                    accept=".pdf,.png,.jpg,.jpeg,.webp" required>
+                    accept=".pdf,.png,.jpg,.jpeg,.webp,.docx,application/pdf,image/png,image/jpeg,image/webp,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
             </div>`,
             async form => {
                 const file = form.get("file");
                 if (!(file instanceof File) || !file.size) {
                     throw new Error("Choose a document first.");
+                }
+                if (!isSupportedMedicalDocument(file)) {
+                    throw new Error("Choose a PDF, JPG, JPEG, PNG, WebP, or DOCX file.");
                 }
                 if (file.size > 10 * 1024 * 1024) {
                     throw new Error("The maximum file size is 10 MB.");
@@ -2266,6 +2286,9 @@ const observeTranslatedContent = () => {
 
         container.innerHTML = records.map(record => {
             const recordId = encodeURIComponent(String(record.id || ""));
+            const savedAnalysis = record.analysis_id
+                ? state.analyses.find(analysis => analysis.id === record.analysis_id)
+                : null;
             const fileActions = record.file_available && recordId
                 ? `<div class="record-row-actions">
                     <a class="button button-secondary button-small record-file-link"
@@ -2286,6 +2309,9 @@ const observeTranslatedContent = () => {
                         ${record.record_type === "health_note"
                             ? `<small>${escapeHTML((record.extracted_text || "").slice(0, 220))}${(record.extracted_text || "").length > 220 ? "…" : ""}</small>`
                             : `<small>${escapeHTML(record.file_name || "")} · ${escapeHTML(formatSize(Number(record.size) || 0))}</small>`}
+                        ${savedAnalysis
+                            ? `<details class="record-analysis-preview"><summary>View saved analysis</summary><div class="analysis-text">${formatAnalysisContent(savedAnalysis.summary || "No analysis text was saved.")}</div></details>`
+                            : ""}
                     </div>
                     <span class="record-status">${escapeHTML(record.status || "saved")}</span>
                     ${fileActions}
@@ -2593,12 +2619,13 @@ const observeTranslatedContent = () => {
         if (!checkbox) return;
         const available = state.analyses.some(item =>
             typeof item?.summary === "string" || typeof item?.extracted_text === "string"
-        );
+        ) || state.records.some(item => item?.record_type === "health_note" && typeof item?.extracted_text === "string") ||
+            (Array.isArray(state.medicationReminders) && state.medicationReminders.length > 0);
         checkbox.disabled = !available;
         if (!available) checkbox.checked = false;
         if (help) help.textContent = available
-            ? "Up to 3 recent analyzed reports will be sent only for this plan request. Check the original report for accuracy."
-            : "No analyzed reports are saved yet. You can still create a plan from your profile and routine.";
+            ? "Saved prescription analyses, reports, health notes, and medication reminders will be sent only for this plan request. Verify details against the originals."
+            : "No saved prescription or health information is available yet. You can still create a plan from your profile and routine.";
     };
 
     const renderAll = () => {
@@ -2649,6 +2676,126 @@ const observeTranslatedContent = () => {
         }
 
         return data;
+    };
+
+    const renderRecordSharing = () => {
+        const requestList = $("#recordSharingRequests");
+        const sharedList = $("#recordsSharedWithMe");
+        const status = $("#recordSharingStatus");
+        const revokeButton = $("#revokeRecordSharing");
+        const codePanel = $("#recordShareCodePanel");
+        const authenticated = document.body.classList.contains("account-authenticated");
+
+        if (!authenticated) {
+            if (status) status.textContent = "Sign in to create a code, request access, or manage record sharing. Guest records cannot be shared between accounts.";
+            if (requestList) requestList.innerHTML = "<p>Sign in to load access requests.</p>";
+            if (sharedList) sharedList.innerHTML = "<p>Sign in to load records shared with you.</p>";
+            if (revokeButton) revokeButton.hidden = true;
+            if (codePanel) codePanel.hidden = true;
+            return;
+        }
+
+        if (revokeButton) revokeButton.hidden = !recordSharing.active;
+        if (status && recordSharing.active) status.textContent = "Your request code is active. It only allows signed-in people to request access; you approve each person.";
+        if (requestList) {
+            const requests = Array.isArray(recordSharing.requests) ? recordSharing.requests : [];
+            requestList.innerHTML = requests.length ? requests.map(item => {
+                const email = escapeHTML(item.recipient_email || "Signed-in NexHealth user");
+                if (item.status === "pending") return `
+                    <article class="record-sharing-item">
+                        <div><strong>${email}</strong><small>Requesting access to records currently in your library</small></div>
+                        <div class="record-sharing-item-actions">
+                            <button class="button button-primary button-small" type="button" data-record-share-review="approve" data-request-id="${escapeHTML(item.id)}">Approve</button>
+                            <button class="button button-secondary button-small" type="button" data-record-share-review="reject" data-request-id="${escapeHTML(item.id)}">Decline</button>
+                        </div>
+                    </article>`;
+                return `<article class="record-sharing-item"><div><strong>${email}</strong><small>Can view the records that existed when you approved.</small></div><div class="record-sharing-item-actions"><span class="record-sharing-approved">Approved</span><button class="button button-secondary button-small" type="button" data-record-share-revoke="${escapeHTML(item.id)}">Revoke</button></div></article>`;
+            }).join("") : "<p>No access requests.</p>";
+        }
+
+        if (sharedList) {
+            const shares = Array.isArray(recordSharing.shares) ? recordSharing.shares : [];
+            const entries = shares.flatMap(group => {
+                const records = Array.isArray(group.records) ? group.records : [];
+                const analyses = Array.isArray(group.analyses) ? group.analyses : [];
+                return records.map(record => ({ record, ownerEmail: group.owner_email, analysis: analyses.find(item => item.id === record.analysis_id) }));
+            });
+            sharedList.innerHTML = entries.length ? entries.map(({ record, ownerEmail, analysis }) => {
+                const recordId = encodeURIComponent(String(record.id || ""));
+                const fileActions = record.file_available
+                    ? `<div class="record-row-actions"><a class="button button-secondary button-small record-file-link" href="/api/shared-medical-records/${recordId}/file" target="_blank" rel="noopener noreferrer">View</a><a class="button button-secondary button-small record-file-link" href="/api/shared-medical-records/${recordId}/download">Download</a></div>`
+                    : "";
+                const analysisBlock = analysis?.summary
+                    ? `<details class="record-analysis-preview"><summary>View saved analysis</summary><div class="analysis-text">${formatAnalysisContent(analysis.summary)}</div></details>`
+                    : "";
+                return `<article class="record-sharing-item record-sharing-shared-item"><div><strong>${escapeHTML(record.name || record.file_name || "Health record")}</strong><small>Shared by ${escapeHTML(ownerEmail || "a NexHealth user")} · ${escapeHTML(formatDate(record.created_at || ""))}</small>${analysisBlock}${fileActions}</div></article>`;
+            }).join("") : "<p>No records have been shared with you.</p>";
+        }
+    };
+
+    const loadRecordSharing = async () => {
+        if (!document.body.classList.contains("account-authenticated")) {
+            renderRecordSharing();
+            return;
+        }
+        const status = $("#recordSharingStatus");
+        if (status) status.textContent = "Loading private sharing status…";
+        try {
+            const [access, shared] = await Promise.all([
+                apiRequest("/api/record-sharing"),
+                apiRequest("/api/record-sharing/records")
+            ]);
+            recordSharing.active = access.share_active === true;
+            recordSharing.requests = Array.isArray(access.requests) ? access.requests : [];
+            recordSharing.shares = Array.isArray(shared.shares) ? shared.shares : [];
+            renderRecordSharing();
+            if (status && !recordSharing.active) status.textContent = "Record sharing is off. Generate a code only when you are ready to invite someone.";
+        } catch (error) {
+            if (status) status.textContent = error.message;
+            if ($("#recordSharingRequests")) $("#recordSharingRequests").innerHTML = "<p>Could not load access requests.</p>";
+            if ($("#recordsSharedWithMe")) $("#recordsSharedWithMe").innerHTML = "<p>Could not load shared records.</p>";
+        }
+    };
+
+    const createRecordSharingCode = async () => {
+        const button = $("#generateRecordShareCode");
+        const status = $("#recordSharingStatus");
+        if (button) button.disabled = true;
+        try {
+            const result = await apiRequest("/api/record-sharing/code", { method: "POST" });
+            recordSharing.active = true;
+            recordSharing.code = String(result.code || "");
+            $("#recordShareCodeValue").textContent = recordSharing.code;
+            $("#recordShareCodePanel").hidden = false;
+            if (status) status.textContent = "New code generated. Any previous request code was replaced; already approved access remains until revoked.";
+            renderRecordSharing();
+            toast("NexHealth demo code generated. It is not an ABHA number.");
+        } catch (error) {
+            if (status) status.textContent = error.message;
+            toast(error.message, "error");
+        } finally {
+            if (button) button.disabled = false;
+        }
+    };
+
+    const revokeRecordSharing = async () => {
+        if (!window.confirm("Revoke the sharing code and all approved access to your NexHealth records? People will immediately lose access.")) return;
+        const button = $("#revokeRecordSharing");
+        if (button) button.disabled = true;
+        try {
+            await apiRequest("/api/record-sharing/revoke", { method: "POST" });
+            recordSharing.active = false;
+            recordSharing.requests = [];
+            recordSharing.code = "";
+            $("#recordShareCodePanel").hidden = true;
+            if ($("#recordSharingStatus")) $("#recordSharingStatus").textContent = "Sharing code and approved access have been revoked.";
+            renderRecordSharing();
+            toast("Record sharing revoked.");
+        } catch (error) {
+            toast(error.message, "error");
+        } finally {
+            if (button) button.disabled = false;
+        }
     };
 
     const setAuthFeedback = (message, kind = "error") => {
@@ -2863,7 +3010,55 @@ const observeTranslatedContent = () => {
         });
     };
 
+    const renderLabTrends = data => {
+        const containers = [$("#labTrendsResults"), $("#overviewLabTrendsResults")].filter(Boolean);
+        if (!containers.length) return;
+        const trends = Array.isArray(data?.trends) ? data.trends : [];
+        const charts = trends.map(trend => {
+            const points = (Array.isArray(trend.points) ? trend.points : [])
+                .filter(point => point && Number.isFinite(Number(point.value)) && /^\d{4}-\d{2}-\d{2}$/.test(String(point.date || "")))
+                .slice(-6);
+            if (points.length < 2) return "";
+            const values = points.map(point => Number(point.value));
+            let min = Math.min(...values);
+            let max = Math.max(...values);
+            if (min === max) { min -= 1; max += 1; }
+            const left = 48, right = 368, top = 22, bottom = 134;
+            const coordinates = points.map((point, index) => ({
+                x: left + (right - left) * index / (points.length - 1),
+                y: bottom - ((Number(point.value) - min) / (max - min)) * (bottom - top)
+            }));
+            const polyline = coordinates.map(point => `${point.x},${point.y}`).join(" ");
+            const circles = coordinates.map((point, index) => `<circle class="lab-trend-point" cx="${point.x}" cy="${point.y}" r="5"><title>${escapeHTML(points[index].date)}: ${escapeHTML(points[index].display || points[index].value)} ${escapeHTML(points[index].unit || "")}</title></circle>`).join("");
+            const firstDate = escapeHTML(points[0].date);
+            const lastDate = escapeHTML(points[points.length - 1].date);
+            const unit = escapeHTML(points.find(point => point.unit)?.unit || "");
+            const pointList = points.map(point => `<li><strong>${escapeHTML(point.display || point.value)}${unit ? ` ${unit}` : ""}</strong><span>${escapeHTML(point.date)} · ${escapeHTML(point.source || "Saved report")}</span></li>`).join("");
+            return `<article class="lab-trend-chart-card">
+                <div class="lab-trend-chart-heading"><h3>${escapeHTML(trend.test || "Lab result")}</h3><span>${unit}</span></div>
+                <p>${escapeHTML(trend.summary || "Values reported over time; discuss what they mean with your clinician.")}</p>
+                <svg class="lab-trend-chart" viewBox="0 0 400 174" role="img" aria-label="${escapeHTML(`${trend.test || "Lab result"} over time`)}">
+                    <line class="lab-trend-gridline" x1="${left}" y1="${top}" x2="${right}" y2="${top}" />
+                    <line class="lab-trend-gridline" x1="${left}" y1="${bottom}" x2="${right}" y2="${bottom}" />
+                    <text class="lab-trend-axis" x="4" y="${top + 4}">${escapeHTML(max.toLocaleString())}</text>
+                    <text class="lab-trend-axis" x="4" y="${bottom + 4}">${escapeHTML(min.toLocaleString())}</text>
+                    <polyline class="lab-trend-line" points="${polyline}" />${circles}
+                    <text class="lab-trend-date" x="${left}" y="160" text-anchor="start">${firstDate}</text>
+                    <text class="lab-trend-date" x="${right}" y="160" text-anchor="end">${lastDate}</text>
+                </svg>
+                <ol class="lab-trend-points">${pointList}</ol>
+                <small class="lab-trend-note">Report values only · not a diagnosis</small>
+            </article>`;
+        }).filter(Boolean);
+        const markup = charts.length
+            ? `<div class="lab-trend-chart-list">${charts.join("")}</div>`
+            : `<div class="empty-state"><span class="empty-state-icon"><i data-lucide="chart-no-axes-combined"></i></span><strong>Your trends will appear here</strong><p>At least two clear, dated results for the same test and unit are needed. Unclear values are left out.</p></div>`;
+        containers.forEach(container => { container.innerHTML = markup; });
+        refreshIcons();
+    };
+
     const renderHealthInsights = data => {
+        renderLabTrends(data);
         const container = $("#healthInsightsResults");
         if (!container) return;
         const citationMarkup = citations => (Array.isArray(citations) ? citations : []).map(citation => `
@@ -2876,8 +3071,17 @@ const observeTranslatedContent = () => {
             <strong>${escapeHTML(item.test)} · ${escapeHTML(item.direction || "change observed")}</strong><p>${escapeHTML(item.summary || "")}</p>${citationMarkup(item.citations)}</article>`);
         const risks = group("Values to discuss with your healthcare professional", data.risk_flags, item => `<article class="health-insight-card">
             <strong>${escapeHTML(item.test || item.title || "Report finding")}</strong><p>${escapeHTML(item.guidance || "Discuss this report finding with your healthcare professional.")}</p>${citationMarkup(item.citations)}</article>`);
-        const steps = group("Preventive next steps", data.next_steps, item => `<article class="health-insight-card">
-            <strong>${escapeHTML(item.title || "Discuss with your clinician")}</strong><p>${escapeHTML(item.guidance || "")}</p>${citationMarkup(item.citations)}</article>`);
+        const steps = group("Preventive next steps", data.next_steps, (item, index) => {
+            const citations = Array.isArray(item.citations) ? item.citations : [];
+            const source = citations[0]?.source || "Saved report";
+            const evidence = citations[0]?.evidence || "";
+            const actions = citations.length ? `<div class="health-insight-actions">
+                <button class="button button-secondary button-small" type="button" data-action="add-health-insight-task" data-title="${escapeHTML(item.overdue ? "Check whether follow-up is still due" : "Discuss the recommended follow-up")}" data-guidance="${escapeHTML(item.guidance || "")}" data-evidence="${escapeHTML(evidence)}" data-source="${escapeHTML(source)}" data-due-date="${escapeHTML(item.due_date || "")}" data-card-id="followup-${index}">Review &amp; edit task</button>
+                <button class="text-button" type="button" data-action="reject-health-insight">Dismiss</button>
+            </div>` : "";
+            return `<article class="health-insight-card" data-health-insight-card="followup-${index}">
+                <strong>${escapeHTML(item.title || "Discuss with your clinician")}</strong><p>${escapeHTML(item.guidance || "")}</p>${citationMarkup(citations)}${actions}</article>`;
+        });
         const gaps = Array.isArray(data.data_gaps) ? data.data_gaps : [];
         const gapsMarkup = gaps.length ? `<section class="health-insight-group"><h3>What is missing</h3>${gaps.map(gap => `<p class="health-insight-gap">${escapeHTML(gap)}</p>`).join("")}</section>` : "";
         container.innerHTML = trends || risks || steps || gapsMarkup
@@ -2886,9 +3090,10 @@ const observeTranslatedContent = () => {
     };
 
     const generateHealthInsights = async () => {
-        const button = $("#generateHealthInsightsButton");
+        const buttons = [$("#generateHealthInsightsButton"), $("#overviewGenerateHealthInsightsButton")].filter(Boolean);
         const container = $("#healthInsightsResults");
-        if (!button || !container || button.disabled) return;
+        const overview = $("#overviewLabTrendsResults");
+        if (!buttons.length || !container || buttons.some(button => button.disabled)) return;
         if (!state.consent.aiProcessing) {
             requestAIConsent(generateHealthInsights);
             return;
@@ -2896,10 +3101,12 @@ const observeTranslatedContent = () => {
         const reports = state.analyses.filter(item => item && (item.extracted_text || item.summary)).slice(0, 8);
         if (!reports.length) {
             container.innerHTML = `<div class="empty-state compact-empty"><strong>Analyze a report first</strong><p>Health insights use saved report analyses and extracted text from this workspace.</p></div>`;
+            if (overview) overview.innerHTML = `<div class="empty-state compact-empty"><strong>Your report trends will appear here</strong><p>Analyze and save reports first. Two clear, dated results for the same test are needed to draw a trend.</p></div>`;
             return;
         }
-        button.disabled = true;
+        buttons.forEach(button => { button.disabled = true; });
         container.innerHTML = `<div class="empty-state compact-empty" role="status"><strong>Reviewing saved reports…</strong><p>Looking for dated, comparable evidence. Unclear values will be left out.</p></div>`;
+        if (overview) overview.innerHTML = `<div class="empty-state compact-empty" role="status"><strong>Reviewing saved reports…</strong><p>Looking for dated, comparable results to show here.</p></div>`;
         try {
             const result = await apiRequest("/api/health-insights", {
                 method: "POST",
@@ -2920,8 +3127,9 @@ const observeTranslatedContent = () => {
             renderHealthInsights(result);
         } catch (error) {
             container.innerHTML = `<div class="empty-state compact-empty"><strong>Insights unavailable</strong><p>${escapeHTML(error.message || "Try again later.")}</p></div>`;
+            if (overview) overview.innerHTML = `<div class="empty-state compact-empty"><strong>Trends unavailable</strong><p>${escapeHTML(error.message || "Try again later.")}</p></div>`;
         } finally {
-            button.disabled = false;
+            buttons.forEach(button => { button.disabled = false; });
             refreshIcons();
         }
     };
@@ -2992,8 +3200,13 @@ const observeTranslatedContent = () => {
         const file = fileInput?.files?.[0];
 
         if (!file) {
-            toast("Choose a PDF or image first.", "warning");
+            toast("Choose a PDF, JPG, JPEG, PNG, WebP, or DOCX file first.", "warning");
             fileInput?.focus();
+            return;
+        }
+
+        if (!isSupportedMedicalDocument(file)) {
+            toast("Choose a PDF, JPG, JPEG, PNG, WebP, or DOCX file.", "error");
             return;
         }
 
@@ -3026,11 +3239,46 @@ const observeTranslatedContent = () => {
             results.textContent = "Reading your document and requesting an explanation...";
         }
 
+        const type = $("#analysisType")?.value || "summary";
+        const analysisId = id();
+        let savedRecord = null;
+
         try {
+            // Keep the original file in the signed-in user's private storage.
+            // Guest mode still saves the analysis and record entry locally below.
+            if (activeUserId && document.body.classList.contains("account-authenticated")) {
+                const recordBody = new FormData();
+                recordBody.append("file", file);
+                const uploadResponse = await fetch("/api/medical-records", {
+                    method: "POST",
+                    body: recordBody
+                });
+                const uploaded = await uploadResponse.json().catch(() => ({}));
+                if (!uploadResponse.ok) {
+                    throw new Error(uploaded.error || uploaded.message || "The document could not be saved to Medical records.");
+                }
+                savedRecord = {
+                    id: uploaded.id || id(),
+                    name: file.name,
+                    category: type === "prescription" ? "prescription" : type === "lab" ? "lab" : "other",
+                    file_name: uploaded.file_name || file.name,
+                    storage_path: uploaded.storage_path || "",
+                    size: uploaded.size || file.size,
+                    mime_type: uploaded.mime_type || file.type,
+                    created_at: uploaded.created_at || new Date().toISOString(),
+                    storage: uploaded.storage || "supabase",
+                    file_available: uploaded.file_available === true,
+                    status: "Analyzed",
+                    analysis_id: analysisId
+                };
+                state.records.unshift(savedRecord);
+                persist();
+                renderAll();
+            }
+
             const body = new FormData();
             body.append("file", file);
 
-            const type = $("#analysisType")?.value || "summary";
             const context = $("#analysisContext")?.value?.trim() || "";
 
             body.append("analysis_type", type);
@@ -3044,8 +3292,8 @@ const observeTranslatedContent = () => {
 
             const answer = data.summary || data.analysis || data.message || "No analysis was returned.";
 
-            state.analyses.unshift({
-                id: id(),
+            const analysis = {
+                id: analysisId,
                 file_name: file.name,
                 type,
                 summary: answer,
@@ -3056,7 +3304,26 @@ const observeTranslatedContent = () => {
                 ocr_confidence: Number.isFinite(data.ocr_confidence) ? data.ocr_confidence : null,
                 analysis_method: String(data.analysis_method || "").slice(0, 80),
                 created_at: data.created_at || new Date().toISOString()
-            });
+            };
+            state.analyses.unshift(analysis);
+
+            if (!savedRecord) {
+                savedRecord = {
+                    id: id(),
+                    record_type: "analyzed_report",
+                    name: file.name,
+                    category: type === "prescription" ? "prescription" : type === "lab" ? "lab" : "other",
+                    file_name: file.name,
+                    size: file.size,
+                    mime_type: file.type || "application/octet-stream",
+                    created_at: analysis.created_at,
+                    storage: "this browser",
+                    file_available: false,
+                    status: "Analysis saved here",
+                    analysis_id: analysisId
+                };
+                state.records.unshift(savedRecord);
+            }
 
             persist();
 
@@ -3108,11 +3375,17 @@ const observeTranslatedContent = () => {
 
             if (status) status.textContent = "Complete";
             renderAll();
-            toast("Report analysis completed.");
+            toast(savedRecord.storage === "this browser"
+                ? "Analysis saved to Medical records in this browser."
+                : "Report analysis completed and saved to your private Medical records.");
         } catch (error) {
             if (status) status.textContent = "Could not analyze";
-            if (results) results.textContent = error.message;
-            toast(error.message, "error");
+            if (results) results.textContent = savedRecord
+                ? `The document is saved in Medical records, but analysis did not finish: ${error.message}`
+                : error.message;
+            toast(savedRecord
+                ? `Document saved to Medical records. Analysis did not finish: ${error.message}`
+                : error.message, "error");
         } finally {
             state.busy = false;
             if (button) {
@@ -3699,11 +3972,28 @@ const observeTranslatedContent = () => {
             health_context: {
                 include_reports: $("#includeWellnessReportData")?.checked === true,
                 analyzed_reports: $("#includeWellnessReportData")?.checked === true
-                    ? state.analyses.filter(item => item && (item.summary || item.extracted_text)).slice(0, 3).map(item => ({
+                    ? state.analyses.filter(item => item && (item.summary || item.extracted_text)).slice(0, 5).map(item => ({
                         source: text(item.file_name || item.name || "Saved analysis", 120),
                         date: text(item.created_at || item.date || "Date not recorded", 40),
+                        type: text(item.type || "medical record", 40),
                         summary: text(item.summary, 1800),
                         extracted_text: text(item.extracted_text, 1800)
+                    }))
+                    : [],
+                health_notes: $("#includeWellnessReportData")?.checked === true
+                    ? state.records.filter(item => item?.record_type === "health_note" && item.extracted_text)
+                        .slice(-8).map(item => ({
+                            source: text(item.name || "Saved health note", 120),
+                            date: text(item.created_at || "Date not recorded", 40),
+                            text: text(item.extracted_text, 1200)
+                        }))
+                    : [],
+                medication_reminders: $("#includeWellnessReportData")?.checked === true
+                    ? state.medicationReminders.filter(item => item && item.active === true).slice(0, 12).map(item => ({
+                        name: text(item.medicine_name, 120),
+                        dose: text(item.dose, 80),
+                        source: text(item.source_file || "User-entered reminder", 100),
+                        end_date: text(item.end_date || "", 40)
                     }))
                     : []
             },
@@ -3989,6 +4279,61 @@ const observeTranslatedContent = () => {
 
 
         document.addEventListener("click", event => {
+            const recordShareReview = event.target.closest("[data-record-share-review]");
+            if (recordShareReview) {
+                const approve = recordShareReview.dataset.recordShareReview === "approve";
+                if (approve && !window.confirm("Approve this person's request? They will be able to view every record currently in your NexHealth library and its saved analysis. New records are excluded, and you can revoke access later.")) return;
+                recordShareReview.disabled = true;
+                apiRequest(`/api/record-sharing/requests/${encodeURIComponent(recordShareReview.dataset.requestId)}/review`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ approve })
+                }).then(() => {
+                    toast(approve ? "Access approved for your current records." : "Access request declined.");
+                    return loadRecordSharing();
+                }).catch(error => {
+                    toast(error.message, "error");
+                    recordShareReview.disabled = false;
+                });
+                return;
+            }
+
+            const recordShareRevoke = event.target.closest("[data-record-share-revoke]");
+            if (recordShareRevoke) {
+                if (!window.confirm("Revoke this person's access to your shared records? They will immediately lose access.")) return;
+                recordShareRevoke.disabled = true;
+                apiRequest(`/api/record-sharing/requests/${encodeURIComponent(recordShareRevoke.dataset.recordShareRevoke)}/revoke`, { method: "POST" })
+                    .then(() => {
+                        toast("This person's record access was revoked.");
+                        return loadRecordSharing();
+                    })
+                    .catch(error => {
+                        toast(error.message, "error");
+                        recordShareRevoke.disabled = false;
+                    });
+                return;
+            }
+
+            if (event.target.closest("#generateRecordShareCode")) {
+                createRecordSharingCode();
+                return;
+            }
+            if (event.target.closest("#revokeRecordSharing")) {
+                revokeRecordSharing();
+                return;
+            }
+            if (event.target.closest("#copyRecordShareCode")) {
+                if (!recordSharing.code) return;
+                if (!navigator.clipboard?.writeText) {
+                    toast("Select and copy the code manually.", "warning");
+                    return;
+                }
+                navigator.clipboard.writeText(recordSharing.code)
+                    .then(() => toast("Code copied."))
+                    .catch(() => toast("Select and copy the code manually.", "warning"));
+                return;
+            }
+
             const speakButton = event.target.closest("[data-speak-message]");
             if (speakButton) {
                 speakMentorMessage(Number(speakButton.dataset.speakMessage));
@@ -4074,6 +4419,19 @@ const observeTranslatedContent = () => {
                     openTaskModal({ ...suggestion, _analysisId: analysis.id, _draftIndex: index }, analysis.file_name || "Saved prescription");
                     break;
                 }
+                case "add-health-insight-task":
+                    openTaskModal({
+                        title: actionButton.dataset.title || "Discuss the recommended follow-up",
+                        category: "Appointment",
+                        notes: actionButton.dataset.guidance || "",
+                        evidence: actionButton.dataset.evidence || "",
+                        due_date: actionButton.dataset.dueDate || "",
+                        _healthInsightCardId: actionButton.dataset.cardId || ""
+                    }, actionButton.dataset.source || "Saved report");
+                    break;
+                case "reject-health-insight":
+                    actionButton.closest(".health-insight-card")?.remove();
+                    break;
                 case "reject-care-task": {
                     const analysis = state.analyses.find(item => item.id === itemId);
                     analysis?.care_action_draft?.follow_up_tasks?.splice(Number(actionButton.dataset.index), 1);
@@ -4291,6 +4649,42 @@ const observeTranslatedContent = () => {
 
         $("#recordsSearch")?.addEventListener("input", renderRecords);
 
+        $("#recordShareRequestForm")?.addEventListener("submit", async event => {
+            event.preventDefault();
+            const input = $("#recordShareCodeInput");
+            const code = String(input?.value || "").trim();
+            if (!/^\d{14}$/.test(code)) {
+                toast("Enter the 14-digit NexHealth demo sharing code.", "warning");
+                input?.focus();
+                return;
+            }
+            const button = event.currentTarget.querySelector("button[type=submit]");
+            if (button) button.disabled = true;
+            try {
+                const result = await apiRequest("/api/record-sharing/request", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ code })
+                });
+                input.value = "";
+                const message = result.status === "approved"
+                    ? "This account already has approved access."
+                    : "Access request sent. Records remain private until the owner approves it.";
+                if ($("#recordSharingStatus")) $("#recordSharingStatus").textContent = message;
+                toast(message);
+                await loadRecordSharing();
+            } catch (error) {
+                toast(error.message, "error");
+                if ($("#recordSharingStatus")) $("#recordSharingStatus").textContent = error.message;
+            } finally {
+                if (button) button.disabled = false;
+            }
+        });
+
+        $("#recordShareCodeInput")?.addEventListener("input", event => {
+            event.target.value = event.target.value.replace(/\D/g, "").slice(0, 14);
+        });
+
         $$("[data-record-filter]").forEach(button => {
             button.addEventListener("click", () => {
                 state.recordFilter = button.dataset.recordFilter;
@@ -4320,6 +4714,7 @@ const observeTranslatedContent = () => {
 
         $("#analyzeReportButton")?.addEventListener("click", analyzeReport);
         $("#generateHealthInsightsButton")?.addEventListener("click", generateHealthInsights);
+        $("#overviewGenerateHealthInsightsButton")?.addEventListener("click", generateHealthInsights);
 
         $("#reportFileInput")?.addEventListener("change", event => {
             const file = event.target.files?.[0];
@@ -4327,6 +4722,13 @@ const observeTranslatedContent = () => {
 
             if (!file) {
                 if (selected) selected.hidden = true;
+                return;
+            }
+
+            if (!isSupportedMedicalDocument(file)) {
+                event.target.value = "";
+                if (selected) selected.hidden = true;
+                toast("Choose a PDF, JPG, JPEG, PNG, WebP, or DOCX file.", "warning");
                 return;
             }
 

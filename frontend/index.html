@@ -11,10 +11,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css?v=20261024-upload-docx">
 
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <script src="/static/script.js" defer></script>
+    <script src="/static/script.js?v=20261024-upload-docx" defer></script>
 </head>
 
 <body class="auth-pending">
@@ -321,6 +321,24 @@
                         </a>
                     </div>
 
+                    <section class="panel overview-trend-panel" aria-labelledby="overviewTrendsHeading">
+                        <div class="panel-heading">
+                            <div>
+                                <h2 id="overviewTrendsHeading">Your health trends</h2>
+                                <p>See how clear, dated results change across your saved reports.</p>
+                            </div>
+                            <button class="button button-secondary button-small" type="button" id="overviewGenerateHealthInsightsButton">
+                                <i data-lucide="chart-no-axes-combined"></i> Review saved reports
+                            </button>
+                        </div>
+                        <div id="overviewLabTrendsResults" aria-live="polite">
+                            <div class="empty-state compact-empty">
+                                <strong>Your report trends will appear here</strong>
+                                <p>Review saved reports to compare at least two clear, dated results.</p>
+                            </div>
+                        </div>
+                    </section>
+
                     <div class="overview-columns">
                         <section class="panel tasks-panel">
                             <div class="panel-heading">
@@ -492,6 +510,72 @@
         </a>
     </section>
 
+    <section class="panel abdm-panel record-sharing-panel" aria-labelledby="recordSharingTitle">
+        <div class="panel-heading">
+            <div>
+                <span class="record-sharing-eyebrow">PRIVATE SHARING</span>
+                <h3 id="recordSharingTitle">Share health records</h3>
+                <p>A private NexHealth feature, separate from ABHA and ABDM.</p>
+            </div>
+            <i data-lucide="shield-check" aria-hidden="true"></i>
+        </div>
+
+        <div class="record-sharing-notice">
+            <span class="record-sharing-notice-icon"><i data-lucide="lock-keyhole" aria-hidden="true"></i></span>
+            <div>
+                <strong>Your records stay private until you approve.</strong>
+                <span>The code only starts a request. Approval shares the records already in your library; newer records stay private. Revoke access whenever you want.</span>
+            </div>
+        </div>
+
+        <div class="record-sharing-workflow">
+            <section class="record-sharing-step-card">
+                <div class="record-sharing-step-heading">
+                    <span>01</span>
+                    <div><h4>Invite someone</h4><p>Create a private request code.</p></div>
+                </div>
+                <div class="record-sharing-actions">
+                    <button class="button button-primary" id="generateRecordShareCode" type="button"><i data-lucide="key-round" aria-hidden="true"></i> Generate 14-digit code</button>
+                    <button class="button button-secondary" id="revokeRecordSharing" type="button" hidden>Revoke all</button>
+                </div>
+
+                <div class="record-sharing-code" id="recordShareCodePanel" hidden>
+                    <span>Your NexHealth sharing code</span>
+                    <div><strong id="recordShareCodeValue"></strong><button class="button button-secondary button-small" id="copyRecordShareCode" type="button"><i data-lucide="copy" aria-hidden="true"></i> Copy</button></div>
+                    <small>Share it only with the intended person. They still need your approval.</small>
+                </div>
+            </section>
+
+            <section class="record-sharing-step-card">
+                <div class="record-sharing-step-heading">
+                    <span>02</span>
+                    <div><h4>Request access</h4><p>Enter a code shared with you.</p></div>
+                </div>
+                <form class="record-share-request-form" id="recordShareRequestForm">
+                    <label for="recordShareCodeInput">14-digit NexHealth code</label>
+                    <div>
+                        <input id="recordShareCodeInput" name="code" inputmode="numeric" autocomplete="off" maxlength="14" pattern="[0-9]{14}" placeholder="0000 0000 0000 00" aria-describedby="recordShareRequestHelp">
+                        <button class="button button-secondary" type="submit">Send request</button>
+                    </div>
+                    <small id="recordShareRequestHelp">Nothing is shared until the owner approves.</small>
+                </form>
+            </section>
+        </div>
+
+        <p class="record-sharing-status" id="recordSharingStatus" role="status" aria-live="polite">Sign in to create or request private record access.</p>
+
+        <div class="record-sharing-columns">
+            <section class="record-sharing-list-card">
+                <h4><i data-lucide="inbox" aria-hidden="true"></i> Requests for your records</h4>
+                <div id="recordSharingRequests" class="record-sharing-list"><p>No requests loaded.</p></div>
+            </section>
+            <section class="record-sharing-list-card">
+                <h4><i data-lucide="folder-heart" aria-hidden="true"></i> Shared with you</h4>
+                <div id="recordsSharedWithMe" class="record-sharing-list"><p>No shared records loaded.</p></div>
+            </section>
+        </div>
+    </section>
+
     <section class="panel abdm-panel">
         <div class="panel-heading">
             <div>
@@ -657,11 +741,11 @@
                                 </div>
 
                                 <label class="upload-dropzone" id="reportDropzone" for="reportFileInput">
-                                    <input type="file" id="reportFileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" hidden>
+                                    <input type="file" id="reportFileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.docx,application/pdf,image/png,image/jpeg,image/webp,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
                                     <span class="upload-icon"><i data-lucide="file-up"></i></span>
                                     <strong>Drop your report here</strong>
                                     <span>or <span class="upload-browse">browse files</span></span>
-                                    <small>PDF or image · Maximum 10 MB</small>
+                                    <small>PDF, JPG, PNG, WebP, or DOCX · Maximum 10 MB</small>
                                 </label>
                                 <input type="file" id="reportCameraInput" accept="image/*" capture="environment" hidden>
                                 <div class="upload-camera-action">
@@ -709,7 +793,7 @@
                                     Analyze report
                                 </button>
 
-                                <p class="field-help">Text extraction and AI analysis require a configured, secure backend. Uploaded medical documents are sensitive personal information.</p>
+                                <p class="field-help">Analyzed documents are added to Medical records. Signed-in users can view them across devices; guest records stay in this browser. Medical documents are private and are never shared by an ID alone.</p>
                             </section>
 
                             <section class="panel analysis-results-panel" id="analysisResultsPanel" hidden>
@@ -732,10 +816,12 @@
                                     <span class="subtle-badge">Historical data</span>
                                 </div>
 
+                                <div id="labTrendsResults" aria-live="polite">
                                 <div class="empty-state">
                                     <span class="empty-state-icon"><i data-lucide="chart-no-axes-combined"></i></span>
                                     <strong>Your trends will appear here</strong>
                                     <p>Save verified lab values with dates and units to compare results over time.</p>
+                                </div>
                                 </div>
                             </section>
 
@@ -828,9 +914,8 @@
                     </section>
                     <label class="wellness-report-option" for="includeWellnessReportData">
                         <input type="checkbox" id="includeWellnessReportData">
-                        <span><strong>Use recent analyzed reports for this plan (optional)</strong><small id="wellnessReportOptionHelp">Report information is included only when you select this option.</small></span>
+                        <span><strong>Personalize with saved prescriptions and health records (optional)</strong><small id="wellnessReportOptionHelp">Your saved health information is included only when you select this option.</small><small class="wellness-privacy-detail">Your profile and routine are sent to the AI service only when you request a plan. Saved prescriptions, analyzed reports, and health notes are included only if you select this option.</small></span>
                     </label>
-                    <p class="personalized-plan-privacy-note">Your saved profile and routine details are sent to the AI service only when you request a plan. Recent analyzed reports are included only if you select the option above.</p>
 
                     <div class="diet-layout">
                         <div class="diet-main-column">
