@@ -194,10 +194,20 @@
                         <input id="globalSearch" type="search" placeholder="Search your workspace..." aria-label="Search workspace">
                     </div>
 
-                    <button class="icon-button notification-button" id="notificationButton" type="button" aria-label="Notifications">
+                    <button class="icon-button notification-button" id="notificationButton" type="button" aria-label="Notifications" aria-controls="notificationPanel" aria-expanded="false">
                         <i data-lucide="bell"></i>
-                        <span class="notification-dot"></span>
+                        <span class="notification-dot" id="notificationDot" hidden></span>
                     </button>
+                    <section class="notification-panel" id="notificationPanel" aria-labelledby="notificationPanelTitle" hidden>
+                        <div class="notification-panel-heading">
+                            <div><h2 id="notificationPanelTitle">Notifications</h2><span id="notificationPanelCount">All caught up</span></div>
+                            <button class="notification-mark-read" id="notificationMarkRead" type="button">Mark all read</button>
+                        </div>
+                        <div class="notification-list" id="notificationList" aria-live="polite">
+                            <p class="notification-empty">Daily tasks, medicine reminders, and upcoming appointments will appear here.</p>
+                        </div>
+                        <button class="notification-open-reminders" id="notificationOpenReminders" type="button">Open tasks, reminders, and appointments</button>
+                    </section>
 
                     <button class="profile-trigger" id="profileTrigger" type="button" aria-label="Open profile menu">
                         <span class="profile-avatar" id="topbarAvatar">U</span>
@@ -515,7 +525,7 @@
             <div>
                 <span class="record-sharing-eyebrow">PRIVATE SHARING</span>
                 <h3 id="recordSharingTitle">Share health records</h3>
-                <p>A private NexHealth feature, separate from ABHA and ABDM.</p>
+                <p>Your permanent NexHealth patient ID is separate from official ABHA and ABDM services.</p>
             </div>
             <i data-lucide="shield-check" aria-hidden="true"></i>
         </div>
@@ -523,8 +533,8 @@
         <div class="record-sharing-notice">
             <span class="record-sharing-notice-icon"><i data-lucide="lock-keyhole" aria-hidden="true"></i></span>
             <div>
-                <strong>Your records stay private until you approve.</strong>
-                <span>The code only starts a request. Approval shares the records already in your library; newer records stay private. Revoke access whenever you want.</span>
+                <strong>Your patient ID never changes, and it does not grant access by itself.</strong>
+                <span>Each signed-in account must request access and be approved by you. Set the maximum number of approved accounts, then revoke access whenever you want. This limits accounts with access, not the number of devices they use.</span>
             </div>
         </div>
 
@@ -532,32 +542,49 @@
             <section class="record-sharing-step-card">
                 <div class="record-sharing-step-heading">
                     <span>01</span>
-                    <div><h4>Invite someone</h4><p>Create a private request code.</p></div>
+                    <div><h4>Your patient ID</h4><p>Create it once, then reuse the same ID.</p></div>
                 </div>
                 <div class="record-sharing-actions">
-                    <button class="button button-primary" id="generateRecordShareCode" type="button"><i data-lucide="key-round" aria-hidden="true"></i> Generate 14-digit code</button>
-                    <button class="button button-secondary" id="revokeRecordSharing" type="button" hidden>Revoke all</button>
+                    <button class="button button-primary" id="generateRecordShareCode" type="button"><i data-lucide="id-card" aria-hidden="true"></i><span id="recordSharingEnableText">Create my permanent ID</span></button>
+                    <button class="button button-secondary" id="revokeRecordSharing" type="button" hidden>Pause requests and revoke access</button>
                 </div>
 
                 <div class="record-sharing-code" id="recordShareCodePanel" hidden>
-                    <span>Your NexHealth sharing code</span>
-                    <div><strong id="recordShareCodeValue"></strong><button class="button button-secondary button-small" id="copyRecordShareCode" type="button"><i data-lucide="copy" aria-hidden="true"></i> Copy</button></div>
-                    <small>Share it only with the intended person. They still need your approval.</small>
+                    <span>Your permanent NexHealth patient ID</span>
+                    <div class="record-sharing-id-actions"><strong id="recordShareCodeValue"></strong><button class="button button-secondary button-small record-share-visibility" id="toggleRecordShareCodeVisibility" type="button" aria-label="Show permanent patient ID" aria-pressed="false"><i data-lucide="eye" aria-hidden="true"></i></button><button class="button button-secondary button-small" id="copyRecordShareCode" type="button"><i data-lucide="copy" aria-hidden="true"></i> Copy</button></div>
+                    <small>This is a NexHealth prototype ID, not an official ABHA number. Approved accounts can see your saved records, including updates and new records, until you revoke access.</small>
+                </div>
+
+                <div class="record-sharing-limit-control">
+                    <label for="recordShareLimit">Maximum approved accounts</label>
+                    <select id="recordShareLimit" name="recordShareLimit" disabled>
+                        <option value="1">1 account</option>
+                        <option value="2">2 accounts</option>
+                        <option value="3" selected>3 accounts</option>
+                        <option value="4">4 accounts</option>
+                        <option value="5">5 accounts</option>
+                        <option value="6">6 accounts</option>
+                        <option value="7">7 accounts</option>
+                        <option value="8">8 accounts</option>
+                        <option value="9">9 accounts</option>
+                        <option value="10">10 accounts</option>
+                    </select>
+                    <small id="recordShareLimitUsage" aria-live="polite">0 of 3 accounts approved</small>
                 </div>
             </section>
 
             <section class="record-sharing-step-card">
                 <div class="record-sharing-step-heading">
                     <span>02</span>
-                    <div><h4>Request access</h4><p>Enter a code shared with you.</p></div>
+                    <div><h4>Request access</h4><p>Enter the patient ID they gave you.</p></div>
                 </div>
                 <form class="record-share-request-form" id="recordShareRequestForm">
-                    <label for="recordShareCodeInput">14-digit NexHealth code</label>
+                    <label for="recordShareCodeInput">14-digit NexHealth patient ID</label>
                     <div>
-                        <input id="recordShareCodeInput" name="code" inputmode="numeric" autocomplete="off" maxlength="14" pattern="[0-9]{14}" placeholder="0000 0000 0000 00" aria-describedby="recordShareRequestHelp">
+                        <input id="recordShareCodeInput" name="code" inputmode="numeric" autocomplete="off" maxlength="14" pattern="[1-9][0-9]{13}" placeholder="1234 5678 9012 34" aria-describedby="recordShareRequestHelp">
                         <button class="button button-secondary" type="submit">Send request</button>
                     </div>
-                    <small id="recordShareRequestHelp">Nothing is shared until the owner approves.</small>
+                    <small id="recordShareRequestHelp">A signed-in account sends a request; the patient must approve it.</small>
                 </form>
             </section>
         </div>
@@ -923,11 +950,11 @@
                                 <div class="panel-heading">
                                     <div>
                                         <h2>Your daily checklist</h2>
-                                        <p>Track the tasks you choose to complete.</p>
+                                        <p>Check off tasks as you go. Completed tasks reset each day.</p>
                                     </div>
                                     <div class="task-heading-actions">
                                         <span class="subtle-badge" id="dietTaskCount">0 tasks</span>
-                                        <button class="text-button" id="resetCompletedTasksButton" type="button" disabled>Reset completed</button>
+                                        <span class="task-daily-reset"><i data-lucide="refresh-cw" aria-hidden="true"></i> Resets daily</span>
                                     </div>
                                 </div>
 
@@ -1413,6 +1440,18 @@
                                     <i data-lucide="user-round-plus"></i> Add family profile
                                 </button>
                                 <p class="family-profile-help">Profiles share the signed-in account and its storage; they are separate workspace views, not separate logins. Review the active profile before adding records or asking the AI.</p>
+                                <div class="family-account-link">
+                                    <h3>Connect a family member’s account</h3>
+                                    <p>Enter the email on their NexHealth account to request access to their medical records. They must approve before you can view anything.</p>
+                                    <form id="familyAccountRequestForm" class="family-account-request-form">
+                                        <label for="familyAccountEmail">Family member’s account email</label>
+                                        <div class="family-account-request-controls">
+                                            <input id="familyAccountEmail" name="email" type="email" autocomplete="email" maxlength="254" placeholder="name@example.com" required>
+                                            <button class="button button-primary" type="submit">Request access</button>
+                                        </div>
+                                    </form>
+                                    <p class="family-profile-help" id="familyAccountRequestStatus" role="status" aria-live="polite">Access covers their saved medical records and related analysis, including later additions, until they revoke it. They can decline the request. No email is sent automatically.</p>
+                                </div>
                             </section>
 
                             <section class="panel settings-panel">

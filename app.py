@@ -860,15 +860,35 @@ def create_record_sharing_code():
     _user_id, auth_error = require_record_sharing_account()
     if auth_error:
         return auth_error
-    code = str(10**13 + secrets.randbelow(9 * 10**13))
-    result = supabase_record_sharing_rpc(
-        "create_demo_record_share",
-        {"p_code_hash": hashlib.sha256(code.encode("ascii")).hexdigest()},
+    identity = None
+    for _attempt in range(5):
+        candidate_id = str(10**13 + secrets.randbelow(9 * 10**13))
+        identity = supabase_record_sharing_rpc(
+            "get_or_create_demo_patient_identity",
+            {"p_candidate_id": candidate_id},
+        )
+        database_error = record_sharing_error(identity)
+        if database_error:
+            return database_error
+        identity_data = identity[1] if isinstance(identity[1], dict) else {}
+        if identity_data.get("status") != "collision":
+            break
+    else:
+        return error_response("Could not create a patient ID right now. Please try again.", 503)
+
+    identity_data = identity[1] if isinstance(identity[1], dict) else {}
+    patient_id = identity_data.get("patient_id")
+    if not isinstance(patient_id, str) or not re.fullmatch(r"[1-9]\d{13}", patient_id):
+        return error_response("Could not load the permanent patient ID. Please try again.", 503)
+
+    hidden_request_hash = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
+    enabled = supabase_record_sharing_rpc(
+        "enable_demo_record_sharing", {"p_code_hash": hidden_request_hash}
     )
-    database_error = record_sharing_error(result)
+    database_error = record_sharing_error(enabled)
     if database_error:
         return database_error
-    return jsonify({"code": code, "warning": "NexHealth demo code, not an ABHA number. It only accepts access requests."})
+    return jsonify({"patient_id": patient_id, "active": True})
 
 
 @app.post("/api/record-sharing/revoke")
@@ -895,6 +915,30 @@ def get_record_sharing_status():
     return jsonify(result[1] if isinstance(result[1], dict) else {"share_active": False, "requests": []})
 
 
+@app.post("/api/record-sharing/limit")
+def set_record_sharing_limit():
+    _user_id, auth_error = require_record_sharing_account()
+    if auth_error:
+        return auth_error
+    body = request.get_json(silent=True)
+    limit = body.get("limit") if isinstance(body, dict) else None
+    if isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 10:
+        return error_response("Choose a limit from 1 to 10 approved accounts.")
+    result = supabase_record_sharing_rpc(
+        "set_demo_record_access_limit", {"p_limit": limit}
+    )
+    database_error = record_sharing_error(result)
+    if database_error:
+        return database_error
+    data = result[1] if isinstance(result[1], dict) else {}
+    if data.get("status") == "limit_below_current":
+        return error_response(
+            "Revoke approved accounts before lowering the limit below the current number.",
+            409,
+        )
+    return jsonify({"limit": data.get("max_access_accounts", limit)})
+
+
 @app.post("/api/record-sharing/request")
 def request_record_sharing_access():
     _user_id, auth_error = require_record_sharing_account()
@@ -902,11 +946,14 @@ def request_record_sharing_access():
         return auth_error
     body = request.get_json(silent=True)
     code = str(body.get("code", "")).strip() if isinstance(body, dict) else ""
-    if not re.fullmatch(r"\d{14}", code):
-        return error_response("Enter the 14-digit NexHealth demo sharing code.")
+    if not re.fullmatch(r"[1-9]\d{13}", code):
+        return error_response("Enter the 14-digit NexHealth patient ID.")
     result = supabase_record_sharing_rpc(
-        "request_demo_record_access",
-        {"p_code_hash": hashlib.sha256(code.encode("ascii")).hexdigest()},
+        "request_demo_patient_access",
+        {
+            "p_patient_id": code,
+            "p_legacy_code_hash": hashlib.sha256(code.encode("ascii")).hexdigest(),
+        },
     )
     database_error = record_sharing_error(result)
     if database_error:
@@ -917,6 +964,41 @@ def request_record_sharing_access():
     if status == "own_code":
         return error_response("You cannot request access to your own records.", 400)
     return jsonify({"status": status})
+
+
+@app.post("/api/record-sharing/family-request")
+def request_family_record_access():
+    """Request read-only access to another signed-in account's shared records by email."""
+    _user_id, auth_error = require_record_sharing_account()
+    if auth_error:
+        return auth_error
+    body = request.get_json(silent=True)
+    email = str(body.get("email", "")).strip().casefold() if isinstance(body, dict) else ""
+    if len(email) > 254 or not re.fullmatch(r"[^\s@]{1,64}@[^\s@.]+(?:\.[^\s@.]+)+", email):
+        return error_response("Enter a valid account email address.")
+
+    result = supabase_record_sharing_rpc(
+        "request_demo_family_access", {"p_email": email}
+    )
+    if not result:
+        return record_sharing_error(result)
+    status, body = result
+    if status in (401, 403):
+        return error_response("Sign in again to request family access.", 401)
+    if status == 404:
+        return record_sharing_error(result)
+    if status == 400:
+        # The SQL function only raises this for an unverified requester's own email.
+        return error_response(
+            "Verify the email address on your NexHealth account before requesting family access.",
+            403,
+        )
+    if status not in (200, 201, 204):
+        return record_sharing_error(result)
+    result_data = body if isinstance(body, dict) else {}
+    if result_data.get("status") == "limited":
+        return error_response("You have too many pending family access requests. Review them before sending more.", 429)
+    return jsonify({"status": "submitted"})
 
 
 @app.post("/api/record-sharing/requests/<request_id>/review")
@@ -939,6 +1021,12 @@ def review_record_sharing_request(request_id):
     database_error = record_sharing_error(result)
     if database_error:
         return database_error
+    result_data = result[1] if isinstance(result[1], dict) else {}
+    if result_data.get("status") == "limit_reached":
+        return error_response(
+            f"The patient has reached their limit of {result_data.get('limit', 'approved')} approved accounts.",
+            409,
+        )
     return jsonify({"updated": True})
 
 
@@ -1671,6 +1759,35 @@ def auth_session():
     return jsonify({"authenticated": False})
 
 
+def auth_provider_error_message(body, flow):
+    """Translate expected Supabase Auth errors without exposing provider details."""
+    if not isinstance(body, dict):
+        return "Email or password is incorrect." if flow == "login" else "Could not create the account. Check the email and password and try again."
+
+    code = str(body.get("code") or body.get("error_code") or "").strip().lower()
+    message = str(body.get("msg") or body.get("message") or body.get("error_description") or "").strip().lower()
+    details = f"{code} {message}"
+
+    if "email_not_confirmed" in details or "email not confirmed" in details:
+        return "Confirm your email using the link from Supabase, then sign in. If you did not receive it, check your spam folder and Supabase Auth email settings."
+    if "provider is disabled" in details or "email provider is disabled" in details:
+        return "Email sign-in is disabled in Supabase. Enable the Email provider in Authentication settings, then try again."
+    if flow == "login":
+        if "rate limit" in details or "too many requests" in details:
+            return "Too many sign-in attempts. Wait a few minutes and try again."
+        return "Email or password is incorrect. Check your details and try again."
+
+    if "already registered" in details or "user_already_exists" in details or "already been registered" in details:
+        return "An account may already exist for this email. Try signing in instead."
+    if "weak_password" in details or "password should be" in details or "password is too weak" in details:
+        return "Choose a stronger password with at least 8 characters."
+    if "invalid email" in details or "email_address_invalid" in details or "unable to validate email" in details:
+        return "Enter a valid email address and try again."
+    if "signup is disabled" in details or "signups not allowed" in details:
+        return "New account creation is disabled in Supabase. Enable sign-ups in Authentication settings."
+    return "Could not create the account. Check the email and password and try again."
+
+
 @app.post("/api/auth/login")
 def auth_login():
     if not SUPABASE_URL or not SUPABASE_ANON_KEY:
@@ -1691,7 +1808,7 @@ def auth_login():
         return error_response("Unable to reach the sign-in service. Try again shortly.", 503)
     status, tokens = result
     if status != 200 or not tokens.get("access_token") or not tokens.get("user", {}).get("id"):
-        return error_response("Email or password is incorrect.", 401)
+        return error_response(auth_provider_error_message(tokens, "login"), 401)
 
     response = jsonify({
         "authenticated": True,
@@ -1720,7 +1837,8 @@ def auth_signup():
         return error_response("Unable to reach the sign-up service. Try again shortly.", 503)
     status, account = result
     if status not in (200, 201):
-        return error_response("Could not create an account with those details.", 400)
+        message = auth_provider_error_message(account, "signup")
+        return error_response(message, 409 if "already exist" in message else 400)
     tokens = account if account.get("access_token") else None
     if tokens:
         response = jsonify({

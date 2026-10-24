@@ -56,6 +56,7 @@ const translations = {
 // source text as the key lets the same page switch between languages safely.
 const uiTextTranslations = {
     te: {
+        "Check off tasks as you go. Completed tasks reset each day.": "రోజు ముగిసినప్పుడు పూర్తయిన పనులు మళ్లీ మొదలవుతాయి.", "Resets daily": "ప్రతిరోజూ రీసెట్ అవుతుంది",
         "Welcome back": "తిరిగి స్వాగతం", "Sign in to open your personal health workspace.": "మీ వ్యక్తిగత ఆరోగ్య కార్యస్థలాన్ని తెరవడానికి సైన్ ఇన్ చేయండి.", "Email": "ఇమెయిల్", "Password": "పాస్‌వర్డ్", "Sign in": "సైన్ ఇన్", "Create an account": "ఖాతా సృష్టించండి", "Create your account": "మీ ఖాతాను సృష్టించండి", "Create an account to open your personal health workspace.": "మీ వ్యక్తిగత ఆరోగ్య కార్యస్థలాన్ని తెరవడానికి ఖాతా సృష్టించండి.", "Create account": "ఖాతా సృష్టించండి", "I already have an account": "నాకు ఇప్పటికే ఖాతా ఉంది",
         "YOUR HEALTHSPACE": "మీ ఆరోగ్య కార్యస్థలం", "HEALTH NETWORK": "ఆరోగ్య నెట్‌వర్క్", "Your health, simplified.": "మీ ఆరోగ్యం, మరింత సులభంగా.", "Understand your reports and organize your health journey.": "మీ నివేదికలను అర్థం చేసుకుని ఆరోగ్య ప్రయాణాన్ని క్రమబద్ధీకరించండి.", "Explore AI analyzer": "AI విశ్లేషణను చూడండి", "Your health. Your control.": "మీ ఆరోగ్యం. మీ నియంత్రణ.", "Privacy-first by design": "గోప్యతకు ప్రాధాన్యమిచ్చే రూపకల్పన", "Workspace": "కార్యస్థలం", "Your profile": "మీ ప్రొఫైల్", "Personal account": "వ్యక్తిగత ఖాతా", "Open navigation": "నావిగేషన్ తెరవండి", "Language": "భాష", "Search your workspace...": "మీ కార్యస్థలంలో వెతకండి...", "Search workspace": "కార్యస్థలంలో వెతకండి", "Notifications": "నోటిఫికేషన్‌లు", "Open profile menu": "ప్రొఫైల్ మెనూ తెరవండి", "Sign out": "సైన్ అవుట్", "Main navigation": "ప్రధాన నావిగేషన్", "Open the personal workspace dashboard": "వ్యక్తిగత కార్యస్థల డాష్‌బోర్డ్ తెరవండి",
         "YOUR PERSONAL HEALTHSPACE": "మీ వ్యక్తిగత ఆరోగ్య కార్యస్థలం", "Your health,": "మీ ఆరోగ్యం,", "in focus.": "మీ దృష్టిలో.", "A clearer picture of your health starts here.": "మీ ఆరోగ్యాన్ని స్పష్టంగా అర్థం చేసుకోవడం ఇక్కడ ప్రారంభమవుతుంది.", "Today": "ఈరోజు", "Analyze a report": "నివేదికను విశ్లేషించండి", "YOUR DAILY CHECK-IN": "మీ రోజువారీ స్థితి", "Small steps. Better health.": "చిన్న అడుగులు. మెరుగైన ఆరోగ్యం.", "Keep your records organized, stay on top of your routine, and make informed decisions with the right support.": "మీ రికార్డులను క్రమంగా ఉంచండి, రోజువారీ అలవాట్లను కొనసాగించండి, సరైన సహాయంతో సమాచారపూర్వక నిర్ణయాలు తీసుకోండి.", "View today's plan": "ఈరోజు ప్రణాళికను చూడండి", "Your health at a glance": "మీ ఆరోగ్యం ఒక చూపులో", "Quick access to your personal health information.": "మీ వ్యక్తిగత ఆరోగ్య సమాచారాన్ని త్వరగా చూడండి.", "View all records": "అన్ని రికార్డులను చూడండి", "YOUR LIBRARY": "మీ లైబ్రరీ", "Reports and prescriptions": "నివేదికలు మరియు ప్రిస్క్రిప్షన్‌లు", "YOUR SCHEDULE": "మీ షెడ్యూల్", "Upcoming appointments": "రాబోయే అపాయింట్‌మెంట్‌లు", "Based on your saved bookings": "మీరు సేవ్ చేసిన బుకింగ్‌ల ఆధారంగా", "YOUR ROUTINE": "మీ దినచర్య", "Tasks remaining": "మిగిలిన పనులు", "From your personal checklist": "మీ వ్యక్తిగత చెక్‌లిస్ట్ నుండి", "YOUR INSIGHTS": "మీ సమాచారం", "Reports analyzed": "విశ్లేషించిన నివేదికలు", "Your saved AI analyses": "మీరు సేవ్ చేసిన AI విశ్లేషణలు", "Today's priorities": "ఈరోజు ప్రాధాన్యతలు", "A manageable plan for your day.": "మీ రోజుకు అనువైన ప్రణాళిక.", "Daily progress": "రోజువారీ పురోగతి", "0 of 0 completed": "0లో 0 పూర్తయ్యాయి", "Your task list starts here": "మీ పనుల జాబితా ఇక్కడ ప్రారంభమవుతుంది", "Add reminders and daily health tasks to keep your routine organized.": "మీ దినచర్యను క్రమంగా ఉంచడానికి రిమైండర్‌లు మరియు రోజువారీ ఆరోగ్య పనులను జోడించండి.", "Create a task": "పని సృష్టించండి", "Open tasks": "పనులు తెరవండి", "Open diet & tasks": "ఆహారం మరియు పనులు తెరవండి", "Your next healthcare visits.": "మీ తదుపరి ఆరోగ్య సేవా సందర్శనలు.", "No appointments yet": "ఇంకా అపాయింట్‌మెంట్‌లు లేవు", "Your saved appointments will appear here.": "మీరు సేవ్ చేసిన అపాయింట్‌మెంట్‌లు ఇక్కడ కనిపిస్తాయి.", "View appointments": "అపాయింట్‌మెంట్‌లను చూడండి", "Explore appointments": "అపాయింట్‌మెంట్‌లను చూడండి", "Your health toolkit": "మీ ఆరోగ్య సాధనాలు", "Jump directly to what you need.": "మీకు కావలసినదానికి నేరుగా వెళ్లండి.", "Organize your reports": "మీ నివేదికలను క్రమబద్ధీకరించండి", "AI report analyzer": "AI నివేదిక విశ్లేషణ", "Understand your results": "మీ ఫలితాలను అర్థం చేసుకోండి", "Diet & routine": "ఆహారం మరియు దినచర్య", "Plan your daily habits": "మీ రోజువారీ అలవాట్లను ప్రణాళిక చేయండి", "Get general health guidance": "సాధారణ ఆరోగ్య మార్గదర్శకత్వం పొందండి", "NexHealth supports health organization and education. It does not replace a qualified healthcare professional.": "NexHealth ఆరోగ్య సమాచారాన్ని క్రమబద్ధీకరించడంలో మరియు అవగాహనలో సహాయపడుతుంది. ఇది అర్హత కలిగిన ఆరోగ్య నిపుణుడికి ప్రత్యామ్నాయం కాదు.",
@@ -68,6 +69,7 @@ const uiTextTranslations = {
         "Search your workspace...": "మీ కార్యస్థలంలో వెతకండి...", "Find a record...": "రికార్డును కనుగొనండి...", "Search medical records": "వైద్య రికార్డులను వెతకండి", "Share relevant context or tell us which part is confusing. Avoid unnecessary personal identifiers.": "సంబంధిత వివరాలు లేదా మీకు అర్థం కాని భాగాన్ని తెలియజేయండి. అవసరం లేని వ్యక్తిగత గుర్తింపు సమాచారాన్ని ఇవ్వకండి.", "e.g. peanuts, lactose": "ఉదా: వేరుశెనగలు, లాక్టోస్", "Ask a general health question...": "సాధారణ ఆరోగ్య ప్రశ్న అడగండి...", "Close dialog": "డైలాగ్ మూసివేయండి", "Remove selected file": "ఎంచుకున్న ఫైల్‌ను తొలగించండి", "Filter medical records": "వైద్య రికార్డులను ఫిల్టర్ చేయండి", "Appointment status": "అపాయింట్‌మెంట్ స్థితి"
     },
     hi: {
+        "Check off tasks as you go. Completed tasks reset each day.": "दिन पूरा होने पर पूरे किए गए काम फिर से शुरू होंगे।", "Resets daily": "हर दिन रीसेट होता है",
         "Welcome back": "वापस स्वागत है", "Sign in to open your personal health workspace.": "अपना व्यक्तिगत स्वास्थ्य कार्यक्षेत्र खोलने के लिए साइन इन करें।", "Email": "ईमेल", "Password": "पासवर्ड", "Sign in": "साइन इन करें", "Create an account": "खाता बनाएँ", "Create your account": "अपना खाता बनाएँ", "Create an account to open your personal health workspace.": "अपना व्यक्तिगत स्वास्थ्य कार्यक्षेत्र खोलने के लिए खाता बनाएँ।", "Create account": "खाता बनाएँ", "I already have an account": "मेरा पहले से खाता है",
         "YOUR HEALTHSPACE": "आपका स्वास्थ्य कार्यक्षेत्र", "HEALTH NETWORK": "स्वास्थ्य नेटवर्क", "Your health, simplified.": "आपका स्वास्थ्य, अब आसान।", "Understand your reports and organize your health journey.": "अपनी रिपोर्ट समझें और स्वास्थ्य यात्रा को व्यवस्थित करें।", "Explore AI analyzer": "AI विश्लेषक देखें", "Your health. Your control.": "आपका स्वास्थ्य। आपका नियंत्रण।", "Privacy-first by design": "डिज़ाइन में गोपनीयता को प्राथमिकता", "Workspace": "कार्यक्षेत्र", "Your profile": "आपकी प्रोफ़ाइल", "Personal account": "व्यक्तिगत खाता", "Open navigation": "नेविगेशन खोलें", "Language": "भाषा", "Search your workspace...": "अपने कार्यक्षेत्र में खोजें...", "Search workspace": "कार्यक्षेत्र खोजें", "Notifications": "सूचनाएँ", "Open profile menu": "प्रोफ़ाइल मेनू खोलें", "Sign out": "साइन आउट करें", "Main navigation": "मुख्य नेविगेशन", "Open the personal workspace dashboard": "व्यक्तिगत कार्यक्षेत्र डैशबोर्ड खोलें",
         "YOUR PERSONAL HEALTHSPACE": "आपका व्यक्तिगत स्वास्थ्य कार्यक्षेत्र", "Your health,": "आपका स्वास्थ्य,", "in focus.": "अब आपकी नज़र में।", "A clearer picture of your health starts here.": "अपने स्वास्थ्य की स्पष्ट तस्वीर यहाँ से शुरू करें।", "Today": "आज", "Analyze a report": "रिपोर्ट का विश्लेषण करें", "YOUR DAILY CHECK-IN": "आपकी दैनिक जाँच", "Small steps. Better health.": "छोटे कदम। बेहतर स्वास्थ्य।", "Keep your records organized, stay on top of your routine, and make informed decisions with the right support.": "अपने रिकॉर्ड व्यवस्थित रखें, दिनचर्या पर ध्यान दें और सही सहायता से सोच-समझकर निर्णय लें।", "View today's plan": "आज की योजना देखें", "Your health at a glance": "एक नज़र में आपका स्वास्थ्य", "Quick access to your personal health information.": "अपनी व्यक्तिगत स्वास्थ्य जानकारी तुरंत देखें।", "View all records": "सभी रिकॉर्ड देखें", "YOUR LIBRARY": "आपकी लाइब्रेरी", "Reports and prescriptions": "रिपोर्ट और प्रिस्क्रिप्शन", "YOUR SCHEDULE": "आपका समय-सारणी", "Upcoming appointments": "आगामी अपॉइंटमेंट", "Based on your saved bookings": "आपकी सहेजी गई बुकिंग के आधार पर", "YOUR ROUTINE": "आपकी दिनचर्या", "Tasks remaining": "बाकी काम", "From your personal checklist": "आपकी व्यक्तिगत चेकलिस्ट से", "YOUR INSIGHTS": "आपकी जानकारी", "Reports analyzed": "विश्लेषित रिपोर्ट", "Your saved AI analyses": "आपके सहेजे गए AI विश्लेषण", "Today's priorities": "आज की प्राथमिकताएँ", "A manageable plan for your day.": "आपके दिन के लिए एक आसान योजना।", "Daily progress": "दैनिक प्रगति", "0 of 0 completed": "0 में से 0 पूरे", "Your task list starts here": "आपकी कामों की सूची यहाँ शुरू होती है", "Add reminders and daily health tasks to keep your routine organized.": "अपनी दिनचर्या व्यवस्थित रखने के लिए रिमाइंडर और दैनिक स्वास्थ्य कार्य जोड़ें।", "Create a task": "काम बनाएँ", "Open tasks": "काम खोलें", "Open diet & tasks": "आहार और काम खोलें", "Your next healthcare visits.": "आपकी अगली स्वास्थ्य सेवाएँ।", "No appointments yet": "अभी कोई अपॉइंटमेंट नहीं", "Your saved appointments will appear here.": "आपके सहेजे गए अपॉइंटमेंट यहाँ दिखेंगे।", "View appointments": "अपॉइंटमेंट देखें", "Explore appointments": "अपॉइंटमेंट देखें", "Your health toolkit": "आपके स्वास्थ्य साधन", "Jump directly to what you need.": "अपनी ज़रूरत की सुविधा पर सीधे जाएँ।", "Organize your reports": "अपनी रिपोर्ट व्यवस्थित करें", "AI report analyzer": "AI रिपोर्ट विश्लेषक", "Understand your results": "अपने नतीजे समझें", "Diet & routine": "आहार और दिनचर्या", "Plan your daily habits": "अपनी दैनिक आदतों की योजना बनाएँ", "Get general health guidance": "सामान्य स्वास्थ्य मार्गदर्शन पाएँ", "NexHealth supports health organization and education. It does not replace a qualified healthcare professional.": "NexHealth स्वास्थ्य जानकारी को व्यवस्थित करने और समझने में मदद करता है। यह योग्य स्वास्थ्य विशेषज्ञ का विकल्प नहीं है।",
@@ -474,11 +476,31 @@ Object.assign(uiTextTranslations.hi, {
 
 Object.assign(uiTextTranslations.te, {
     "Analyzed documents are added to Medical records. Signed-in users can view them across devices; guest records stay in this browser. Medical documents are private and are never shared by an ID alone.": "విశ్లేషించిన పత్రాలు Medical records‌లో చేరతాయి. సైన్ ఇన్ చేసినవారు వాటిని పలు పరికరాల్లో చూడవచ్చు; అతిథి రికార్డులు ఈ బ్రౌజర్‌లోనే ఉంటాయి. వైద్య పత్రాలు ప్రైవేట్‌గా ఉంటాయి; ID ఒక్కటితో పంచుకోబడవు.",
-    "View saved analysis": "సేవ్ చేసిన విశ్లేషణను చూడండి"
+    "View saved analysis": "సేవ్ చేసిన విశ్లేషణను చూడండి",
+    "Connect a family member’s account": "కుటుంబ సభ్యుని ఖాతాను అనుసంధానించండి",
+    "Enter the email on their NexHealth account to request access to their medical records. They must approve before you can view anything.": "వారి వైద్య రికార్డులకు ప్రాప్యత కోరడానికి వారి NexHealth ఖాతా ఇమెయిల్‌ను నమోదు చేయండి. మీరు ఏదైనా చూడటానికి ముందు వారు ఆమోదించాలి.",
+    "Family member’s account email": "కుటుంబ సభ్యుని ఖాతా ఇమెయిల్",
+    "Request access": "ప్రాప్యతను అభ్యర్థించండి",
+    "Access covers their saved medical records and related analysis, including later additions, until they revoke it. They can decline the request. No email is sent automatically.": "వారి సేవ్ చేసిన వైద్య రికార్డులు మరియు సంబంధిత విశ్లేషణతో పాటు తరువాత జోడించేవాటికీ ప్రాప్యత ఉంటుంది; వారు రద్దు చేసే వరకు ఇది కొనసాగుతుంది. వారు అభ్యర్థనను తిరస్కరించవచ్చు. ఆటోమేటిక్‌గా ఇమెయిల్ పంపబడదు.",
+    "Sign in to request access. The account holder must approve before any records are shown.": "ప్రాప్యత కోరడానికి సైన్ ఇన్ చేయండి. రికార్డులు చూపే ముందు ఖాతాదారు ఆమోదించాలి.",
+    "Sign in before requesting access to a family member’s account.": "కుటుంబ సభ్యుని ఖాతాకు ప్రాప్యత కోరే ముందు సైన్ ఇన్ చేయండి.",
+    "Sending access request…": "ప్రాప్యత అభ్యర్థన పంపుతోంది…",
+    "Request submitted. If that account has enabled sharing, its owner must sign in and approve it under ABDM / ABHA → Requests for your records. No email is sent automatically.": "అభ్యర్థన సమర్పించబడింది. ఆ ఖాతా భాగస్వామ్యాన్ని ప్రారంభించి ఉంటే, దాని యజమాని సైన్ ఇన్ చేసి ABDM / ABHA → మీ రికార్డుల అభ్యర్థనలు విభాగంలో ఆమోదించాలి. ఆటోమేటిక్‌గా ఇమెయిల్ పంపబడదు.",
+    "Family access request submitted.": "కుటుంబ ప్రాప్యత అభ్యర్థన సమర్పించబడింది."
 });
 Object.assign(uiTextTranslations.hi, {
     "Analyzed documents are added to Medical records. Signed-in users can view them across devices; guest records stay in this browser. Medical documents are private and are never shared by an ID alone.": "विश्लेषित दस्तावेज़ मेडिकल रिकॉर्ड में जोड़े जाते हैं। साइन-इन उपयोगकर्ता उन्हें कई डिवाइस पर देख सकते हैं; अतिथि रिकॉर्ड इसी ब्राउज़र में रहते हैं। मेडिकल दस्तावेज़ निजी हैं और केवल ID से साझा नहीं होते।",
-    "View saved analysis": "सहेजा गया विश्लेषण देखें"
+    "View saved analysis": "सहेजा गया विश्लेषण देखें",
+    "Connect a family member’s account": "परिवार के सदस्य का खाता जोड़ें",
+    "Enter the email on their NexHealth account to request access to their medical records. They must approve before you can view anything.": "उनके मेडिकल रिकॉर्ड तक पहुँच माँगने के लिए उनके NexHealth खाते का ईमेल दर्ज करें। आप कुछ भी देख सकें, इससे पहले उन्हें मंज़ूरी देनी होगी।",
+    "Family member’s account email": "परिवार के सदस्य के खाते का ईमेल",
+    "Request access": "पहुँच का अनुरोध करें",
+    "Access covers their saved medical records and related analysis, including later additions, until they revoke it. They can decline the request. No email is sent automatically.": "पहुँच में उनके सहेजे गए मेडिकल रिकॉर्ड और संबंधित विश्लेषण, तथा बाद में जोड़ी गई जानकारी शामिल है; वे इसे रद्द कर सकते हैं। वे अनुरोध अस्वीकार कर सकते हैं। कोई ईमेल अपने आप नहीं भेजा जाता।",
+    "Sign in to request access. The account holder must approve before any records are shown.": "पहुँच माँगने के लिए साइन इन करें। कोई रिकॉर्ड दिखाने से पहले खाता धारक की मंज़ूरी ज़रूरी है।",
+    "Sign in before requesting access to a family member’s account.": "परिवार के सदस्य के खाते तक पहुँच माँगने से पहले साइन इन करें।",
+    "Sending access request…": "पहुँच अनुरोध भेजा जा रहा है…",
+    "Request submitted. If that account has enabled sharing, its owner must sign in and approve it under ABDM / ABHA → Requests for your records. No email is sent automatically.": "अनुरोध भेज दिया गया। यदि उस खाते ने साझाकरण चालू किया है, तो उसके मालिक को साइन इन करके ABDM / ABHA → आपके रिकॉर्ड के अनुरोध में इसे मंज़ूरी देनी होगी। कोई ईमेल अपने आप नहीं भेजा जाता।",
+    "Family access request submitted.": "परिवार की पहुँच का अनुरोध भेज दिया गया।"
 });
 
 const NexHealth = (() => {
@@ -504,7 +526,8 @@ const NexHealth = (() => {
         consentHistory: "nexhealth_consent_history",
         personalizedPlan: "nexhealth_personalized_plan",
         familyProfiles: "nexhealth_family_profiles",
-        activeFamilyProfileId: "nexhealth_active_family_profile"
+        activeFamilyProfileId: "nexhealth_active_family_profile",
+        notificationSeen: "nexhealth_notification_seen"
     };
     let STORAGE = { ...STORAGE_BASE };
     let activeUserId = "";
@@ -519,7 +542,9 @@ const NexHealth = (() => {
     let welcomeGreetingIndex = 0;
     let preserveNextMentorNavigation = false;
     let medicationReminderTimer = null;
-    let recordSharing = { active: false, requests: [], shares: [], code: "" };
+    let notificationPanelOpen = false;
+    let notificationItems = [];
+    let recordSharing = { active: false, requests: [], shares: [], patientId: "", patientIdVisible: false, maxAccounts: 3, approvedAccounts: 0 };
 
     const userStorageKey = key => `${key}_${activeUserId}`;
 
@@ -559,6 +584,7 @@ const NexHealth = (() => {
         personalizedPlan: read(STORAGE.personalizedPlan, null),
         familyProfiles: read(STORAGE.familyProfiles, []),
         activeFamilyProfileId: read(STORAGE.activeFamilyProfileId, ""),
+        notificationSeen: read(STORAGE.notificationSeen, []),
         recordFilter: "all",
         taskFilter: "all",
         appointmentFilter: "upcoming",
@@ -596,6 +622,7 @@ const NexHealth = (() => {
         state.personalizedPlan = read(STORAGE.personalizedPlan, null);
         state.familyProfiles = read(STORAGE.familyProfiles, []);
         state.activeFamilyProfileId = read(STORAGE.activeFamilyProfileId, "");
+        state.notificationSeen = read(STORAGE.notificationSeen, []);
     };
 
     const clearAccountLocalCache = () => {
@@ -757,6 +784,12 @@ const observeTranslatedContent = () => {
         "messages", "mentorConversations", "activeMentorConversationId", "analyzerConversations",
         "activeAnalyzerConversationId", "activeConversationType", "profile", "dietPreferences", "personalizedPlan"
     ];
+    const createEmptyFamilyWorkspace = (name = "Family profile", age = "") => ({
+        records: [], tasks: [], appointments: [], medicationReminders: [], meals: [], analyses: [],
+        messages: [], mentorConversations: [], activeMentorConversationId: "", analyzerConversations: [],
+        activeAnalyzerConversationId: "", activeConversationType: "mentor", profile: { name, age },
+        dietPreferences: {}, personalizedPlan: null
+    });
     const saveActiveFamilySnapshot = () => {
         if (!state.activeFamilyProfileId || !Array.isArray(state.familyProfiles)) return;
         const member = state.familyProfiles.find(profile => profile.id === state.activeFamilyProfileId);
@@ -1899,24 +1932,27 @@ const observeTranslatedContent = () => {
         if (!task) return;
 
         task.completed = !task.completed;
+        task.completed_on = task.completed ? today() : "";
         persist();
         renderAll();
     };
 
-    const resetCompletedTasks = () => {
-        const completedTasks = state.tasks.filter(task => task.completed);
-        if (!completedTasks.length) {
-            toast("There are no completed tasks to reset.");
-            return;
-        }
-
-        state.tasks = state.tasks.map(task => task.completed
-            ? { ...task, completed: false }
-            : task
-        );
-        persist();
-        renderAll();
-        toast("Completed tasks have been reset.");
+    const resetDailyTaskCompletions = () => {
+        const currentDate = today();
+        let changed = false;
+        state.tasks = state.tasks.map(task => {
+            if (!task.completed) return task;
+            if (!task.completed_on) {
+                changed = true;
+                return { ...task, completed_on: currentDate };
+            }
+            if (task.completed_on < currentDate) {
+                changed = true;
+                return { ...task, completed: false, completed_on: "" };
+            }
+            return task;
+        });
+        return changed;
     };
 
     const deleteAppointment = appointmentId => {
@@ -1966,6 +2002,7 @@ const observeTranslatedContent = () => {
         });
         container.innerHTML = cards.length ? cards.join("") : `<div class="empty-state compact-empty"><strong>No reminders yet</strong><p>Add a medicine schedule or set a reminder when you create an appointment.</p><button class="button button-secondary button-small" type="button" data-action="add-medication-reminder">Add medicine reminder</button></div>`;
         refreshIcons();
+        renderNotifications();
     };
 
     const renderPendingCareActions = () => {
@@ -2012,7 +2049,7 @@ const observeTranslatedContent = () => {
     const checkDueReminders = () => {
         const now = new Date();
         const todayDate = today();
-        let changed = false;
+        let changed = resetDailyTaskCompletions();
         state.medicationReminders.forEach(reminder => {
             if (!reminder.active) return;
             if (todayDate > reminder.end_date) {
@@ -2050,8 +2087,136 @@ const observeTranslatedContent = () => {
             changed = true;
             toast(`${t("Appointment reminder")}: ${appointment.title}`, "info");
         });
-        if (changed) persist();
+        if (changed) {
+            persist();
+            renderTasks();
+        }
         renderCareReminders();
+        renderNotifications();
+    };
+
+    const buildNotificationItems = () => {
+        const now = new Date();
+        const medicineWindowEnd = new Date(now.getTime() + 24 * 60 * 60_000);
+        const appointmentWindowEnd = new Date(now.getTime() + 7 * 24 * 60 * 60_000);
+        const items = [];
+        const dayKey = date => {
+            const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);
+            return local.toISOString().slice(0, 10);
+        };
+        const timeLabel = date => new Intl.DateTimeFormat(uiLocale(), { hour: "numeric", minute: "2-digit" }).format(date);
+
+        state.medicationReminders.forEach(reminder => {
+            if (!reminder.active || !reminder.start_date || !reminder.end_date) return;
+            for (let offset = 0; offset <= 1; offset += 1) {
+                const date = new Date(now);
+                date.setHours(0, 0, 0, 0);
+                date.setDate(date.getDate() + offset);
+                const dateText = dayKey(date);
+                if (dateText < reminder.start_date || dateText > reminder.end_date) continue;
+                if (reminder.frequency === "weekly" && !(reminder.days_of_week || []).includes(date.getDay())) continue;
+                for (const time of reminder.times || []) {
+                    const dueAt = new Date(`${dateText}T${time}`);
+                    const key = `${dateText}@${time}`;
+                    if (Number.isNaN(dueAt.getTime()) || dueAt > medicineWindowEnd) continue;
+                    if ((reminder.completed_occurrences || []).includes(key)) continue;
+                    if (reminder.snoozed_occurrence === key && reminder.snoozed_until) {
+                        const snoozedUntil = new Date(reminder.snoozed_until);
+                        if (snoozedUntil > now) continue;
+                    }
+                    items.push({
+                        id: `medicine:${reminder.id}:${reminder.medicine_name || ""}:${reminder.dose || ""}:${key}:${dueAt <= now ? "due" : "upcoming"}`,
+                        kind: "medicine",
+                        dueAt,
+                        title: `${reminder.medicine_name || "Medicine reminder"}${reminder.dose ? ` · ${reminder.dose}` : ""}`,
+                        detail: dueAt <= now ? "Medicine reminder is due" : `Scheduled for ${timeLabel(dueAt)}`
+                    });
+                }
+            }
+        });
+
+        state.appointments.forEach(appointment => {
+            if (!appointment.date || ["stopped", "confirmed"].includes(appointment.reminder_status)) return;
+            if (["completed", "cancelled"].includes(String(appointment.status || "").toLowerCase())) return;
+            const appointmentAt = new Date(`${appointment.date}T${appointment.time || "09:00"}`);
+            const lead = Math.max(0, Number(appointment.reminder_lead_minutes ?? 60) || 0);
+            const dueAt = new Date(appointmentAt.getTime() - lead * 60_000);
+            if (Number.isNaN(appointmentAt.getTime()) || appointmentAt < now || dueAt > appointmentWindowEnd) return;
+            if (appointment.reminder_snoozed_until && new Date(appointment.reminder_snoozed_until) > now) return;
+            items.push({
+                id: `appointment:${appointment.id}:${appointment.date}:${appointmentAt.toISOString()}:${dueAt <= now ? "due" : "upcoming"}`,
+                kind: "appointment",
+                dueAt,
+                title: appointment.title || "Upcoming appointment",
+                detail: dueAt <= now ? `Appointment today at ${timeLabel(appointmentAt)}` : `Appointment ${formatDate(appointment.date)} · ${timeLabel(appointmentAt)}`
+            });
+        });
+
+        state.tasks.forEach(task => {
+            if (task.completed) return;
+            const dueDate = task.due_date ? new Date(`${task.due_date}T12:00:00`) : null;
+            const dueDetail = dueDate && !Number.isNaN(dueDate.getTime())
+                ? `${dayKey(dueDate) < today() ? "Daily reminder · overdue since" : "Daily reminder · due"} ${formatDate(task.due_date)}`
+                : "Daily reminder · still to do";
+            items.push({
+                id: `task:${task.id}:${today()}`,
+                kind: "task",
+                screen: "diet-tasks",
+                dueAt: now,
+                title: task.title || "Health task",
+                detail: dueDetail
+            });
+        });
+
+        (Array.isArray(recordSharing.requests) ? recordSharing.requests : [])
+            .filter(request => request.status === "pending")
+            .forEach(request => {
+                const createdAt = new Date(request.created_at || now);
+                items.push({
+                    id: `family-access:${request.id}`,
+                    kind: "access",
+                    screen: "abdm-readiness",
+                    dueAt: Number.isNaN(createdAt.getTime()) ? now : createdAt,
+                    title: "Family record access request",
+                    detail: `${request.recipient_email || "A signed-in account"} requested access. Review before sharing.`
+                });
+            });
+
+        return items.sort((a, b) => a.dueAt - b.dueAt).slice(0, 30);
+    };
+
+    const renderNotifications = () => {
+        notificationItems = buildNotificationItems();
+        const list = $("#notificationList");
+        const dot = $("#notificationDot");
+        const count = $("#notificationPanelCount");
+        const seen = new Set(Array.isArray(state.notificationSeen) ? state.notificationSeen : []);
+        const unreadCount = notificationItems.filter(item => !seen.has(item.id)).length;
+        if (dot) dot.hidden = unreadCount === 0;
+        if (count) count.textContent = unreadCount ? `${unreadCount} unread` : (notificationItems.length ? "All caught up" : "No new reminders");
+        if (!list) return;
+        if (!notificationItems.length) {
+            list.innerHTML = '<p class="notification-empty">Daily tasks, medicine reminders, and upcoming appointments will appear here.</p>';
+            return;
+        }
+        list.innerHTML = notificationItems.map(item => {
+            const unread = !seen.has(item.id);
+            const dueLabel = item.dueAt <= new Date() ? "Due" : formatDate(item.dueAt.toISOString());
+            return `<article class="notification-item${unread ? " is-unread" : ""}">
+                <span class="notification-item-icon"><i data-lucide="${item.kind === "medicine" ? "pill" : item.kind === "task" ? "check-square" : item.kind === "access" ? "users-round" : "calendar-clock"}" aria-hidden="true"></i></span>
+                <div class="notification-item-copy"><strong>${escapeHTML(item.title)}</strong><span>${escapeHTML(item.detail)}</span><small>${escapeHTML(dueLabel)}</small></div>
+                <button type="button" class="notification-item-open" data-notification-open-item="${escapeHTML(item.id)}">View</button>
+            </article>`;
+        }).join("");
+        refreshIcons();
+    };
+
+    const markNotificationsRead = () => {
+        const seen = new Set(Array.isArray(state.notificationSeen) ? state.notificationSeen : []);
+        notificationItems.forEach(item => seen.add(item.id));
+        state.notificationSeen = [...seen].slice(-300);
+        save(STORAGE.notificationSeen, state.notificationSeen);
+        renderNotifications();
     };
 
     const startReminderScheduler = () => {
@@ -2119,9 +2284,6 @@ const observeTranslatedContent = () => {
             const remainingCount = total - completed;
             remaining.textContent = remainingCount > 0 ? String(remainingCount) : "";
         }
-        const resetButton = $("#resetCompletedTasksButton");
-        if (resetButton) resetButton.disabled = completed === 0;
-
         const overview = $("#overviewTaskList");
         if (overview) {
             const items = state.tasks.filter(task => !task.completed).slice(0, 4);
@@ -2142,6 +2304,7 @@ const observeTranslatedContent = () => {
                     <button class="text-button" type="button" data-action="add-task">Create a task</button>
                 </div>`;
         }
+        renderNotifications();
     };
 
     const renderAppointments = () => {
@@ -2441,6 +2604,15 @@ const observeTranslatedContent = () => {
 
     const renderFamilyProfiles = () => {
         const container = $("#familyProfilesList");
+        const familyEmailInput = $("#familyAccountEmail");
+        const familyRequestButton = $("#familyAccountRequestForm button[type='submit']");
+        const familyRequestStatus = $("#familyAccountRequestStatus");
+        const canRequestFamilyAccess = document.body.classList.contains("account-authenticated");
+        if (familyEmailInput) familyEmailInput.disabled = !canRequestFamilyAccess;
+        if (familyRequestButton) familyRequestButton.disabled = !canRequestFamilyAccess;
+        if (familyRequestStatus && !canRequestFamilyAccess) {
+            familyRequestStatus.textContent = t("Sign in to request access. The account holder must approve before any records are shown.");
+        }
         if (!container) return;
         const profiles = Array.isArray(state.familyProfiles) ? state.familyProfiles : [];
         if (!profiles.length) {
@@ -2460,12 +2632,23 @@ const observeTranslatedContent = () => {
     const switchFamilyProfile = profileId => {
         saveActiveFamilySnapshot();
         const member = state.familyProfiles.find(profile => profile.id === profileId);
-        if (!member || !member.workspace) return;
+        if (!member) {
+            toast("That family profile could not be found. Refresh the page and try again.", "error");
+            return;
+        }
+        const savedWorkspace = member.workspace && typeof member.workspace === "object" && !Array.isArray(member.workspace)
+            ? member.workspace
+            : {};
+        const emptyWorkspace = createEmptyFamilyWorkspace(member.name || "Family profile");
+        member.workspace = Object.fromEntries(familyScopedKeys.map(key => [
+            key,
+            savedWorkspace[key] == null
+                ? emptyWorkspace[key]
+                : JSON.parse(JSON.stringify(savedWorkspace[key]))
+        ]));
         familyScopedKeys.forEach(key => {
             const value = member.workspace[key];
-            state[key] = value == null
-                ? (Array.isArray(state[key]) ? [] : key === "personalizedPlan" ? null : {})
-                : JSON.parse(JSON.stringify(value));
+            state[key] = JSON.parse(JSON.stringify(value));
         });
         state.activeFamilyProfileId = member.id;
         persist();
@@ -2494,12 +2677,7 @@ const observeTranslatedContent = () => {
                 if (!name) throw new Error("Enter a profile name.");
                 const profileId = id();
                 const age = String(form.get("family_age") || "").trim();
-                const blank = {
-                    records: [], tasks: [], appointments: [], medicationReminders: [], meals: [], analyses: [],
-                    messages: [], mentorConversations: [], activeMentorConversationId: "", analyzerConversations: [],
-                    activeAnalyzerConversationId: "", activeConversationType: "mentor", profile: { name, age },
-                    dietPreferences: {}, personalizedPlan: null
-                };
+                const blank = createEmptyFamilyWorkspace(name, age);
                 state.familyProfiles.push({ id: profileId, name, relationship: String(form.get("relationship") || "Other"), workspace: blank });
                 switchFamilyProfile(profileId);
             },
@@ -2629,6 +2807,7 @@ const observeTranslatedContent = () => {
     };
 
     const renderAll = () => {
+        if (resetDailyTaskCompletions()) persist();
         const date = $("#currentDate");
         if (date) {
             date.textContent = new Intl.DateTimeFormat(uiLocale(), {
@@ -2684,6 +2863,12 @@ const observeTranslatedContent = () => {
         const status = $("#recordSharingStatus");
         const revokeButton = $("#revokeRecordSharing");
         const codePanel = $("#recordShareCodePanel");
+        const codeValue = $("#recordShareCodeValue");
+        const visibilityButton = $("#toggleRecordShareCodeVisibility");
+        const createButton = $("#generateRecordShareCode");
+        const createButtonText = $("#recordSharingEnableText");
+        const limitSelect = $("#recordShareLimit");
+        const limitUsage = $("#recordShareLimitUsage");
         const authenticated = document.body.classList.contains("account-authenticated");
 
         if (!authenticated) {
@@ -2692,24 +2877,43 @@ const observeTranslatedContent = () => {
             if (sharedList) sharedList.innerHTML = "<p>Sign in to load records shared with you.</p>";
             if (revokeButton) revokeButton.hidden = true;
             if (codePanel) codePanel.hidden = true;
+            if (createButton) createButton.disabled = true;
+            if (limitSelect) limitSelect.disabled = true;
             return;
         }
 
+        if (limitSelect) limitSelect.disabled = !recordSharing.patientId;
         if (revokeButton) revokeButton.hidden = !recordSharing.active;
-        if (status && recordSharing.active) status.textContent = "Your request code is active. It only allows signed-in people to request access; you approve each person.";
+        if (codePanel) codePanel.hidden = !recordSharing.patientId;
+        if (codeValue) codeValue.textContent = recordSharing.patientIdVisible && recordSharing.patientId
+            ? recordSharing.patientId
+            : "•••• •••• •••• ••";
+        if (visibilityButton) {
+            visibilityButton.setAttribute("aria-label", recordSharing.patientIdVisible ? "Hide permanent patient ID" : "Show permanent patient ID");
+            visibilityButton.setAttribute("aria-pressed", String(recordSharing.patientIdVisible));
+            visibilityButton.innerHTML = `<i data-lucide="${recordSharing.patientIdVisible ? "eye-off" : "eye"}" aria-hidden="true"></i>`;
+            refreshIcons();
+        }
+        if (createButton) createButton.disabled = recordSharing.active;
+        if (createButtonText) createButtonText.textContent = recordSharing.patientId
+            ? (recordSharing.active ? "Patient ID ready" : "Enable access requests")
+            : "Create my permanent ID";
+        if (limitSelect) limitSelect.value = String(recordSharing.maxAccounts);
+        if (limitUsage) limitUsage.textContent = `${recordSharing.approvedAccounts} of ${recordSharing.maxAccounts} accounts approved`;
+        if (status && recordSharing.active) status.textContent = "Your permanent patient ID is active. Approved accounts can see your saved records and updates until you revoke their access.";
         if (requestList) {
             const requests = Array.isArray(recordSharing.requests) ? recordSharing.requests : [];
             requestList.innerHTML = requests.length ? requests.map(item => {
                 const email = escapeHTML(item.recipient_email || "Signed-in NexHealth user");
                 if (item.status === "pending") return `
                     <article class="record-sharing-item">
-                        <div><strong>${email}</strong><small>Requesting access to records currently in your library</small></div>
+                        <div><strong>${email}</strong><small>Requesting access to your saved records and future updates</small></div>
                         <div class="record-sharing-item-actions">
                             <button class="button button-primary button-small" type="button" data-record-share-review="approve" data-request-id="${escapeHTML(item.id)}">Approve</button>
                             <button class="button button-secondary button-small" type="button" data-record-share-review="reject" data-request-id="${escapeHTML(item.id)}">Decline</button>
                         </div>
                     </article>`;
-                return `<article class="record-sharing-item"><div><strong>${email}</strong><small>Can view the records that existed when you approved.</small></div><div class="record-sharing-item-actions"><span class="record-sharing-approved">Approved</span><button class="button button-secondary button-small" type="button" data-record-share-revoke="${escapeHTML(item.id)}">Revoke</button></div></article>`;
+                return `<article class="record-sharing-item"><div><strong>${email}</strong><small>Can view saved records and new updates while approved.</small></div><div class="record-sharing-item-actions"><span class="record-sharing-approved">Approved</span><button class="button button-secondary button-small" type="button" data-record-share-revoke="${escapeHTML(item.id)}">Revoke</button></div></article>`;
             }).join("") : "<p>No access requests.</p>";
         }
 
@@ -2746,10 +2950,15 @@ const observeTranslatedContent = () => {
                 apiRequest("/api/record-sharing/records")
             ]);
             recordSharing.active = access.share_active === true;
+            recordSharing.patientId = typeof access.patient_id === "string" ? access.patient_id : "";
+            recordSharing.maxAccounts = Number.isInteger(access.max_access_accounts) ? access.max_access_accounts : 3;
+            recordSharing.approvedAccounts = Number.isInteger(access.approved_accounts) ? access.approved_accounts : 0;
             recordSharing.requests = Array.isArray(access.requests) ? access.requests : [];
             recordSharing.shares = Array.isArray(shared.shares) ? shared.shares : [];
             renderRecordSharing();
-            if (status && !recordSharing.active) status.textContent = "Record sharing is off. Generate a code only when you are ready to invite someone.";
+            if (status && !recordSharing.active) status.textContent = recordSharing.patientId
+                ? "Your permanent patient ID is saved. Access requests are paused until you enable them."
+                : "Create a permanent NexHealth patient ID when you are ready to share records by request.";
         } catch (error) {
             if (status) status.textContent = error.message;
             if ($("#recordSharingRequests")) $("#recordSharingRequests").innerHTML = "<p>Could not load access requests.</p>";
@@ -2764,17 +2973,37 @@ const observeTranslatedContent = () => {
         try {
             const result = await apiRequest("/api/record-sharing/code", { method: "POST" });
             recordSharing.active = true;
-            recordSharing.code = String(result.code || "");
-            $("#recordShareCodeValue").textContent = recordSharing.code;
-            $("#recordShareCodePanel").hidden = false;
-            if (status) status.textContent = "New code generated. Any previous request code was replaced; already approved access remains until revoked.";
-            renderRecordSharing();
-            toast("NexHealth demo code generated. It is not an ABHA number.");
+            recordSharing.patientId = String(result.patient_id || recordSharing.patientId);
+            if (status) status.textContent = "Your permanent NexHealth patient ID is ready. It stays the same; each account still needs your approval.";
+            await loadRecordSharing();
+            toast("Permanent NexHealth patient ID ready.");
         } catch (error) {
             if (status) status.textContent = error.message;
             toast(error.message, "error");
         } finally {
             if (button) button.disabled = false;
+        }
+    };
+
+    const updateRecordSharingLimit = async limit => {
+        const select = $("#recordShareLimit");
+        const status = $("#recordSharingStatus");
+        if (select) select.disabled = true;
+        try {
+            const result = await apiRequest("/api/record-sharing/limit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ limit: Number(limit) })
+            });
+            recordSharing.maxAccounts = Number(result.limit) || Number(limit);
+            await loadRecordSharing();
+            toast(`Approved account limit set to ${recordSharing.maxAccounts}.`);
+        } catch (error) {
+            if (status) status.textContent = error.message;
+            if (select) select.value = String(recordSharing.maxAccounts);
+            toast(error.message, "error");
+        } finally {
+            if (select) select.disabled = false;
         }
     };
 
@@ -2786,9 +3015,7 @@ const observeTranslatedContent = () => {
             await apiRequest("/api/record-sharing/revoke", { method: "POST" });
             recordSharing.active = false;
             recordSharing.requests = [];
-            recordSharing.code = "";
-            $("#recordShareCodePanel").hidden = true;
-            if ($("#recordSharingStatus")) $("#recordSharingStatus").textContent = "Sharing code and approved access have been revoked.";
+            if ($("#recordSharingStatus")) $("#recordSharingStatus").textContent = "Requests are paused and previous access was revoked. Your permanent patient ID is unchanged.";
             renderRecordSharing();
             toast("Record sharing revoked.");
         } catch (error) {
@@ -4244,8 +4471,6 @@ const observeTranslatedContent = () => {
 
         $("#personalizedPlanButton")?.addEventListener("click", generatePersonalizedPlan);
         $("#resetPersonalizedPlanButton")?.addEventListener("click", resetPersonalizedPlanChecklist);
-        $("#resetCompletedTasksButton")?.addEventListener("click", resetCompletedTasks);
-
         if (languageSelect) {
             languageSelect.value = state.language;
 
@@ -4282,14 +4507,14 @@ const observeTranslatedContent = () => {
             const recordShareReview = event.target.closest("[data-record-share-review]");
             if (recordShareReview) {
                 const approve = recordShareReview.dataset.recordShareReview === "approve";
-                if (approve && !window.confirm("Approve this person's request? They will be able to view every record currently in your NexHealth library and its saved analysis. New records are excluded, and you can revoke access later.")) return;
+                if (approve && !window.confirm("Approve this person's request? They will be able to view records currently in your NexHealth library and records you add or update later, until you revoke access.")) return;
                 recordShareReview.disabled = true;
                 apiRequest(`/api/record-sharing/requests/${encodeURIComponent(recordShareReview.dataset.requestId)}/review`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ approve })
                 }).then(() => {
-                    toast(approve ? "Access approved for your current records." : "Access request declined.");
+                    toast(approve ? "Access approved for your records and future updates." : "Access request declined.");
                     return loadRecordSharing();
                 }).catch(error => {
                     toast(error.message, "error");
@@ -4323,14 +4548,20 @@ const observeTranslatedContent = () => {
                 return;
             }
             if (event.target.closest("#copyRecordShareCode")) {
-                if (!recordSharing.code) return;
+                if (!recordSharing.patientId) return;
                 if (!navigator.clipboard?.writeText) {
-                    toast("Select and copy the code manually.", "warning");
+                    toast("Select and copy the patient ID manually.", "warning");
                     return;
                 }
-                navigator.clipboard.writeText(recordSharing.code)
-                    .then(() => toast("Code copied."))
-                    .catch(() => toast("Select and copy the code manually.", "warning"));
+                navigator.clipboard.writeText(recordSharing.patientId)
+                    .then(() => toast("Patient ID copied."))
+                    .catch(() => toast("Select and copy the patient ID manually.", "warning"));
+                return;
+            }
+
+            if (event.target.closest("#toggleRecordShareCodeVisibility")) {
+                recordSharing.patientIdVisible = !recordSharing.patientIdVisible;
+                renderRecordSharing();
                 return;
             }
 
@@ -4616,22 +4847,51 @@ const observeTranslatedContent = () => {
 
         $("#settingsLoginButton")?.addEventListener("click", openAuthPrompt);
 
-        $("#notificationButton")?.addEventListener("click", () => {
-            if (!document.body.classList.contains("account-authenticated")) {
-                const guestNotice = {
-                    te: "అతిథి మోడ్: మీ డేటా ఈ బ్రౌజర్‌లో మాత్రమే సేవ్ అవుతుంది. ఇతర పరికరాల్లో ఉపయోగించడానికి సెట్టింగ్స్‌లో సైన్ ఇన్ చేయండి.",
-                    hi: "अतिथि मोड: आपका डेटा केवल इस ब्राउज़र में सहेजा जाता है। दूसरे डिवाइस पर उपयोग के लिए सेटिंग्स में साइन इन करें।"
-                }[state.language] || "Guest mode: your data is saved only in this browser. Sign in from Settings to sync it and use it on other devices.";
-                toast(guestNotice, "info");
-                return;
+        $("#notificationButton")?.addEventListener("click", async () => {
+            notificationPanelOpen = !notificationPanelOpen;
+            const panel = $("#notificationPanel");
+            if (panel) panel.hidden = !notificationPanelOpen;
+            $("#notificationButton")?.setAttribute("aria-expanded", String(notificationPanelOpen));
+            if (notificationPanelOpen) {
+                if (document.body.classList.contains("account-authenticated")) {
+                    try {
+                        const access = await apiRequest("/api/record-sharing");
+                        recordSharing.requests = Array.isArray(access.requests) ? access.requests : [];
+                    } catch (error) {
+                        console.warn("Could not refresh family access requests.", error.message);
+                    }
+                }
+                renderNotifications();
             }
-            const pending = state.tasks.filter(task => !task.completed).length;
-            const upcoming = state.appointments.filter(item =>
-                new Date(`${item.date}T${item.time || "23:59"}`) >= new Date()
-            ).length;
-            const activeMedicine = state.medicationReminders.filter(item => item.active).length;
+        });
+
+        $("#notificationMarkRead")?.addEventListener("click", markNotificationsRead);
+        $("#notificationOpenReminders")?.addEventListener("click", () => {
+            notificationPanelOpen = false;
+            $("#notificationPanel").hidden = true;
+            $("#notificationButton")?.setAttribute("aria-expanded", "false");
             navigate("appointments");
-            toast(`${activeMedicine} medicine reminders · ${upcoming} upcoming appointments · ${pending} tasks remaining`, "info");
+        });
+        $("#notificationList")?.addEventListener("click", event => {
+            const openButton = event.target.closest("[data-notification-open-item]");
+            if (!openButton) return;
+            const notification = notificationItems.find(item => item.id === openButton.dataset.notificationOpenItem);
+            if (notification) {
+                const seen = new Set(Array.isArray(state.notificationSeen) ? state.notificationSeen : []);
+                seen.add(notification.id);
+                state.notificationSeen = [...seen].slice(-300);
+                save(STORAGE.notificationSeen, state.notificationSeen);
+            }
+            notificationPanelOpen = false;
+            $("#notificationPanel").hidden = true;
+            $("#notificationButton")?.setAttribute("aria-expanded", "false");
+            navigate(notification?.screen || "appointments");
+        });
+        document.addEventListener("click", event => {
+            if (!notificationPanelOpen || event.target.closest("#notificationPanel, #notificationButton")) return;
+            notificationPanelOpen = false;
+            $("#notificationPanel").hidden = true;
+            $("#notificationButton")?.setAttribute("aria-expanded", "false");
         });
 
         $("#globalSearch")?.addEventListener("keydown", event => {
@@ -4644,17 +4904,58 @@ const observeTranslatedContent = () => {
                 $("#globalSearch")?.focus();
             }
 
-            if (event.key === "Escape") closeModal();
+            if (event.key === "Escape") {
+                closeModal();
+                if (notificationPanelOpen) {
+                    notificationPanelOpen = false;
+                    $("#notificationPanel").hidden = true;
+                    $("#notificationButton")?.setAttribute("aria-expanded", "false");
+                }
+            }
         });
 
         $("#recordsSearch")?.addEventListener("input", renderRecords);
+
+        $("#familyAccountRequestForm")?.addEventListener("submit", async event => {
+            event.preventDefault();
+            const emailInput = $("#familyAccountEmail");
+            const status = $("#familyAccountRequestStatus");
+            const button = event.currentTarget.querySelector("button[type='submit']");
+            const email = String(emailInput?.value || "").trim().toLowerCase();
+            if (!document.body.classList.contains("account-authenticated")) {
+                if (status) status.textContent = t("Sign in before requesting access to a family member’s account.");
+                return;
+            }
+            if (!emailInput?.checkValidity()) {
+                emailInput?.reportValidity();
+                return;
+            }
+            if (button) button.disabled = true;
+            if (status) status.textContent = t("Sending access request…");
+            try {
+                await apiRequest("/api/record-sharing/family-request", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email })
+                });
+                emailInput.value = "";
+                const message = t("Request submitted. If that account has enabled sharing, its owner must sign in and approve it under ABDM / ABHA → Requests for your records. No email is sent automatically.");
+                if (status) status.textContent = message;
+                toast(t("Family access request submitted."));
+            } catch (error) {
+                if (status) status.textContent = error.message;
+                toast(error.message, "error");
+            } finally {
+                if (button) button.disabled = false;
+            }
+        });
 
         $("#recordShareRequestForm")?.addEventListener("submit", async event => {
             event.preventDefault();
             const input = $("#recordShareCodeInput");
             const code = String(input?.value || "").trim();
-            if (!/^\d{14}$/.test(code)) {
-                toast("Enter the 14-digit NexHealth demo sharing code.", "warning");
+            if (!/^[1-9]\d{13}$/.test(code)) {
+                toast("Enter the 14-digit NexHealth patient ID.", "warning");
                 input?.focus();
                 return;
             }
@@ -4683,6 +4984,11 @@ const observeTranslatedContent = () => {
 
         $("#recordShareCodeInput")?.addEventListener("input", event => {
             event.target.value = event.target.value.replace(/\D/g, "").slice(0, 14);
+        });
+
+        $("#recordShareLimit")?.addEventListener("change", event => {
+            if (!document.body.classList.contains("account-authenticated")) return;
+            updateRecordSharingLimit(event.target.value);
         });
 
         $$("[data-record-filter]").forEach(button => {
