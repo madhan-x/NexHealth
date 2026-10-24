@@ -203,7 +203,7 @@
                         <span class="profile-avatar" id="topbarAvatar">U</span>
                         <span class="profile-trigger-copy">
                             <strong id="topbarName">Your profile</strong>
-                            <small>Personal account</small>
+                            <small id="activeProfileLabel">Personal account</small>
                         </span>
                         <i data-lucide="chevron-down"></i>
                     </button>
@@ -279,7 +279,7 @@
                                 </span>
                                 <span class="metric-caption">YOUR LIBRARY</span>
                             </div>
-                            <strong class="metric-value" id="metricRecords">Add your first record</strong>
+                            <strong class="metric-value" id="metricRecords"></strong>
                             <span class="metric-label">Medical records</span>
                             <span class="metric-footnote">Reports and prescriptions</span>
                         </a>
@@ -291,7 +291,7 @@
                                 </span>
                                 <span class="metric-caption">YOUR SCHEDULE</span>
                             </div>
-                            <strong class="metric-value" id="metricAppointments">Add an appointment</strong>
+                            <strong class="metric-value" id="metricAppointments"></strong>
                             <span class="metric-label">Upcoming appointments</span>
                             <span class="metric-footnote">Based on your saved bookings</span>
                         </a>
@@ -303,7 +303,7 @@
                                 </span>
                                 <span class="metric-caption">YOUR ROUTINE</span>
                             </div>
-                            <strong class="metric-value" id="metricTasks">Create your first task</strong>
+                            <strong class="metric-value" id="metricTasks"></strong>
                             <span class="metric-label">Tasks remaining</span>
                             <span class="metric-footnote">From your personal checklist</span>
                         </a>
@@ -315,7 +315,7 @@
                                 </span>
                                 <span class="metric-caption">YOUR INSIGHTS</span>
                             </div>
-                            <strong class="metric-value" id="metricAnalyses">Analyze your first report</strong>
+                            <strong class="metric-value" id="metricAnalyses"></strong>
                             <span class="metric-label">Reports analyzed</span>
                             <span class="metric-footnote">Your saved AI analyses</span>
                         </a>
@@ -569,10 +569,16 @@
                             <h1 id="recordsTitle">Medical records</h1>
                             <p class="page-description">One organized place for reports, prescriptions, and health history.</p>
                         </div>
-                        <button class="button button-primary" type="button" data-action="open-upload">
-                            <i data-lucide="upload"></i>
-                            Upload record
-                        </button>
+                        <div class="page-heading-actions">
+                            <button class="button button-secondary" type="button" data-action="add-health-note">
+                                <i data-lucide="notebook-pen"></i>
+                                Add health note
+                            </button>
+                            <button class="button button-primary" type="button" data-action="open-upload">
+                                <i data-lucide="upload"></i>
+                                Upload record
+                            </button>
+                        </div>
                     </div>
 
                     <div class="records-summary-grid">
@@ -732,6 +738,25 @@
                                     <p>Save verified lab values with dates and units to compare results over time.</p>
                                 </div>
                             </section>
+
+                            <section class="panel health-insights-panel" aria-labelledby="healthInsightsHeading">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2 id="healthInsightsHeading">Health insights & preventive guidance</h2>
+                                        <p>Review possible patterns and questions to discuss with your healthcare professional.</p>
+                                    </div>
+                                    <button class="button button-secondary button-small" type="button" id="generateHealthInsightsButton">
+                                        <i data-lucide="chart-no-axes-combined"></i> Review saved reports
+                                    </button>
+                                </div>
+                                <div id="healthInsightsResults" aria-live="polite">
+                                    <div class="empty-state compact-empty">
+                                        <strong>Insights will appear here</strong>
+                                        <p>Save analyzed reports first. The system will only report trends or risk flags when the documents support them.</p>
+                                    </div>
+                                </div>
+                                <p class="health-insights-disclaimer">Discussion guidance only, not a diagnosis. AI may misread reports. Verify every value and reference range against the original document.</p>
+                            </section>
                         </div>
 
                         <aside class="analyzer-side-column">
@@ -801,7 +826,11 @@
                             <button class="text-button" id="resetPersonalizedPlanButton" type="button">Reset today's checklist</button>
                         </div>
                     </section>
-                    <p class="personalized-plan-privacy-note">Your saved profile and routine details are sent to the AI service only when you request a plan.</p>
+                    <label class="wellness-report-option" for="includeWellnessReportData">
+                        <input type="checkbox" id="includeWellnessReportData">
+                        <span><strong>Use recent analyzed reports for this plan (optional)</strong><small id="wellnessReportOptionHelp">Report information is included only when you select this option.</small></span>
+                    </label>
+                    <p class="personalized-plan-privacy-note">Your saved profile and routine details are sent to the AI service only when you request a plan. Recent analyzed reports are included only if you select the option above.</p>
 
                     <div class="diet-layout">
                         <div class="diet-main-column">
@@ -950,6 +979,31 @@
                         </div>
                         <img class="section-content-art appointments-content-art" src="/static/assets/illustrations/appointments.svg" alt="" aria-hidden="true">
                     </div>
+
+                    <section class="panel care-draft-panel pending-care-actions" id="pendingCareActionsPanel" aria-labelledby="pendingCareActionsHeading" hidden>
+                        <h2 id="pendingCareActionsHeading">AI suggestions awaiting your review</h2>
+                        <p class="care-draft-note">These suggestions are saved with the profile’s reports. They are not scheduled until you verify and confirm them.</p>
+                        <div id="pendingCareActionsList"></div>
+                    </section>
+
+                    <section class="panel care-reminders-panel" aria-labelledby="careRemindersHeading">
+                        <div class="panel-heading">
+                            <div>
+                                <h2 id="careRemindersHeading">Medication & appointment reminders</h2>
+                                <p>Manage medicine schedules and follow-up alerts in one place.</p>
+                            </div>
+                            <button class="button button-secondary button-small" type="button" data-action="add-medication-reminder">
+                                <i data-lucide="pill"></i> Add medicine reminder
+                            </button>
+                        </div>
+                        <div class="care-reminder-list" id="careReminderList">
+                            <div class="empty-state compact-empty">
+                                <strong>No reminders yet</strong>
+                                <p>Add a medicine schedule or set a reminder when you create an appointment.</p>
+                            </div>
+                        </div>
+                        <p class="reminder-prototype-note">In-app alerts appear while NexHealth is open. Reminder details stay in your workspace; verify all medicine instructions against the original prescription.</p>
+                    </section>
 
                     <div class="appointment-tabs" role="group" aria-label="Appointment status">
                         <button class="filter-tab active" type="button" data-appointment-filter="upcoming">Upcoming</button>
@@ -1155,6 +1209,7 @@
                                     </button>
                                 </div>
                                 <small class="voice-input-disclosure">Voice input uses your browser’s speech service and follows the selected site language.</small>
+                                <small class="voice-output-disclosure">Use Listen on an assistant reply to hear it in the selected language. Available voices depend on your browser and device.</small>
                                 <div class="composer-footer">
                                     <span><i data-lucide="shield-check"></i> Avoid sharing identifying information.</span>
                                     <button class="button button-primary" type="submit" id="mentorSendButton">
@@ -1258,6 +1313,21 @@
                                         <option value="hi">हिन्दी</option>
                                     </select>
                                 </label>
+                            </section>
+
+                            <section class="panel settings-panel" aria-labelledby="familyProfilesHeading">
+                                <div class="panel-heading">
+                                    <div>
+                                        <h2 id="familyProfilesHeading">Family health profiles</h2>
+                                        <p>Keep each family member’s records, reminders, wellness plans, and AI chats in a separate workspace.</p>
+                                    </div>
+                                    <i data-lucide="users-round"></i>
+                                </div>
+                                <div id="familyProfilesList" class="family-profiles-list" aria-live="polite"></div>
+                                <button class="button button-secondary" type="button" data-action="add-family-profile">
+                                    <i data-lucide="user-round-plus"></i> Add family profile
+                                </button>
+                                <p class="family-profile-help">Profiles share the signed-in account and its storage; they are separate workspace views, not separate logins. Review the active profile before adding records or asking the AI.</p>
                             </section>
 
                             <section class="panel settings-panel">
@@ -1368,7 +1438,7 @@
                                             <div>
                                                 <strong>AI processing</strong>
                                                 <p>Allow eligible health information to be processed by the AI features you choose to use.</p>
-                                                <span class="consent-detail">Your prompts, uploaded reports, and relevant profile or routine details are sent to OpenRouter and its selected model provider for AI responses.</span>
+                                                <span class="consent-detail">Your prompts, relevant saved report excerpts, health notes, profile details, medication reminders, and relevant details you shared in other Mentor chats may be sent to OpenRouter and its selected model provider for AI responses.</span>
                                             </div>
                                         </div>
                                         <label class="switch">

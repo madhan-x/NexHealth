@@ -2716,6 +2716,49 @@ p {
     min-height: 175px;
 }
 
+.health-insights-panel { margin-top: 18px; }
+.health-insights-disclaimer { margin: 14px 0 0; color: var(--text-secondary); font-size: 12px; line-height: 1.6; }
+.health-insight-group { margin-top: 16px; }
+.health-insight-group h3 { margin: 0 0 10px; color: var(--text); font-size: 15px; }
+.health-insight-card { padding: 14px 15px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); }
+.health-insight-card + .health-insight-card { margin-top: 9px; }
+.health-insight-card strong { display: block; color: var(--text); font-size: 14px; }
+.health-insight-card p { margin: 6px 0; color: var(--text-secondary); font-size: 13px; line-height: 1.55; }
+.health-insight-evidence { padding-left: 11px; border-left: 2px solid var(--primary); }
+.health-insight-source { display: block; color: var(--text-secondary); font-size: 11px; line-height: 1.5; }
+.health-insight-gap { margin: 5px 0; color: var(--text-secondary); font-size: 13px; }
+
+.family-profiles-list { display: grid; gap: 8px; margin: 12px 0; }
+.family-profile-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--border); }
+.family-profile-row > span:first-child { display: grid; gap: 3px; min-width: 0; }
+.family-profile-row strong { color: var(--text-primary); font-size: 14px; }
+.family-profile-row small, .family-profile-help { color: var(--text-secondary); font-size: 12px; line-height: 1.55; }
+.family-profile-actions { display: flex; align-items: center; gap: 8px; }
+.family-profile-help { margin: 8px 0 12px; }
+.mentor-message-speak { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text-secondary); font: inherit; font-size: 12px; cursor: pointer; }
+.mentor-message-speak:hover, .mentor-message-speak:focus-visible { border-color: var(--primary); color: var(--primary-dark); }
+.care-draft-panel { margin: 18px 0; padding: 15px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-subtle, #f7faf8); }
+.care-draft-panel h3, .care-draft-panel h4 { margin: 0 0 8px; color: var(--text-primary); }
+.care-draft-panel h4 { margin-top: 14px; font-size: 14px; }
+.care-draft-panel ul { margin: 6px 0 12px; padding-left: 20px; color: var(--text-secondary); }
+.care-draft-panel li { margin: 5px 0; line-height: 1.5; }
+.care-draft-note { color: var(--text-secondary); font-size: 12px; line-height: 1.55; }
+.care-draft-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--border); }
+.care-draft-item strong { color: var(--text-primary); }
+.care-draft-item p { margin: 4px 0; color: var(--text-secondary); }
+.care-draft-item small { color: var(--text-secondary); font-size: 11px; line-height: 1.5; }
+.care-draft-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pending-care-actions { margin-bottom: 18px; }
+.pending-care-actions h2 { margin: 0 0 7px; color: var(--text-primary); font-size: 17px; }
+.pending-care-report + .pending-care-report { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.pending-care-report h3 { margin: 0; color: var(--text-primary); font-size: 14px; }
+.pending-care-report ul { padding-left: 20px; color: var(--text-secondary); }
+@media (max-width: 640px) {
+    .care-draft-item { align-items: flex-start; flex-wrap: wrap; }
+    .care-draft-actions { width: 100%; }
+    .family-profile-row { align-items: flex-start; flex-wrap: wrap; }
+}
+
 .diet-overview-banner,
 .services-hero {
     display: flex;
@@ -2842,6 +2885,29 @@ p {
     font-size: 13px;
     line-height: 1.55;
 }
+
+.personalized-plan-row .task-row-copy .plan-reason {
+    color: var(--primary-dark, #216448);
+    font-size: 12px;
+}
+
+.wellness-report-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 760px;
+    margin: 10px 0 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    cursor: pointer;
+}
+
+.wellness-report-option input { flex: 0 0 auto; margin-top: 3px; }
+.wellness-report-option span { display: grid; gap: 3px; }
+.wellness-report-option strong { color: var(--text); font-size: 13px; }
+.wellness-report-option small { color: var(--text-secondary); font-size: 12px; line-height: 1.5; }
 
 .plan-missing-information {
     margin: 0;
@@ -3127,6 +3193,27 @@ p {
 
 .appointment-list {
     min-height: 220px;
+}
+
+.care-reminders-panel { margin-bottom: 22px; }
+.care-reminder-list { display: grid; gap: 0; }
+.care-reminder-item { display: flex; align-items: center; gap: 13px; padding: 15px 0; border-top: 1px solid var(--border, #e7ece8); }
+.care-reminder-item:first-child { border-top: 0; }
+.care-reminder-item.is-due { background: #f7fbf8; margin-inline: -12px; padding-inline: 12px; border-radius: 12px; }
+.care-reminder-icon { width: 38px; height: 38px; display: grid; flex: 0 0 auto; place-items: center; border-radius: 11px; background: #eaf5ee; color: var(--primary, #18724c); }
+.care-reminder-copy { min-width: 0; flex: 1; }
+.care-reminder-copy strong { display: block; color: var(--text-primary, #19352b); font-size: 14px; }
+.care-reminder-copy p, .care-reminder-copy small { display: block; margin: 3px 0 0; color: var(--text-secondary, #53645c); font-size: 12px; }
+.care-reminder-actions { display: flex; align-items: center; justify-content: flex-end; gap: 7px; flex-wrap: wrap; }
+.reminder-prototype-note, .reminder-form-note { margin: 12px 0 0; color: var(--text-secondary, #53645c); font-size: 12px; line-height: 1.6; }
+.reminder-confirm-label { display: flex; align-items: flex-start; gap: 9px; margin: 12px 0; color: var(--text-primary, #19352b); font-size: 13px; line-height: 1.5; }
+.reminder-confirm-label input { margin-top: 3px; }
+
+@media (max-width: 640px) {
+    .care-reminders-panel > .panel-heading { align-items: flex-start; flex-direction: column; }
+    .care-reminder-item { align-items: flex-start; flex-wrap: wrap; }
+    .care-reminder-copy { flex: 1 1 calc(100% - 55px); }
+    .care-reminder-actions { width: 100%; padding-left: 51px; justify-content: flex-start; }
 }
 
 .appointment-row {
@@ -3762,16 +3849,6 @@ p {
     display: flex;
     justify-content: flex-end;
     padding: 0 20px 12px;
-}
-
-.metric-value-empty {
-    max-width: 100%;
-    color: var(--primary);
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 750;
-    letter-spacing: 0;
-    line-height: 1.35;
 }
 
 .suggested-prompts {
@@ -6362,4 +6439,56 @@ textarea:focus-visible {
         width: 86px;
         height: 64px;
     }
+}
+
+/* Sharper, more saturated palette for clear reading across the workspace. */
+:root {
+    --text: #101b15;
+    --text-primary: #101b15;
+    --text-secondary: #203329;
+    --text-muted: #34483b;
+    --border: #a9b9ad;
+    --border-strong: #879b8e;
+    --border-color: #9aaa9e;
+    --primary: #0b704b;
+    --primary-dark: #074b34;
+    --primary-hover: #075b3d;
+    --accent: #0a9c68;
+    --purple: #603bc3;
+    --purple-soft: #e9e1ff;
+    --blue: #1c5fc2;
+    --blue-soft: #e0ebff;
+    --green: #087a4e;
+    --green-soft: #d9f2e4;
+    --orange: #a84c00;
+    --orange-soft: #ffead5;
+}
+
+.metrics-grid > .metric-card:nth-child(4n + 1) {
+    --metric-accent: #603bc3;
+    --metric-tint: #f0eaff;
+}
+
+.metrics-grid > .metric-card:nth-child(4n + 2) {
+    --metric-accent: #1c5fc2;
+    --metric-tint: #eaf1ff;
+}
+
+.metrics-grid > .metric-card:nth-child(4n + 3) {
+    --metric-accent: #087a4e;
+    --metric-tint: #e8f6ed;
+}
+
+.metrics-grid > .metric-card:nth-child(4n) {
+    --metric-accent: #a84c00;
+    --metric-tint: #fff2e2;
+}
+
+.metric-caption,
+.metric-footnote,
+.sidebar-label,
+.breadcrumb,
+.service-category,
+.medical-disclaimer {
+    color: var(--text-muted);
 }

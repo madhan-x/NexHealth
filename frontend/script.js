@@ -250,11 +250,15 @@ Object.assign(uiTextTranslations.hi, {
 });
 
 Object.assign(uiTextTranslations.te, {
-    "Your prompts, uploaded reports, and relevant profile or routine details are sent to OpenRouter and its selected model provider for AI responses.": "AI సమాధానాల కోసం మీ ప్రశ్నలు, అప్‌లోడ్ చేసిన నివేదికలు, సంబంధిత ప్రొఫైల్ లేదా దినచర్య వివరాలు OpenRouter మరియు అది ఎంచుకున్న మోడల్ సేవాదారునికి పంపబడతాయి."
+    "Your prompts, relevant saved report excerpts, health notes, profile details, medication reminders, and relevant details you shared in other Mentor chats may be sent to OpenRouter and its selected model provider for AI responses.": "AI సమాధానాల కోసం మీ ప్రశ్నలు, సేవ్ చేసిన నివేదికల సంబంధిత భాగాలు, ఆరోగ్య నోట్లు, ప్రొఫైల్ వివరాలు, మందుల రిమైండర్లు మరియు ఇతర ఆరోగ్య సహాయక చాట్‌లలో మీరు పంచుకున్న సంబంధిత వివరాలు OpenRouter మరియు ఎంపిక చేసిన మోడల్ సేవాదారునికి పంపబడవచ్చు.",
+    "Your prompts, relevant saved report excerpts, uploaded reports, and profile or routine details may be sent to OpenRouter and its selected model provider for AI responses.": "AI సమాధానాల కోసం మీ ప్రశ్నలు, సేవ్ చేసిన నివేదికల సంబంధిత భాగాలు, అప్‌లోడ్ చేసిన నివేదికలు, ప్రొఫైల్ లేదా దినచర్య వివరాలు OpenRouter మరియు అది ఎంచుకున్న మోడల్ సేవాదారునికి పంపబడవచ్చు.",
+    "For questions about your saved reports, I’ll cite the source and date when available. If I can’t find the answer in your saved records, I’ll say so.": "మీ సేవ్ చేసిన నివేదికల గురించి అడిగితే, అందుబాటులో ఉన్నప్పుడు మూలం మరియు తేదీని చెబుతాను. మీ రికార్డుల్లో సమాధానం లేకపోతే, అది లేదని స్పష్టంగా చెబుతాను."
 });
 
 Object.assign(uiTextTranslations.hi, {
-    "Your prompts, uploaded reports, and relevant profile or routine details are sent to OpenRouter and its selected model provider for AI responses.": "AI जवाबों के लिए आपके सवाल, अपलोड की गई रिपोर्टें और संबंधित प्रोफ़ाइल या दिनचर्या की जानकारी OpenRouter और उसके चुने हुए मॉडल प्रदाता को भेजी जाती है।"
+    "Your prompts, relevant saved report excerpts, health notes, profile details, medication reminders, and relevant details you shared in other Mentor chats may be sent to OpenRouter and its selected model provider for AI responses.": "AI जवाबों के लिए आपके सवाल, सेव की गई रिपोर्टों के ज़रूरी अंश, स्वास्थ्य नोट, प्रोफ़ाइल विवरण, दवा रिमाइंडर और दूसरे स्वास्थ्य सहायक चैट में साझा की गई संबंधित जानकारी OpenRouter और चुने गए मॉडल प्रदाता को भेजी जा सकती है।",
+    "Your prompts, relevant saved report excerpts, uploaded reports, and profile or routine details may be sent to OpenRouter and its selected model provider for AI responses.": "AI जवाबों के लिए आपके सवाल, सेव की गई रिपोर्टों के ज़रूरी अंश, अपलोड की गई रिपोर्टें और प्रोफ़ाइल या दिनचर्या की जानकारी OpenRouter और उसके चुने हुए मॉडल प्रदाता को भेजी जा सकती है।",
+    "For questions about your saved reports, I’ll cite the source and date when available. If I can’t find the answer in your saved records, I’ll say so.": "आपकी सेव की गई रिपोर्टों के बारे में पूछने पर, उपलब्ध होने पर मैं स्रोत और तारीख बताऊँगा। अगर जवाब आपके सेव किए रिकॉर्ड में नहीं मिला, तो मैं यह साफ़ कहूँगा।"
 });
 
 Object.assign(uiTextTranslations.te, {
@@ -295,6 +299,51 @@ Object.assign(uiTextTranslations.hi, {
     "Edit": "संपादित करें",
     "Update and regenerate": "अपडेट करें और नया जवाब बनाएँ",
     "Delete chat": "चैट हटाएँ"
+});
+
+Object.assign(uiTextTranslations.te, {
+    "Use recent analyzed reports for this plan (optional)": "ఈ ప్రణాళిక కోసం ఇటీవలి విశ్లేషించిన నివేదికలను ఉపయోగించండి (ఐచ్ఛికం)",
+    "Report information is included only when you select this option.": "మీరు ఈ ఎంపికను ఎంచుకున్నప్పుడే నివేదిక సమాచారం చేర్చబడుతుంది.",
+    "Up to 3 recent analyzed reports will be sent only for this plan request. Check the original report for accuracy.": "ఈ ప్రణాళిక అభ్యర్థనకే ఇటీవలి 3 విశ్లేషించిన నివేదికల వరకు పంపబడతాయి. ఖచ్చితత్వం కోసం అసలు నివేదికను తనిఖీ చేయండి.",
+    "No analyzed reports are saved yet. You can still create a plan from your profile and routine.": "ఇంకా విశ్లేషించిన నివేదికలు సేవ్ కాలేదు. మీ ప్రొఫైల్ మరియు దినచర్యతో ప్రణాళికను రూపొందించవచ్చు.",
+    "Health conditions (optional)": "ఆరోగ్య పరిస్థితులు (ఐచ్ఛికం)",
+    "Why this may fit": "ఇది ఎందుకు సరిపోవచ్చు",
+    "Medication & appointment reminders": "మందులు & అపాయింట్‌మెంట్ రిమైండర్లు",
+    "Manage medicine schedules and follow-up alerts in one place.": "మందుల షెడ్యూల్‌లు మరియు ఫాలో-అప్ అలర్ట్‌లను ఒకే చోట నిర్వహించండి.",
+    "Add medicine reminder": "మందుల రిమైండర్ జోడించండి",
+    "No reminders yet": "ఇంకా రిమైండర్లు లేవు",
+    "Add a medicine schedule or set a reminder when you create an appointment.": "మందుల షెడ్యూల్ జోడించండి లేదా అపాయింట్‌మెంట్ సృష్టించేటప్పుడు రిమైండర్ సెట్ చేయండి.",
+    "In-app alerts appear while NexHealth is open. Reminder details stay in your workspace; verify all medicine instructions against the original prescription.": "NexHealth తెరిచి ఉన్నప్పుడు యాప్‌లో అలర్ట్‌లు కనిపిస్తాయి. రిమైండర్ వివరాలు మీ కార్యస్థలంలో ఉంటాయి; మందుల సూచనలను అసలు ప్రిస్క్రిప్షన్‌తో జాగ్రత్తగా తనిఖీ చేయండి.",
+    "Due today": "ఈరోజు చేయాల్సినది",
+    "Course ended": "మందుల కోర్సు ముగిసింది",
+    "Stopped": "ఆపివేశారు",
+    "Not scheduled today": "ఈరోజుకు షెడ్యూల్ లేదు",
+    "Taken": "తీసుకున్నాను",
+    "Snooze 10 min": "10 నిమిషాలు వాయిదా",
+    "Confirm": "నిర్ధారించండి",
+    "Stop": "ఆపండి"
+});
+Object.assign(uiTextTranslations.hi, {
+    "Use recent analyzed reports for this plan (optional)": "इस योजना के लिए हाल की विश्लेषित रिपोर्टें उपयोग करें (वैकल्पिक)",
+    "Report information is included only when you select this option.": "रिपोर्ट की जानकारी तभी शामिल होगी जब आप यह विकल्प चुनेंगे।",
+    "Up to 3 recent analyzed reports will be sent only for this plan request. Check the original report for accuracy.": "इस योजना अनुरोध के लिए केवल 3 तक हाल की विश्लेषित रिपोर्टें भेजी जाएँगी। सटीकता के लिए मूल रिपोर्ट जाँचें।",
+    "No analyzed reports are saved yet. You can still create a plan from your profile and routine.": "अभी कोई विश्लेषित रिपोर्ट सहेजी नहीं है। आप प्रोफ़ाइल और दिनचर्या से योजना बना सकते हैं।",
+    "Health conditions (optional)": "स्वास्थ्य स्थितियाँ (वैकल्पिक)",
+    "Why this may fit": "यह क्यों उपयुक्त हो सकता है",
+    "Medication & appointment reminders": "दवा और अपॉइंटमेंट रिमाइंडर",
+    "Manage medicine schedules and follow-up alerts in one place.": "दवा का शेड्यूल और फॉलो-अप अलर्ट एक जगह प्रबंधित करें।",
+    "Add medicine reminder": "दवा रिमाइंडर जोड़ें",
+    "No reminders yet": "अभी कोई रिमाइंडर नहीं",
+    "Add a medicine schedule or set a reminder when you create an appointment.": "दवा का शेड्यूल जोड़ें या अपॉइंटमेंट बनाते समय रिमाइंडर सेट करें।",
+    "In-app alerts appear while NexHealth is open. Reminder details stay in your workspace; verify all medicine instructions against the original prescription.": "NexHealth खुला होने पर ऐप में अलर्ट दिखेंगे। रिमाइंडर आपके कार्यक्षेत्र में सहेजे जाएँगे; दवा के निर्देश मूल पर्चे से जाँचें।",
+    "Due today": "आज देय",
+    "Course ended": "दवा का कोर्स पूरा",
+    "Stopped": "रोक दिया गया",
+    "Not scheduled today": "आज निर्धारित नहीं",
+    "Taken": "ले लिया",
+    "Snooze 10 min": "10 मिनट बाद याद दिलाएँ",
+    "Confirm": "पुष्टि करें",
+    "Stop": "रोकें"
 });
 
 const privacyUiTranslations = {
@@ -368,6 +417,61 @@ const privacyUiTranslations = {
     }
 };
 
+Object.assign(uiTextTranslations.te, {
+    "Listen": "వినండి",
+    "Use Listen on an assistant reply to hear it in the selected language. Available voices depend on your browser and device.": "సహాయకుడి సమాధానాన్ని ఎంచుకున్న భాషలో వినడానికి Listen నొక్కండి. అందుబాటులోని వాయిస్‌లు మీ బ్రౌజర్ మరియు పరికరంపై ఆధారపడి ఉంటాయి.",
+    "Family health profiles": "కుటుంబ ఆరోగ్య ప్రొఫైల్‌లు",
+    "Keep each family member’s records, reminders, wellness plans, and AI chats in a separate workspace.": "ప్రతి కుటుంబ సభ్యుడి రికార్డులు, రిమైండర్లు, ఆరోగ్య ప్రణాళికలు, AI చాట్‌లను వేర్వేరు కార్యస్థలాల్లో ఉంచండి.",
+    "Add family profile": "కుటుంబ ప్రొఫైల్ జోడించండి",
+    "Profiles share the signed-in account and its storage; they are separate workspace views, not separate logins. Review the active profile before adding records or asking the AI.": "ప్రొఫైల్‌లు సైన్ ఇన్ చేసిన ఖాతా మరియు నిల్వను పంచుకుంటాయి; ఇవి వేర్వేరు కార్యస్థల వీక్షణలు మాత్రమే, వేర్వేరు లాగిన్‌లు కావు. రికార్డులు జోడించే లేదా AIని అడిగే ముందు సక్రియ ప్రొఫైల్‌ను తనిఖీ చేయండి.",
+    "This prototype stores family profiles under the signed-in account. Review the active profile before adding records or asking the AI.": "ఈ నమూనాలో కుటుంబ ప్రొఫైల్‌లు సైన్ ఇన్ చేసిన ఖాతాలో నిల్వ అవుతాయి. రికార్డులు జోడించే ముందు లేదా AIని అడిగే ముందు సక్రియ ప్రొఫైల్‌ను తనిఖీ చేయండి.",
+    "Reviewable care suggestions": "పరిశీలించగల సంరక్షణ సూచనలు",
+    "Nothing is scheduled until you review, edit, verify against the original, and confirm it.": "మీరు పరిశీలించి, సవరించి, అసలుతో ధృవీకరించి, నిర్ధారించే వరకు ఏదీ షెడ్యూల్ కాదు.",
+    "Review & edit": "పరిశీలించి సవరించండి",
+    "Reject": "తిరస్కరించండి",
+    "Questions to review with your clinician": "వైద్యునితో పరిశీలించాల్సిన ప్రశ్నలు",
+    "Edit these in AI Health Mentor": "AI ఆరోగ్య సహాయకుడిలో సవరించండి",
+    "AI suggestions awaiting your review": "మీ పరిశీలన కోసం AI సూచనలు",
+    "These suggestions are saved with the profile’s reports. They are not scheduled until you verify and confirm them.": "ఈ సూచనలు ప్రొఫైల్ నివేదికలతో సేవ్ అవుతాయి. మీరు ధృవీకరించి నిర్ధారించే వరకు షెడ్యూల్ కావు.",
+    "Dismiss questions": "ప్రశ్నలను తీసివేయండి",
+    "Create a separate profile for each family member. Their reports, reminders, plans, and AI chats stay in that profile.": "ప్రతి కుటుంబ సభ్యునికి వేరు ప్రొఫైల్ సృష్టించండి. వారి నివేదికలు, రిమైండర్లు, ప్రణాళికలు, AI చాట్‌లు ఆ ప్రొఫైల్‌లోనే ఉంటాయి.",
+    "A date printed in this report has passed. Check with your healthcare professional whether the follow-up or repeat test is still due; this prototype does not schedule it automatically.": "ఈ నివేదికలో ముద్రించిన తేదీ గడిచిపోయింది. ఫాలో-అప్ లేదా మళ్లీ పరీక్ష ఇంకా అవసరమా అని వైద్యునితో నిర్ధారించండి; ఈ నమూనా స్వయంగా షెడ్యూల్ చేయదు.",
+    "Medicine reminder": "మందుల రిమైండర్",
+    "Appointment reminder": "అపాయింట్‌మెంట్ రిమైండర్",
+    "Parent": "తల్లిదండ్రులు",
+    "Child": "పిల్లలు",
+    "Spouse": "జీవిత భాగస్వామి",
+    "Caregiver": "సంరక్షకుడు",
+    "Other": "ఇతర"
+});
+Object.assign(uiTextTranslations.hi, {
+    "Listen": "सुनें",
+    "Use Listen on an assistant reply to hear it in the selected language. Available voices depend on your browser and device.": "सहायक का जवाब चुनी हुई भाषा में सुनने के लिए Listen दबाएँ। उपलब्ध आवाज़ें आपके ब्राउज़र और डिवाइस पर निर्भर करती हैं।",
+    "Family health profiles": "परिवार के स्वास्थ्य प्रोफ़ाइल",
+    "Keep each family member’s records, reminders, wellness plans, and AI chats in a separate workspace.": "हर परिवार सदस्य के रिकॉर्ड, रिमाइंडर, स्वास्थ्य योजनाएँ और AI चैट अलग कार्यक्षेत्र में रखें।",
+    "Add family profile": "परिवार प्रोफ़ाइल जोड़ें",
+    "Profiles share the signed-in account and its storage; they are separate workspace views, not separate logins. Review the active profile before adding records or asking the AI.": "प्रोफ़ाइल साइन-इन खाते और उसके स्टोरेज को साझा करती हैं; वे अलग कार्यक्षेत्र दृश्य हैं, अलग लॉगिन नहीं। रिकॉर्ड जोड़ने या AI से पूछने से पहले सक्रिय प्रोफ़ाइल जाँचें।",
+    "This prototype stores family profiles under the signed-in account. Review the active profile before adding records or asking the AI.": "यह प्रोटोटाइप परिवार प्रोफ़ाइल को साइन-इन खाते में सहेजता है। रिकॉर्ड जोड़ने या AI से पूछने से पहले सक्रिय प्रोफ़ाइल जाँचें।",
+    "Reviewable care suggestions": "जाँचने योग्य देखभाल सुझाव",
+    "Nothing is scheduled until you review, edit, verify against the original, and confirm it.": "जब तक आप जाँचकर, संपादित करके, मूल पर्चे से मिलाकर पुष्टि नहीं करते, कुछ भी शेड्यूल नहीं होगा।",
+    "Review & edit": "जाँचें और संपादित करें",
+    "Reject": "अस्वीकार करें",
+    "Questions to review with your clinician": "डॉक्टर से पूछने के लिए प्रश्न",
+    "Edit these in AI Health Mentor": "AI स्वास्थ्य सहायक में संपादित करें",
+    "AI suggestions awaiting your review": "आपकी समीक्षा के लिए AI सुझाव",
+    "These suggestions are saved with the profile’s reports. They are not scheduled until you verify and confirm them.": "ये सुझाव प्रोफ़ाइल रिपोर्टों के साथ सहेजे जाते हैं। आपके सत्यापित और पुष्टि करने तक इन्हें शेड्यूल नहीं किया जाएगा।",
+    "Dismiss questions": "प्रश्न हटाएँ",
+    "Create a separate profile for each family member. Their reports, reminders, plans, and AI chats stay in that profile.": "हर परिवार सदस्य के लिए अलग प्रोफ़ाइल बनाएँ। उनकी रिपोर्ट, रिमाइंडर, योजनाएँ और AI चैट उसी प्रोफ़ाइल में रहेंगी।",
+    "A date printed in this report has passed. Check with your healthcare professional whether the follow-up or repeat test is still due; this prototype does not schedule it automatically.": "रिपोर्ट में दी गई तारीख बीत चुकी है। डॉक्टर से पूछें कि फॉलो-अप या दोबारा जाँच अभी भी आवश्यक है या नहीं; यह प्रोटोटाइप इसे अपने आप शेड्यूल नहीं करता।",
+    "Medicine reminder": "दवा रिमाइंडर",
+    "Appointment reminder": "अपॉइंटमेंट रिमाइंडर",
+    "Parent": "माता-पिता",
+    "Child": "बच्चा",
+    "Spouse": "जीवनसाथी",
+    "Caregiver": "देखभालकर्ता",
+    "Other": "अन्य"
+});
+
 const NexHealth = (() => {
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -376,6 +480,7 @@ const NexHealth = (() => {
         records: "nexhealth_records",
         tasks: "nexhealth_tasks",
         appointments: "nexhealth_appointments",
+        medicationReminders: "nexhealth_medication_reminders",
         meals: "nexhealth_meals",
         analyses: "nexhealth_analyses",
         messages: "nexhealth_messages",
@@ -388,7 +493,9 @@ const NexHealth = (() => {
         dietPreferences: "nexhealth_diet_preferences",
         consent: "nexhealth_consent",
         consentHistory: "nexhealth_consent_history",
-        personalizedPlan: "nexhealth_personalized_plan"
+        personalizedPlan: "nexhealth_personalized_plan",
+        familyProfiles: "nexhealth_family_profiles",
+        activeFamilyProfileId: "nexhealth_active_family_profile"
     };
     let STORAGE = { ...STORAGE_BASE };
     let activeUserId = "";
@@ -402,6 +509,7 @@ const NexHealth = (() => {
     let clearGuestCacheAfterCloudSave = false;
     let welcomeGreetingIndex = 0;
     let preserveNextMentorNavigation = false;
+    let medicationReminderTimer = null;
 
     const userStorageKey = key => `${key}_${activeUserId}`;
 
@@ -420,6 +528,7 @@ const NexHealth = (() => {
         records: read(STORAGE.records, []),
         tasks: read(STORAGE.tasks, []),
         appointments: read(STORAGE.appointments, []),
+        medicationReminders: read(STORAGE.medicationReminders, []),
         meals: read(STORAGE.meals, []),
         analyses: read(STORAGE.analyses, []),
         messages: read(STORAGE.messages, []),
@@ -438,6 +547,8 @@ const NexHealth = (() => {
         }),
         consentHistory: read(STORAGE.consentHistory, []),
         personalizedPlan: read(STORAGE.personalizedPlan, null),
+        familyProfiles: read(STORAGE.familyProfiles, []),
+        activeFamilyProfileId: read(STORAGE.activeFamilyProfileId, ""),
         recordFilter: "all",
         taskFilter: "all",
         appointmentFilter: "upcoming",
@@ -454,6 +565,7 @@ const NexHealth = (() => {
         state.records = read(STORAGE.records, []);
         state.tasks = read(STORAGE.tasks, []);
         state.appointments = read(STORAGE.appointments, []);
+        state.medicationReminders = read(STORAGE.medicationReminders, []);
         state.meals = read(STORAGE.meals, []);
         state.analyses = read(STORAGE.analyses, []);
         state.messages = read(STORAGE.messages, []);
@@ -472,6 +584,8 @@ const NexHealth = (() => {
         });
         state.consentHistory = read(STORAGE.consentHistory, []);
         state.personalizedPlan = read(STORAGE.personalizedPlan, null);
+        state.familyProfiles = read(STORAGE.familyProfiles, []);
+        state.activeFamilyProfileId = read(STORAGE.activeFamilyProfileId, "");
     };
 
     const clearAccountLocalCache = () => {
@@ -499,7 +613,7 @@ const NexHealth = (() => {
 
     const t = (key) => {
         const language = translations[state.language] || translations.en;
-        return language[key] || privacyUiTranslations[state.language]?.[key] || translations.en[key] || key;
+        return language[key] || privacyUiTranslations[state.language]?.[key] || uiTextTranslations[state.language]?.[key] || translations.en[key] || key;
     };
 
 
@@ -604,10 +718,12 @@ const observeTranslatedContent = () => {
 
     const workspaceSnapshot = () => {
         syncActiveConversation();
+        saveActiveFamilySnapshot();
         return {
             records: state.records,
             tasks: state.tasks,
             appointments: state.appointments,
+            medicationReminders: state.medicationReminders,
             meals: state.meals,
             analyses: state.analyses,
             messages: state.messages,
@@ -620,13 +736,31 @@ const observeTranslatedContent = () => {
             dietPreferences: state.dietPreferences,
             consent: state.consent,
             consentHistory: state.consentHistory,
-            personalizedPlan: state.personalizedPlan
+            personalizedPlan: state.personalizedPlan,
+            familyProfiles: state.familyProfiles,
+            activeFamilyProfileId: state.activeFamilyProfileId
         };
+    };
+
+    const familyScopedKeys = [
+        "records", "tasks", "appointments", "medicationReminders", "meals", "analyses",
+        "messages", "mentorConversations", "activeMentorConversationId", "analyzerConversations",
+        "activeAnalyzerConversationId", "activeConversationType", "profile", "dietPreferences", "personalizedPlan"
+    ];
+    const saveActiveFamilySnapshot = () => {
+        if (!state.activeFamilyProfileId || !Array.isArray(state.familyProfiles)) return;
+        const member = state.familyProfiles.find(profile => profile.id === state.activeFamilyProfileId);
+        if (!member) return;
+        member.workspace = Object.fromEntries(familyScopedKeys.map(key => [
+            key,
+            JSON.parse(JSON.stringify(state[key] ?? null))
+        ]));
+        member.name = String(state.profile?.name || member.name || "Family profile").slice(0, 80);
     };
 
     const applyWorkspaceSnapshot = workspace => {
         if (!workspace || typeof workspace !== "object" || Array.isArray(workspace)) return false;
-        const arrayKeys = ["records", "tasks", "appointments", "meals", "analyses", "messages"];
+        const arrayKeys = ["records", "tasks", "appointments", "medicationReminders", "meals", "analyses", "messages"];
         arrayKeys.forEach(key => {
             if (Array.isArray(workspace[key])) state[key] = workspace[key];
         });
@@ -662,6 +796,8 @@ const observeTranslatedContent = () => {
         } else {
             state.personalizedPlan = null;
         }
+        state.familyProfiles = Array.isArray(workspace.familyProfiles) ? workspace.familyProfiles : [];
+        state.activeFamilyProfileId = typeof workspace.activeFamilyProfileId === "string" ? workspace.activeFamilyProfileId : "";
         return true;
     };
 
@@ -707,11 +843,13 @@ const observeTranslatedContent = () => {
 
     const persist = () => {
         syncActiveConversation();
+        saveActiveFamilySnapshot();
         const signedIn = Boolean(activeUserId) && !document.body.classList.contains("local-demo-mode");
         if (!signedIn || accountCacheFallback) {
             save(STORAGE.records, state.records);
             save(STORAGE.tasks, state.tasks);
             save(STORAGE.appointments, state.appointments);
+            save(STORAGE.medicationReminders, state.medicationReminders);
             save(STORAGE.meals, state.meals);
             save(STORAGE.analyses, state.analyses);
             save(STORAGE.messages, state.messages);
@@ -725,6 +863,8 @@ const observeTranslatedContent = () => {
             save(STORAGE.consent, state.consent);
             save(STORAGE.consentHistory, state.consentHistory);
             save(STORAGE.personalizedPlan, state.personalizedPlan);
+            save(STORAGE.familyProfiles, state.familyProfiles);
+            save(STORAGE.activeFamilyProfileId, state.activeFamilyProfileId);
         }
         if (workspaceHydrated && activeUserId && !document.body.classList.contains("local-demo-mode")) {
             scheduleWorkspaceSave();
@@ -733,17 +873,18 @@ const observeTranslatedContent = () => {
 
     const hasWorkspaceData = workspace => {
         if (!workspace) return false;
-        return ["records", "tasks", "appointments", "meals", "analyses", "messages", "mentorConversations", "analyzerConversations", "consentHistory"]
+        return ["records", "tasks", "appointments", "medicationReminders", "meals", "analyses", "messages", "mentorConversations", "analyzerConversations", "consentHistory"]
             .some(key => Array.isArray(workspace[key]) && workspace[key].length > 0)
             || ["profile", "dietPreferences"].some(key =>
                 workspace[key] && Object.keys(workspace[key]).length > 0
             )
-            || Boolean(workspace.personalizedPlan);
+            || Boolean(workspace.personalizedPlan)
+            || (Array.isArray(workspace.familyProfiles) && workspace.familyProfiles.length > 0);
     };
 
     const mergeGuestWorkspace = guestWorkspace => {
         ensureMentorConversations();
-        ["records", "tasks", "appointments", "meals", "analyses", "consentHistory"]
+        ["records", "tasks", "appointments", "medicationReminders", "meals", "analyses", "consentHistory"]
             .forEach(key => {
                 const accountItems = Array.isArray(state[key]) ? state[key] : [];
                 const guestItems = Array.isArray(guestWorkspace[key]) ? guestWorkspace[key] : [];
@@ -782,6 +923,10 @@ const observeTranslatedContent = () => {
         state.consent = { ...(guestWorkspace.consent || {}), ...(state.consent || {}) };
         if (!state.personalizedPlan && guestWorkspace.personalizedPlan) {
             state.personalizedPlan = guestWorkspace.personalizedPlan;
+        }
+        if (!state.familyProfiles.length && Array.isArray(guestWorkspace.familyProfiles)) {
+            state.familyProfiles = guestWorkspace.familyProfiles;
+            state.activeFamilyProfileId = guestWorkspace.activeFamilyProfileId || "";
         }
         clearGuestCacheAfterCloudSave = true;
         persist();
@@ -1081,6 +1226,7 @@ const observeTranslatedContent = () => {
     };
 
     const activeVoiceInputs = new Map();
+    let speakingMessageIndex = null;
     const startVoiceInput = button => {
         const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const target = document.getElementById(button.dataset.voiceTarget);
@@ -1285,25 +1431,25 @@ const observeTranslatedContent = () => {
         const copy = {
             en: {
                 title: "Before you use AI",
-                explanation: "Your question or report may be sent to OpenRouter and its selected AI model provider to prepare a response.",
+                explanation: "Your question and relevant saved reports, health notes, profile details, medication reminders, and details you shared in other Mentor chats may be sent to OpenRouter and its selected model provider to prepare a response.",
                 privacy: "Only continue if you agree. You can change this choice anytime in Privacy & consent.",
                 accept: "Allow and continue"
             },
             te: {
                 title: "AIని ఉపయోగించే ముందు",
-                explanation: "సమాధానం తయారు చేయడానికి మీ ప్రశ్న లేదా రిపోర్ట్ OpenRouter మరియు ఎంపిక చేసిన AI సేవకు పంపబడవచ్చు.",
+                explanation: "సమాధానం కోసం మీ ప్రశ్న, సంబంధిత నివేదికలు, ఆరోగ్య నోట్లు, ప్రొఫైల్ వివరాలు, మందుల రిమైండర్లు మరియు ఇతర ఆరోగ్య సహాయక చాట్‌లలో పంచుకున్న వివరాలు OpenRouter మరియు ఎంపిక చేసిన మోడల్ సేవాదారునికి పంపబడవచ్చు.",
                 privacy: "మీకు అంగీకారమైతేనే కొనసాగించండి. ఈ ఎంపికను గోప్యత & సమ్మతిలో ఎప్పుడైనా మార్చవచ్చు.",
                 accept: "అనుమతించి కొనసాగించండి"
             },
             hi: {
                 title: "AI इस्तेमाल करने से पहले",
-                explanation: "जवाब तैयार करने के लिए आपका सवाल या रिपोर्ट OpenRouter और चुने गए AI सेवा प्रदाता को भेजा जा सकता है।",
+                explanation: "जवाब के लिए आपका सवाल, संबंधित रिपोर्टें, स्वास्थ्य नोट, प्रोफ़ाइल विवरण, दवा रिमाइंडर और दूसरे स्वास्थ्य सहायक चैट में साझा की गई जानकारी OpenRouter और चुने गए मॉडल प्रदाता को भेजी जा सकती है।",
                 privacy: "सहमत होने पर ही आगे बढ़ें। आप यह विकल्प गोपनीयता और सहमति में कभी भी बदल सकते हैं।",
                 accept: "अनुमति दें और आगे बढ़ें"
             }
         }[state.language] || {
             title: "Before you use AI",
-            explanation: "Your question or report may be sent to OpenRouter and its selected AI model provider to prepare a response.",
+            explanation: "Your question and relevant saved reports, health notes, profile details, medication reminders, and details you shared in other Mentor chats may be sent to OpenRouter and its selected model provider to prepare a response.",
             privacy: "Only continue if you agree. You can change this choice anytime in Privacy & consent.",
             accept: "Allow and continue"
         };
@@ -1342,7 +1488,7 @@ const observeTranslatedContent = () => {
                 const optionValue = typeof choice === "string" ? choice : choice.value;
                 const optionLabel = typeof choice === "string" ? choice : choice.label;
 
-                return `<option value="${escapeHTML(optionValue)}">
+                return `<option value="${escapeHTML(optionValue)}" ${String(optionValue) === String(value) ? "selected" : ""}>
                     ${escapeHTML(optionLabel)}
                 </option>`;
             }).join("");
@@ -1378,15 +1524,19 @@ const observeTranslatedContent = () => {
             </div>`;
     };
 
-    const openTaskModal = () => {
+    const openTaskModal = (suggestion = {}, sourceReport = "") => {
+        const suggestedNotes = [suggestion.notes, suggestion.evidence ? `Prescription note: ${suggestion.evidence}` : "", sourceReport ? `Source: ${sourceReport}` : ""]
+            .filter(Boolean).join("\n");
         openModal(
             "Add a health task",
             field("Task name", "title", "text", {
                 required: true,
+                value: suggestion.title || "",
                 placeholder: "e.g. Drink water"
             }) +
             field("Category", "category", "select", {
                 required: true,
+                value: suggestion.category || "Other",
                 choices: ["Medication", "Nutrition", "Activity", "Appointment", "Other"]
             }) +
             field("Due date", "due_date", "date", {
@@ -1394,6 +1544,7 @@ const observeTranslatedContent = () => {
                 value: today()
             }) +
             field("Notes", "notes", "textarea", {
+                value: suggestedNotes,
                 placeholder: "Optional details"
             }),
             form => {
@@ -1410,6 +1561,10 @@ const observeTranslatedContent = () => {
                 if (!task.title) throw new Error("Enter a task name.");
 
                 state.tasks.unshift(task);
+                if (suggestion._analysisId && Number.isInteger(suggestion._draftIndex)) {
+                    const analysis = state.analyses.find(item => item.id === suggestion._analysisId);
+                    analysis?.care_action_draft?.follow_up_tasks?.splice(suggestion._draftIndex, 1);
+                }
                 persist();
                 renderAll();
                 toast("Task added.");
@@ -1417,53 +1572,141 @@ const observeTranslatedContent = () => {
         );
     };
 
-    const openAppointmentModal = () => {
+    const openAppointmentModal = (existing = null) => {
+        const appointment = existing || {};
         openModal(
-            "New appointment",
+            existing ? "Edit appointment" : "New appointment",
             field("Appointment title", "title", "text", {
                 required: true,
+                value: appointment.title,
                 placeholder: "e.g. Dentist visit"
             }) +
             field("Doctor or clinic", "provider", "text", {
+                value: appointment.provider,
                 placeholder: "Optional"
             }) +
             field("Appointment type", "category", "select", {
                 required: true,
+                value: appointment.category || "General consultation",
                 choices: ["General consultation", "Dental", "Laboratory", "Specialist", "Follow-up", "Other"]
             }) +
             field("Date", "date", "date", {
                 required: true,
-                value: today()
+                value: appointment.date || today()
             }) +
-            field("Time", "time", "time", { required: true }) +
-            field("Location", "location", "text", { placeholder: "Clinic or hospital" }) +
-            field("Notes", "notes", "textarea", { placeholder: "Optional details" }),
+            field("Time", "time", "time", { required: true, value: appointment.time }) +
+            field("Reminder", "reminder_lead_minutes", "select", {
+                value: String(appointment.reminder_lead_minutes ?? 60),
+                choices: [
+                    { value: "-1", label: "No reminder" },
+                    { value: "0", label: "At appointment time" },
+                    { value: "15", label: "15 minutes before" },
+                    { value: "60", label: "1 hour before" },
+                    { value: "1440", label: "1 day before" }
+                ]
+            }) +
+            field("Location", "location", "text", { value: appointment.location, placeholder: "Clinic or hospital" }) +
+            field("Notes", "notes", "textarea", { value: appointment.notes, placeholder: "Optional details" }),
             form => {
-                const appointment = {
-                    id: id(),
+                const updatedAppointment = {
+                    ...appointment,
+                    id: appointment.id || id(),
                     title: form.get("title").trim(),
                     provider: form.get("provider").trim(),
                     category: form.get("category"),
                     date: form.get("date"),
                     time: form.get("time"),
+                    reminder_lead_minutes: Number(form.get("reminder_lead_minutes")),
+                    reminder_status: "pending",
+                    reminder_snoozed_until: "",
+                    reminder_last_alerted: false,
                     location: form.get("location").trim(),
                     notes: form.get("notes").trim(),
-                    created_at: new Date().toISOString()
+                    created_at: appointment.created_at || new Date().toISOString()
                 };
 
-                if (!appointment.title || !appointment.date || !appointment.time) {
+                if (!updatedAppointment.title || !updatedAppointment.date || !updatedAppointment.time) {
                     throw new Error("Complete the required appointment fields.");
                 }
 
-                state.appointments.push(appointment);
+                if (appointment.id) {
+                    state.appointments = state.appointments.map(item => item.id === appointment.id ? updatedAppointment : item);
+                } else state.appointments.push(updatedAppointment);
                 state.appointments.sort((a, b) =>
                     `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`)
                 );
 
                 persist();
                 renderAll();
-                toast("Appointment saved in this browser.");
+                renderCareReminders();
+                toast(appointment.id ? "Appointment updated." : "Appointment saved in this browser.");
             }
+        );
+    };
+
+    const openMedicationReminderModal = (existing = null, source = null, isSuggested = false) => {
+        const reminder = existing || {};
+        const sourceReport = source || reminder.source_file || "";
+        openModal(
+            isSuggested ? "Review suggested medicine reminder" : existing ? "Edit medicine reminder" : "Add medicine reminder",
+            `<p class="reminder-form-note">${isSuggested ? "This is an AI-generated draft, not a verified schedule. Check every field against the original prescription and edit anything that is unclear." : "Enter the instructions exactly as written on the prescription. NexHealth does not interpret or verify doses."} ${reminder.timing ? `<br>Prescription timing text: <strong>${escapeHTML(reminder.timing)}</strong>` : ""} ${sourceReport ? `<br>Source report: <strong>${escapeHTML(sourceReport)}</strong>` : ""}</p>` +
+            field("Medicine name", "medicine_name", "text", { required: true, value: reminder.medicine_name }) +
+            field("Dose", "dose", "text", { required: true, value: reminder.dose, placeholder: "e.g. 1 tablet (as prescribed)" }) +
+            field("Times each day (24-hour, comma separated)", "times", "text", { required: true, value: (reminder.times || []).join(", ") || (isSuggested ? "" : "08:00"), placeholder: "08:00, 20:00" }) +
+            field("Repeat", "frequency", "select", { required: true, value: reminder.frequency || (isSuggested ? "unknown" : "daily"), choices: [{ value: "unknown", label: "Choose schedule" }, { value: "daily", label: "Every day" }, { value: "weekly", label: "Selected weekdays" }] }) +
+            field("Weekdays (for selected weekdays)", "days_of_week", "text", { value: (reminder.days_of_week || []).map(day => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][day]).join(", "), placeholder: "e.g. Mon, Thu" }) +
+            field("Start date", "start_date", "date", { required: true, value: reminder.start_date || (isSuggested ? "" : today()) }) +
+            field("Duration (days)", "duration_days", "number", { required: true, value: reminder.duration_days || (isSuggested ? "" : 7), placeholder: "7" }) +
+            `<label class="reminder-confirm-label"><input type="checkbox" name="verified" required> I checked the medicine, dose, schedule, and duration against the original prescription.</label>`,
+            form => {
+                const times = String(form.get("times") || "").split(",").map(value => value.trim());
+                const validTimes = times.length && times.every(value => /^([01]\d|2[0-3]):[0-5]\d$/.test(value));
+                const frequency = form.get("frequency");
+                const weekdayNumbers = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+                const weekdayNames = String(form.get("days_of_week") || "").split(",").map(value => value.trim().slice(0, 3).toLowerCase()).filter(Boolean);
+                const daysOfWeek = [...new Set(weekdayNames.map(day => weekdayNumbers[day]).filter(day => day !== undefined))];
+                const durationDays = Number(form.get("duration_days"));
+                if (!validTimes) throw new Error("Enter reminder times in 24-hour format, such as 08:00, 20:00.");
+                if (!["daily", "weekly"].includes(frequency)) throw new Error("Choose the repeat schedule from the original prescription.");
+                if (frequency === "weekly" && (!daysOfWeek.length || daysOfWeek.length !== weekdayNames.length)) throw new Error("Enter weekdays like Mon, Thu for a selected-weekday schedule.");
+                if (!Number.isInteger(durationDays) || durationDays < 1 || durationDays > 365) throw new Error("Enter a duration between 1 and 365 days.");
+                const startDate = form.get("start_date");
+                const end = new Date(`${startDate}T12:00:00`);
+                end.setDate(end.getDate() + durationDays - 1);
+                const nextReminder = {
+                    ...reminder,
+                    id: reminder.id || id(),
+                    medicine_name: form.get("medicine_name").trim(),
+                    dose: form.get("dose").trim(),
+                    times: [...new Set(times)].sort(),
+                    frequency,
+                    days_of_week: frequency === "weekly" ? daysOfWeek : [],
+                    start_date: startDate,
+                    duration_days: durationDays,
+                    end_date: end.toISOString().slice(0, 10),
+                    source_file: sourceReport,
+                    active: true,
+                    completed_occurrences: reminder.completed_occurrences || [],
+                    alerted_occurrences: reminder.alerted_occurrences || [],
+                    snoozed_occurrence: "",
+                    snoozed_until: ""
+                };
+                const draftAnalysisId = reminder.draft_analysis_id;
+                const draftIndex = reminder.draft_index;
+                delete nextReminder.draft_analysis_id;
+                delete nextReminder.draft_index;
+                if (!nextReminder.medicine_name || !nextReminder.dose) throw new Error("Enter the medicine name and dose.");
+                if (reminder.id) state.medicationReminders = state.medicationReminders.map(item => item.id === reminder.id ? nextReminder : item);
+                else state.medicationReminders.unshift(nextReminder);
+                if (draftAnalysisId) {
+                    const analysis = state.analyses.find(item => item.id === draftAnalysisId);
+                    analysis?.care_action_draft?.medications?.splice(draftIndex, 1);
+                }
+                persist();
+                renderAll();
+                toast(reminder.id ? "Medicine reminder updated." : "Medicine reminder saved.");
+            },
+            existing?.id ? "Save changes" : isSuggested ? "Confirm and save reminder" : "Save reminder"
         );
     };
 
@@ -1566,6 +1809,64 @@ const observeTranslatedContent = () => {
         );
     };
 
+    const openHealthNoteModal = () => {
+        openModal(
+            "Save a health note",
+            `<p class="field-help">Add details such as your usual blood pressure, a health condition, or symptoms. You can type them or import a small .txt file. Saved notes can be used as context in AI Health Mentor when AI processing consent is enabled.</p>` +
+            field("Note title", "name", "text", {
+                required: true,
+                placeholder: "e.g. Blood pressure readings"
+            }) +
+            `<div class="form-field">
+                <label for="healthNoteText">Health details</label>
+                <textarea id="healthNoteText" name="note" rows="6" maxlength="10000"
+                    placeholder="For example: My blood pressure was 138/86 on 24 October 2026."></textarea>
+            </div>
+            <div class="form-field">
+                <label for="healthNoteFile">Or choose a text file (.txt, up to 100 KB)</label>
+                <input type="file" id="healthNoteFile" name="noteFile" accept=".txt,text/plain">
+            </div>`,
+            async form => {
+                const title = String(form.get("name") || "").trim();
+                const typedText = String(form.get("note") || "").trim();
+                const file = form.get("noteFile");
+                let fileText = "";
+                if (file instanceof File && file.size) {
+                    if (!file.name.toLowerCase().endsWith(".txt") || file.size > 100 * 1024) {
+                        throw new Error("Choose a .txt file smaller than 100 KB.");
+                    }
+                    fileText = (await file.text()).trim();
+                }
+                const noteText = [typedText, fileText].filter(Boolean).join("\n\n");
+                if (!noteText) throw new Error("Enter health details or choose a text file.");
+                if (noteText.length > 10000) throw new Error("Keep the health note under 10,000 characters.");
+                const accountSyncedWorkspace = Boolean(activeUserId)
+                    && !accountCacheFallback
+                    && !document.body.classList.contains("local-demo-mode");
+
+                state.records.unshift({
+                    id: id(),
+                    record_type: "health_note",
+                    name: title,
+                    category: "other",
+                    file_name: file?.name || "",
+                    extracted_text: noteText,
+                    created_at: new Date().toISOString(),
+                    size: new Blob([noteText]).size,
+                    status: "Saved note",
+                    storage: accountSyncedWorkspace ? "account workspace" : "this browser",
+                    file_available: false
+                });
+                persist();
+                renderAll();
+                toast(accountSyncedWorkspace
+                    ? "Health note saved to your account workspace."
+                    : "Health note saved in this browser. Sign in to sync it across devices.");
+            },
+            "Save note"
+        );
+    };
+
     const removeTask = taskId => {
         state.tasks = state.tasks.filter(task => task.id !== taskId);
         persist();
@@ -1603,6 +1904,140 @@ const observeTranslatedContent = () => {
         persist();
         renderAll();
         toast("Appointment removed.");
+    };
+
+    const renderCareReminders = () => {
+        const container = $("#careReminderList");
+        if (!container) return;
+        const todayDate = today();
+        const now = new Date();
+        const cards = [];
+        state.medicationReminders.forEach(reminder => {
+            const ended = todayDate > reminder.end_date;
+            if (ended && reminder.active) reminder.active = false;
+            const runsToday = reminder.frequency !== "weekly" || (reminder.days_of_week || []).includes(new Date(`${todayDate}T12:00:00`).getDay());
+            const nextOccurrence = (runsToday ? (reminder.times || []) : []).map(time => ({
+                time,
+                key: `${todayDate}@${time}`,
+                at: new Date(`${todayDate}T${time}`)
+            })).find(item => !((reminder.completed_occurrences || []).includes(item.key)));
+            const isActiveToday = reminder.active && todayDate >= reminder.start_date && todayDate <= reminder.end_date;
+            const snoozed = Boolean(nextOccurrence && reminder.snoozed_occurrence === nextOccurrence.key && reminder.snoozed_until && new Date(reminder.snoozed_until) > now);
+            const due = Boolean(isActiveToday && nextOccurrence && nextOccurrence.at <= now && !snoozed);
+            const snoozeText = reminder.snoozed_until ? new Intl.DateTimeFormat(uiLocale(), { timeStyle: "short" }).format(new Date(reminder.snoozed_until)) : "";
+            const status = ended ? "Course ended" : !reminder.active ? "Stopped" : snoozed ? `Snoozed until ${snoozeText}` : due ? "Due today" : todayDate < reminder.start_date ? `Starts ${formatDate(reminder.start_date)}` : !runsToday ? "Not scheduled today" : `Next: ${nextOccurrence?.time || "Complete today’s doses"}`;
+            cards.push(`<article class="care-reminder-item ${due ? "is-due" : ""}">
+                <div class="care-reminder-icon"><i data-lucide="pill"></i></div>
+                <div class="care-reminder-copy"><strong>${escapeHTML(reminder.medicine_name)}</strong><p>${escapeHTML(reminder.dose)} · ${escapeHTML((reminder.times || []).join(", "))}</p><small>${escapeHTML(status)} · through ${escapeHTML(formatDate(reminder.end_date))}${reminder.source_file ? ` · from ${escapeHTML(reminder.source_file)}` : ""}</small></div>
+                <div class="care-reminder-actions">${due && nextOccurrence ? `<button class="button button-secondary button-small" type="button" data-action="complete-medication-reminder" data-id="${escapeHTML(reminder.id)}" data-occurrence="${escapeHTML(nextOccurrence.key)}">Taken</button><button class="text-button" type="button" data-action="snooze-medication-reminder" data-id="${escapeHTML(reminder.id)}" data-occurrence="${escapeHTML(nextOccurrence.key)}">Snooze 10 min</button>` : ""}<button class="icon-button" type="button" data-action="edit-medication-reminder" data-id="${escapeHTML(reminder.id)}" aria-label="Edit medicine reminder">✎</button>${reminder.active ? `<button class="text-button" type="button" data-action="stop-medication-reminder" data-id="${escapeHTML(reminder.id)}">Stop</button>` : `<button class="icon-button" type="button" data-action="delete-medication-reminder" data-id="${escapeHTML(reminder.id)}" aria-label="Delete reminder">×</button>`}</div>
+            </article>`);
+        });
+        state.appointments.forEach(appointment => {
+            const lead = Number(appointment.reminder_lead_minutes ?? 60);
+            if (lead < 0 || appointment.reminder_status === "stopped") return;
+            const at = new Date(`${appointment.date}T${appointment.time || "09:00"}`);
+            if (Number.isNaN(at.getTime()) || at < now) return;
+            const status = appointment.reminder_status === "confirmed" ? "Reminder confirmed" : appointment.reminder_snoozed_until ? `Snoozed until ${new Intl.DateTimeFormat(uiLocale(), { timeStyle: "short" }).format(new Date(appointment.reminder_snoozed_until))}` : `Reminder ${lead === 0 ? "at appointment time" : ` ${lead < 60 ? `${lead} min` : lead === 60 ? "1 hr" : `${lead / 1440} day`} before`}`;
+            cards.push(`<article class="care-reminder-item">
+                <div class="care-reminder-icon"><i data-lucide="calendar-clock"></i></div>
+                <div class="care-reminder-copy"><strong>${escapeHTML(appointment.title)}</strong><p>${escapeHTML(formatDate(appointment.date))} · ${escapeHTML(appointment.time || "Time not set")}${appointment.provider ? ` · ${escapeHTML(appointment.provider)}` : ""}</p><small>${escapeHTML(status)}</small></div>
+                <div class="care-reminder-actions">${appointment.reminder_status !== "confirmed" ? `<button class="button button-secondary button-small" type="button" data-action="confirm-appointment-reminder" data-id="${escapeHTML(appointment.id)}">Confirm</button><button class="text-button" type="button" data-action="snooze-appointment-reminder" data-id="${escapeHTML(appointment.id)}">Snooze 10 min</button>` : ""}<button class="icon-button" type="button" data-action="edit-appointment" data-id="${escapeHTML(appointment.id)}" aria-label="Edit appointment">✎</button><button class="text-button" type="button" data-action="stop-appointment-reminder" data-id="${escapeHTML(appointment.id)}">Stop</button></div>
+            </article>`);
+        });
+        container.innerHTML = cards.length ? cards.join("") : `<div class="empty-state compact-empty"><strong>No reminders yet</strong><p>Add a medicine schedule or set a reminder when you create an appointment.</p><button class="button button-secondary button-small" type="button" data-action="add-medication-reminder">Add medicine reminder</button></div>`;
+        refreshIcons();
+    };
+
+    const renderPendingCareActions = () => {
+        const panel = $("#pendingCareActionsPanel");
+        const container = $("#pendingCareActionsList");
+        if (!panel || !container) return;
+        const pending = state.analyses.filter(analysis =>
+            analysis?.care_action_draft && !analysis.care_action_draft.error &&
+            ((analysis.care_action_draft.medications || []).length || (analysis.care_action_draft.doctor_questions || []).length || (analysis.care_action_draft.follow_up_tasks || []).length)
+        );
+        panel.hidden = pending.length === 0;
+        if (!pending.length) {
+            container.innerHTML = "";
+            return;
+        }
+        container.innerHTML = pending.map(analysis => {
+            const draft = analysis.care_action_draft;
+            const medicines = (draft.medications || []).map((medicine, index) => `
+                <article class="care-draft-item">
+                    <div><strong>${escapeHTML(medicine.name)}</strong><p>${escapeHTML(medicine.dose)}${medicine.timing ? ` · ${escapeHTML(medicine.timing)}` : ""}</p>
+                        <small>${escapeHTML(analysis.file_name || "Saved prescription")}</small></div>
+                    <div class="care-draft-actions"><button class="button button-secondary button-small" type="button" data-action="review-care-draft" data-id="${escapeHTML(analysis.id)}" data-index="${index}">Review & edit</button>
+                        <button class="text-button" type="button" data-action="reject-care-draft" data-id="${escapeHTML(analysis.id)}" data-index="${index}">Reject</button></div>
+                </article>`).join("");
+            const tasks = (draft.follow_up_tasks || []).map((task, index) => `
+                <article class="care-draft-item">
+                    <div><strong>${escapeHTML(task.title)}</strong><p>${escapeHTML(task.notes || "Optional follow-up task")}</p>
+                        <small>Suggested from: “${escapeHTML(task.evidence)}”</small></div>
+                    <div class="care-draft-actions"><button class="button button-secondary button-small" type="button" data-action="add-care-task" data-id="${escapeHTML(analysis.id)}" data-index="${index}">Review & add task</button>
+                        <button class="text-button" type="button" data-action="reject-care-task" data-id="${escapeHTML(analysis.id)}" data-index="${index}">Reject</button></div>
+                </article>`).join("");
+            const questions = draft.doctor_questions || [];
+            return `<section class="pending-care-report"><h3>${escapeHTML(analysis.file_name || "Saved prescription")}</h3>
+                ${medicines}
+                ${tasks ? `<h4>Optional follow-up tasks</h4>${tasks}` : ""}
+                ${questions.length ? `<ul>${questions.map(question => `<li>${escapeHTML(question)}</li>`).join("")}</ul>
+                    <div class="care-draft-actions"><button class="button button-secondary button-small" type="button" data-action="review-draft-questions" data-id="${escapeHTML(analysis.id)}">Edit questions in AI Health Mentor</button>
+                    <button class="text-button" type="button" data-action="reject-draft-questions" data-id="${escapeHTML(analysis.id)}">Dismiss questions</button></div>` : ""}
+            </section>`;
+        }).join("");
+        refreshIcons();
+    };
+
+    const checkDueReminders = () => {
+        const now = new Date();
+        const todayDate = today();
+        let changed = false;
+        state.medicationReminders.forEach(reminder => {
+            if (!reminder.active) return;
+            if (todayDate > reminder.end_date) {
+                reminder.active = false;
+                changed = true;
+                return;
+            }
+            if (todayDate < reminder.start_date || todayDate > reminder.end_date) return;
+            if (reminder.frequency === "weekly" && !(reminder.days_of_week || []).includes(now.getDay())) return;
+            for (const time of reminder.times || []) {
+                const key = `${todayDate}@${time}`;
+                const dueAt = new Date(`${todayDate}T${time}`);
+                if (dueAt > now || (reminder.completed_occurrences || []).includes(key)) continue;
+                if (reminder.snoozed_occurrence === key && reminder.snoozed_until && new Date(reminder.snoozed_until) > now) continue;
+                reminder.alerted_occurrences = reminder.alerted_occurrences || [];
+                if (reminder.alerted_occurrences.includes(key)) continue;
+                reminder.alerted_occurrences.push(key);
+                reminder.snoozed_occurrence = "";
+                reminder.snoozed_until = "";
+                changed = true;
+                toast(`${t("Medicine reminder")}: ${reminder.medicine_name} · ${reminder.dose}`, "info");
+                break;
+            }
+        });
+        state.appointments.forEach(appointment => {
+            const lead = Number(appointment.reminder_lead_minutes ?? 60);
+            if (lead < 0 || appointment.reminder_status === "stopped" || appointment.reminder_status === "confirmed") return;
+            const appointmentAt = new Date(`${appointment.date}T${appointment.time || "09:00"}`);
+            const dueAt = new Date(appointmentAt.getTime() - lead * 60_000);
+            if (appointmentAt.getTime() < now.getTime() - 15 * 60_000 || dueAt > now) return;
+            if (appointment.reminder_snoozed_until && new Date(appointment.reminder_snoozed_until) > now) return;
+            if (appointment.reminder_last_alerted) return;
+            appointment.reminder_last_alerted = true;
+            appointment.reminder_snoozed_until = "";
+            changed = true;
+            toast(`${t("Appointment reminder")}: ${appointment.title}`, "info");
+        });
+        if (changed) persist();
+        renderCareReminders();
+    };
+
+    const startReminderScheduler = () => {
+        if (medicationReminderTimer) return;
+        checkDueReminders();
+        medicationReminderTimer = window.setInterval(checkDueReminders, 60_000);
     };
 
     const renderTasks = () => {
@@ -1661,8 +2096,8 @@ const observeTranslatedContent = () => {
 
         const remaining = $("#metricTasks");
         if (remaining) {
-            remaining.textContent = total ? total - completed : t("Create your first task");
-            remaining.classList.toggle("metric-value-empty", total === 0);
+            const remainingCount = total - completed;
+            remaining.textContent = remainingCount > 0 ? String(remainingCount) : "";
         }
         const resetButton = $("#resetCompletedTasksButton");
         if (resetButton) resetButton.disabled = completed === 0;
@@ -1743,6 +2178,8 @@ const observeTranslatedContent = () => {
                         ${item.location ? `<small>${escapeHTML(item.location)}</small>` : ""}
                         ${item.notes ? `<small>${escapeHTML(item.notes)}</small>` : ""}
                     </div>
+                    <button class="icon-button" type="button" data-action="edit-appointment"
+                        data-id="${escapeHTML(item.id)}" aria-label="Edit appointment">✎</button>
                     <button class="icon-button" type="button" data-action="delete-appointment"
                         data-id="${escapeHTML(item.id)}" aria-label="Delete appointment">×</button>
                 </article>
@@ -1754,8 +2191,7 @@ const observeTranslatedContent = () => {
             const upcomingCount = state.appointments.filter(item =>
                 new Date(`${item.date}T${item.time || "23:59"}`) >= now
             ).length;
-            metric.textContent = upcomingCount || t("Add an appointment");
-            metric.classList.toggle("metric-value-empty", upcomingCount === 0);
+            metric.textContent = upcomingCount > 0 ? String(upcomingCount) : "";
         }
 
         const overview = $("#overviewAppointmentList");
@@ -1814,8 +2250,7 @@ const observeTranslatedContent = () => {
         if (prescriptions) prescriptions.textContent = state.records.filter(r => r.category === "prescription").length;
         if (navCount) navCount.textContent = state.records.length;
         if (metric) {
-            metric.textContent = state.records.length || t("Add your first record");
-            metric.classList.toggle("metric-value-empty", state.records.length === 0);
+            metric.textContent = state.records.length > 0 ? String(state.records.length) : "";
         }
 
         if (!records.length) {
@@ -1847,8 +2282,10 @@ const observeTranslatedContent = () => {
                     <span class="record-icon"><i data-lucide="file-text"></i></span>
                     <div class="record-row-copy">
                         <strong>${escapeHTML(record.name || record.file_name)}</strong>
-                        <small>${escapeHTML(record.category || "other")} · ${escapeHTML(formatDate(record.created_at))}</small>
-                        <small>${escapeHTML(record.file_name || "")} · ${escapeHTML(formatSize(Number(record.size) || 0))}</small>
+                        <small>${escapeHTML(record.record_type === "health_note" ? "Health note" : (record.category || "other"))} · ${escapeHTML(formatDate(record.created_at))}</small>
+                        ${record.record_type === "health_note"
+                            ? `<small>${escapeHTML((record.extracted_text || "").slice(0, 220))}${(record.extracted_text || "").length > 220 ? "…" : ""}</small>`
+                            : `<small>${escapeHTML(record.file_name || "")} · ${escapeHTML(formatSize(Number(record.size) || 0))}</small>`}
                     </div>
                     <span class="record-status">${escapeHTML(record.status || "saved")}</span>
                     ${fileActions}
@@ -1960,14 +2397,105 @@ const observeTranslatedContent = () => {
         const name = profile.name || "Your profile";
         const nameElement = $("#topbarName");
         const avatar = $("#topbarAvatar");
+        const activeProfileLabel = $("#activeProfileLabel");
+        const activeFamilyProfile = (Array.isArray(state.familyProfiles) ? state.familyProfiles : [])
+            .find(member => member.id === state.activeFamilyProfileId);
 
         if (nameElement) nameElement.textContent = name;
         if (avatar) avatar.textContent = name === "Your profile" ? "U" : name.charAt(0).toUpperCase();
+        if (activeProfileLabel) activeProfileLabel.textContent = activeFamilyProfile && activeFamilyProfile.relationship !== "Self"
+            ? `${activeFamilyProfile.relationship} profile`
+            : "Personal account";
         renderWelcomeGreeting();
 
         $$("[data-profile-value]").forEach(element => {
             element.textContent = profile[element.dataset.profileValue] || "Not provided";
         });
+    };
+
+    const renderFamilyProfiles = () => {
+        const container = $("#familyProfilesList");
+        if (!container) return;
+        const profiles = Array.isArray(state.familyProfiles) ? state.familyProfiles : [];
+        if (!profiles.length) {
+            container.innerHTML = `<p class="family-profile-help">Create a separate profile for each family member. Their reports, reminders, plans, and AI chats stay in that profile.</p>`;
+            return;
+        }
+        container.innerHTML = profiles.map(member => `
+            <div class="family-profile-row">
+                <span><strong>${escapeHTML(member.name || "Family profile")}</strong><small>${escapeHTML(member.relationship || "Family member")}${member.id === state.activeFamilyProfileId ? " · Active" : ""}</small></span>
+                <span class="family-profile-actions">
+                    ${member.id !== state.activeFamilyProfileId ? `<button class="button button-secondary button-small" type="button" data-action="switch-family-profile" data-id="${escapeHTML(member.id)}">Open</button>` : ""}
+                    ${member.relationship !== "Self" ? `<button class="text-button" type="button" data-action="remove-family-profile" data-id="${escapeHTML(member.id)}">Remove</button>` : ""}
+                </span>
+            </div>`).join("");
+    };
+
+    const switchFamilyProfile = profileId => {
+        saveActiveFamilySnapshot();
+        const member = state.familyProfiles.find(profile => profile.id === profileId);
+        if (!member || !member.workspace) return;
+        familyScopedKeys.forEach(key => {
+            const value = member.workspace[key];
+            state[key] = value == null
+                ? (Array.isArray(state[key]) ? [] : key === "personalizedPlan" ? null : {})
+                : JSON.parse(JSON.stringify(value));
+        });
+        state.activeFamilyProfileId = member.id;
+        persist();
+        renderAll();
+        toast(`Opened ${member.name || "family profile"}.`);
+    };
+
+    const openAddFamilyProfile = () => {
+        openModal(
+            "Add a family profile",
+            `<p class="family-profile-help">Create a separate workspace for a parent, child, spouse, or caregiver. You can review or remove it later.</p>` +
+                field("Name", "family_name", "text", { required: true, maxLength: 80 }) +
+                field("Relationship", "relationship", "select", { required: true, choices: ["Parent", "Child", "Spouse", "Caregiver", "Other"] }) +
+                field("Age (optional)", "family_age", "number", { min: 1, max: 120 }),
+            form => {
+                if (!state.familyProfiles.length) {
+                    state.familyProfiles.push({
+                        id: "self",
+                        name: state.profile?.name || "My profile",
+                        relationship: "Self",
+                        workspace: Object.fromEntries(familyScopedKeys.map(key => [key, JSON.parse(JSON.stringify(state[key] ?? null))]))
+                    });
+                    state.activeFamilyProfileId = "self";
+                }
+                const name = String(form.get("family_name") || "").trim().slice(0, 80);
+                if (!name) throw new Error("Enter a profile name.");
+                const profileId = id();
+                const age = String(form.get("family_age") || "").trim();
+                const blank = {
+                    records: [], tasks: [], appointments: [], medicationReminders: [], meals: [], analyses: [],
+                    messages: [], mentorConversations: [], activeMentorConversationId: "", analyzerConversations: [],
+                    activeAnalyzerConversationId: "", activeConversationType: "mentor", profile: { name, age },
+                    dietPreferences: {}, personalizedPlan: null
+                };
+                state.familyProfiles.push({ id: profileId, name, relationship: String(form.get("relationship") || "Other"), workspace: blank });
+                switchFamilyProfile(profileId);
+            },
+            "Create profile"
+        );
+    };
+
+    const removeFamilyProfile = profileId => {
+        const member = state.familyProfiles.find(profile => profile.id === profileId);
+        if (!member || member.relationship === "Self") return;
+        if (member.workspace?.records?.length) {
+            toast("Remove this profile’s medical records first so their uploaded files are handled correctly.", "warning");
+            return;
+        }
+        if (!confirm(`Remove ${member.name || "this profile"} and its saved workspace from this account?`)) return;
+        if (state.activeFamilyProfileId === profileId) {
+            const self = state.familyProfiles.find(profile => profile.relationship === "Self");
+            if (self) switchFamilyProfile(self.id);
+        }
+        state.familyProfiles = state.familyProfiles.filter(profile => profile.id !== profileId);
+        persist();
+        renderFamilyProfiles();
     };
 
     const openProfileModal = () => {
@@ -1987,6 +2515,10 @@ const observeTranslatedContent = () => {
             field("Weight (kg)", "weight", "number", {
                 min: 1, max: 500, step: "0.1", value: profile.weight || ""
             }) +
+            field("Health conditions (optional)", "conditions", "textarea", {
+                value: profile.conditions || "",
+                placeholder: "e.g. asthma or high blood pressure. Share only what you want used for wellness suggestions."
+            }) +
             field("Allergies or notes", "notes", "textarea", {
                 value: profile.notes || "",
                 placeholder: "Optional. Only enter information you want stored in this browser."
@@ -1998,11 +2530,13 @@ const observeTranslatedContent = () => {
                     gender: form.get("gender"),
                     height: form.get("height"),
                     weight: form.get("weight"),
+                    conditions: form.get("conditions").trim().slice(0, 500),
                     notes: form.get("notes").trim()
                 };
 
                 persist();
                 renderProfile();
+                renderFamilyProfiles();
                 toast("Profile saved in this browser.");
             }
         );
@@ -2053,6 +2587,20 @@ const observeTranslatedContent = () => {
         if ($("#usualSleepHours")) $("#usualSleepHours").value = preferences.sleepHours || "";
     };
 
+    const renderWellnessReportOption = () => {
+        const checkbox = $("#includeWellnessReportData");
+        const help = $("#wellnessReportOptionHelp");
+        if (!checkbox) return;
+        const available = state.analyses.some(item =>
+            typeof item?.summary === "string" || typeof item?.extracted_text === "string"
+        );
+        checkbox.disabled = !available;
+        if (!available) checkbox.checked = false;
+        if (help) help.textContent = available
+            ? "Up to 3 recent analyzed reports will be sent only for this plan request. Check the original report for accuracy."
+            : "No analyzed reports are saved yet. You can still create a plan from your profile and routine.";
+    };
+
     const renderAll = () => {
         const date = $("#currentDate");
         if (date) {
@@ -2066,16 +2614,19 @@ const observeTranslatedContent = () => {
 
         const analyses = $("#metricAnalyses");
         if (analyses) {
-            analyses.textContent = state.analyses.length || t("Analyze your first report");
-            analyses.classList.toggle("metric-value-empty", state.analyses.length === 0);
+            analyses.textContent = state.analyses.length > 0 ? String(state.analyses.length) : "";
         }
 
         renderTasks();
         renderAppointments();
+        renderCareReminders();
+        renderPendingCareActions();
         renderRecords();
         renderMeals();
         renderProfile();
+        renderFamilyProfiles();
         renderDietPreferences();
+        renderWellnessReportOption();
         renderConsent();
         renderConsentHistory();
         renderMentorMessages();
@@ -2218,6 +2769,7 @@ const observeTranslatedContent = () => {
         renderAll();
         navigate("overview");
         refreshIcons();
+        startReminderScheduler();
         if (appShell) {
             appShell.inert = false;
             appShell.setAttribute("aria-busy", "false");
@@ -2254,6 +2806,7 @@ const observeTranslatedContent = () => {
         renderAll();
         navigate("overview");
         refreshIcons();
+        startReminderScheduler();
     };
 
     const bindAuthEvents = () => {
@@ -2308,6 +2861,130 @@ const observeTranslatedContent = () => {
                 submit.disabled = false;
             }
         });
+    };
+
+    const renderHealthInsights = data => {
+        const container = $("#healthInsightsResults");
+        if (!container) return;
+        const citationMarkup = citations => (Array.isArray(citations) ? citations : []).map(citation => `
+            <div class="health-insight-evidence"><p>“${escapeHTML(citation.evidence || "")}”</p>
+                <small class="health-insight-source">${escapeHTML(citation.source || "Saved report")}${citation.date ? ` · ${escapeHTML(citation.date)}` : ""}</small>
+            </div>`).join("");
+        const group = (title, items, renderItem) => !items?.length ? "" :
+            `<section class="health-insight-group"><h3>${escapeHTML(title)}</h3>${items.map(renderItem).join("")}</section>`;
+        const trends = group("Trends", data.trends, item => `<article class="health-insight-card">
+            <strong>${escapeHTML(item.test)} · ${escapeHTML(item.direction || "change observed")}</strong><p>${escapeHTML(item.summary || "")}</p>${citationMarkup(item.citations)}</article>`);
+        const risks = group("Values to discuss with your healthcare professional", data.risk_flags, item => `<article class="health-insight-card">
+            <strong>${escapeHTML(item.test || item.title || "Report finding")}</strong><p>${escapeHTML(item.guidance || "Discuss this report finding with your healthcare professional.")}</p>${citationMarkup(item.citations)}</article>`);
+        const steps = group("Preventive next steps", data.next_steps, item => `<article class="health-insight-card">
+            <strong>${escapeHTML(item.title || "Discuss with your clinician")}</strong><p>${escapeHTML(item.guidance || "")}</p>${citationMarkup(item.citations)}</article>`);
+        const gaps = Array.isArray(data.data_gaps) ? data.data_gaps : [];
+        const gapsMarkup = gaps.length ? `<section class="health-insight-group"><h3>What is missing</h3>${gaps.map(gap => `<p class="health-insight-gap">${escapeHTML(gap)}</p>`).join("")}</section>` : "";
+        container.innerHTML = trends || risks || steps || gapsMarkup
+            ? `${trends}${risks}${steps}${gapsMarkup}`
+            : `<div class="empty-state compact-empty"><strong>No report-backed insights found</strong><p>The saved reports did not contain enough clear, dated information to identify a trend or flag. No values were inferred.</p></div>`;
+    };
+
+    const generateHealthInsights = async () => {
+        const button = $("#generateHealthInsightsButton");
+        const container = $("#healthInsightsResults");
+        if (!button || !container || button.disabled) return;
+        if (!state.consent.aiProcessing) {
+            requestAIConsent(generateHealthInsights);
+            return;
+        }
+        const reports = state.analyses.filter(item => item && (item.extracted_text || item.summary)).slice(0, 8);
+        if (!reports.length) {
+            container.innerHTML = `<div class="empty-state compact-empty"><strong>Analyze a report first</strong><p>Health insights use saved report analyses and extracted text from this workspace.</p></div>`;
+            return;
+        }
+        button.disabled = true;
+        container.innerHTML = `<div class="empty-state compact-empty" role="status"><strong>Reviewing saved reports…</strong><p>Looking for dated, comparable evidence. Unclear values will be left out.</p></div>`;
+        try {
+            const result = await apiRequest("/api/health-insights", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    language: state.language,
+                    profile: { age: state.profile?.age || "", conditions: String(state.profile?.conditions || "").slice(0, 500) },
+                    reports: reports.map(item => ({
+                        id: String(item.id || "").slice(0, 80),
+                        source: String(item.file_name || item.name || "Saved report").slice(0, 160),
+                        type: String(item.type || "unknown").slice(0, 40),
+                        summary: String(item.summary || "").slice(0, 2500),
+                        extracted_text: String(item.extracted_text || "").slice(0, 6000),
+                        needs_review: item.ocr_review_required !== false || !item.extracted_text || item.type === "prescription"
+                    }))
+                })
+            });
+            renderHealthInsights(result);
+        } catch (error) {
+            container.innerHTML = `<div class="empty-state compact-empty"><strong>Insights unavailable</strong><p>${escapeHTML(error.message || "Try again later.")}</p></div>`;
+        } finally {
+            button.disabled = false;
+            refreshIcons();
+        }
+    };
+
+    const renderCareActionDrafts = analysis => {
+        const container = $("#careActionDrafts");
+        if (!container || !analysis) return;
+        const draft = analysis.care_action_draft;
+        if (draft?.error) {
+            container.innerHTML = `<p class="care-draft-note">${escapeHTML(draft.error)}</p>`;
+            return;
+        }
+        if (!draft) {
+            container.innerHTML = `<p class="care-draft-note" role="status">Preparing reviewable reminder and doctor-question drafts…</p>`;
+            return;
+        }
+        const medicines = (draft.medications || []).map((medicine, index) => `
+            <article class="care-draft-item">
+                <div><strong>${escapeHTML(medicine.name)}</strong><p>${escapeHTML(medicine.dose)}${medicine.timing ? ` · ${escapeHTML(medicine.timing)}` : ""}</p>
+                    <small>Suggested from: “${escapeHTML(medicine.evidence)}”</small></div>
+                <div class="care-draft-actions"><button class="button button-secondary button-small" type="button" data-action="review-care-draft" data-id="${escapeHTML(analysis.id)}" data-index="${index}">Review & edit</button>
+                    <button class="text-button" type="button" data-action="reject-care-draft" data-id="${escapeHTML(analysis.id)}" data-index="${index}">Reject</button></div>
+            </article>`).join("");
+        const followUpTasks = (draft.follow_up_tasks || []).map((task, index) => `
+            <article class="care-draft-item">
+                <div><strong>${escapeHTML(task.title)}</strong><p>${escapeHTML(task.notes || "Optional follow-up task")}</p>
+                    <small>Suggested from: “${escapeHTML(task.evidence)}”</small></div>
+                <div class="care-draft-actions"><button class="button button-secondary button-small" type="button" data-action="add-care-task" data-id="${escapeHTML(analysis.id)}" data-index="${index}">Review & add task</button>
+                    <button class="text-button" type="button" data-action="reject-care-task" data-id="${escapeHTML(analysis.id)}" data-index="${index}">Reject</button></div>
+            </article>`).join("");
+        const questions = Array.isArray(draft.doctor_questions) ? draft.doctor_questions : [];
+        const gaps = Array.isArray(draft.data_gaps) ? draft.data_gaps : [];
+        container.innerHTML = `<section class="care-draft-panel"><h3>Reviewable care suggestions</h3>
+            <p class="care-draft-note">These are optional drafts. Review them before adding a task; verify any medicine details against the original before saving a reminder.</p>
+            ${medicines || `<p class="care-draft-note">No reminder draft could be verified from the readable prescription text. You can enter a reminder manually.</p>`}
+            ${followUpTasks ? `<h4>Optional follow-up tasks</h4>${followUpTasks}` : ""}
+            ${questions.length ? `<h4>Questions to review with your clinician</h4><ul>${questions.map(question => `<li>${escapeHTML(question)}</li>`).join("")}</ul>
+                <button class="button button-secondary button-small" type="button" data-action="review-draft-questions" data-id="${escapeHTML(analysis.id)}">Edit these in AI Health Mentor</button>` : ""}
+            ${gaps.length ? `<p class="care-draft-note">${gaps.map(escapeHTML).join(" ")}</p>` : ""}
+            <p class="care-draft-note">AI suggestions can be wrong. Confirm every name, dose, time, and duration with the original prescription and a pharmacist.</p></section>`;
+        refreshIcons();
+    };
+
+    const prepareCareActionDrafts = async analysis => {
+        if (!analysis || !analysis.extracted_text) {
+            analysis.care_action_draft = { medications: [], doctor_questions: [], follow_up_tasks: [], data_gaps: ["No readable prescription text was extracted."] };
+            renderCareActionDrafts(analysis);
+            persist();
+            return;
+        }
+        renderCareActionDrafts(analysis);
+        try {
+            const draft = await apiRequest("/api/care-action-drafts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ language: state.language, source: analysis.file_name, extracted_text: analysis.extracted_text })
+            });
+            analysis.care_action_draft = draft;
+        } catch (error) {
+            analysis.care_action_draft = { error: `Could not prepare suggestions: ${error.message}` };
+        }
+        persist();
+        renderCareActionDrafts(analysis);
     };
 
     const analyzeReport = async () => {
@@ -2372,6 +3049,12 @@ const observeTranslatedContent = () => {
                 file_name: file.name,
                 type,
                 summary: answer,
+                extracted_text: typeof data.extracted_text === "string"
+                    ? data.extracted_text.slice(0, 8000)
+                    : "",
+                ocr_review_required: data.ocr_review_required === true,
+                ocr_confidence: Number.isFinite(data.ocr_confidence) ? data.ocr_confidence : null,
+                analysis_method: String(data.analysis_method || "").slice(0, 80),
                 created_at: data.created_at || new Date().toISOString()
             });
 
@@ -2407,6 +3090,8 @@ const observeTranslatedContent = () => {
                             <i data-lucide="messages-square"></i>
                             ${escapeHTML(t("Continue conversation in AI Health Mentor"))}
                         </button>
+                        ${type === "prescription" ? `<button class="button button-secondary analysis-continue-button" type="button" data-action="add-medication-reminder" data-source="${escapeHTML(file.name)}"><i data-lucide="pill"></i> Create medicine reminder</button>` : ""}
+                        ${type === "prescription" ? `<div id="careActionDrafts"></div>` : ""}
                         ${data.extracted_text ? `
                             <details>
                                 <summary>Review extracted text</summary>
@@ -2418,6 +3103,8 @@ const observeTranslatedContent = () => {
                         </p>
                     </div>`;
             }
+
+            if (type === "prescription") await prepareCareActionDrafts(state.analyses[0]);
 
             if (status) status.textContent = "Complete";
             renderAll();
@@ -2495,6 +3182,7 @@ const observeTranslatedContent = () => {
                     <div class="message-content">
                         <span class="message-author">NexHealth Mentor</span>
                         <p>Welcome! I can help explain general health information, clarify medical terminology, or help you prepare questions for a healthcare professional.</p>
+                        <p>For questions about your saved reports, health notes, and details from other Mentor chats, I’ll cite the source and date when available. If I can’t find the answer in your saved information, I’ll say so.</p>
                         <p>I cannot diagnose conditions, prescribe medication, or replace professional medical advice.</p>
                     </div>
                 </div>`;
@@ -2509,12 +3197,38 @@ const observeTranslatedContent = () => {
                     <span class="message-author">${escapeHTML(message.author || (message.role === "user" ? "You" : "NexHealth Mentor"))}</span>
                     ${formatMentorContent(message.content)}
                     ${message.role === "user" ? `<button class="mentor-message-edit" type="button" data-edit-message="${index}" aria-label="Edit your message" title="${escapeHTML(t("Edit"))}"><i data-lucide="pencil"></i><span>${escapeHTML(t("Edit"))}</span></button>` : ""}
+                    ${message.role !== "user" ? `<button class="mentor-message-speak" type="button" data-speak-message="${index}" aria-label="Listen to this reply"><i data-lucide="volume-2"></i><span>Listen</span></button>` : ""}
                 </div>
             </article>
         `).join("");
 
         container.scrollTop = container.scrollHeight;
         refreshIcons();
+    };
+
+    const speakMentorMessage = index => {
+        if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
+            toast("Spoken replies are not supported by this browser.", "warning");
+            return;
+        }
+        const message = state.messages[index];
+        if (!message || message.role === "user") return;
+        if (window.speechSynthesis.speaking && speakingMessageIndex === index) {
+            window.speechSynthesis.cancel();
+            speakingMessageIndex = null;
+            return;
+        }
+        const plain = document.createElement("div");
+        plain.innerHTML = formatMentorContent(message.content);
+        const text = (plain.textContent || "").trim();
+        if (!text) return;
+        window.speechSynthesis.cancel();
+        const utterance = new window.SpeechSynthesisUtterance(text);
+        utterance.lang = ({ en: "en-IN", te: "te-IN", hi: "hi-IN" })[message.language || state.language] || "en-IN";
+        speakingMessageIndex = index;
+        utterance.onend = () => { speakingMessageIndex = null; };
+        utterance.onerror = () => { speakingMessageIndex = null; };
+        window.speechSynthesis.speak(utterance);
     };
 
     const startMentorConversation = () => {
@@ -2623,6 +3337,7 @@ const observeTranslatedContent = () => {
         const targetMessage = conversation.messages[messageIndex];
         if (!targetMessage || targetMessage.role !== "user") return;
         targetMessage.content = text;
+        targetMessage.created_at = new Date().toISOString();
         conversation.messages = conversation.messages.slice(0, messageIndex + 1);
         conversation.updatedAt = new Date().toISOString();
         state.messages = conversation.messages;
@@ -2636,18 +3351,31 @@ const observeTranslatedContent = () => {
         if (button) button.disabled = true;
         state.busy = true;
         try {
+            if (activeUserId && workspaceHydrated && !document.body.classList.contains("local-demo-mode")) {
+                if (workspaceSaveTimer) {
+                    clearTimeout(workspaceSaveTimer);
+                    workspaceSaveTimer = null;
+                }
+                await flushWorkspaceSave();
+            }
             const data = await apiRequest("/api/mentor", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: text, language: state.language, history })
+                body: JSON.stringify({
+                    message: text,
+                    language: state.language,
+                    history,
+                    record_context: mentorRecordContextForRequest()
+                })
             });
             appendConversationMessage(conversationType, conversationId, {
                 id: id(), role: "assistant",
+                language: state.language,
                 content: data.reply || data.answer || data.response || data.message || "The service did not return a response."
             });
         } catch (error) {
             appendConversationMessage(conversationType, conversationId, {
-                id: id(), role: "assistant", content: `I couldn't connect to the mentor service. ${error.message}`
+                id: id(), role: "assistant", language: state.language, content: `I couldn't connect to the mentor service. ${error.message}`
             });
             toast(error.message, "error");
         } finally {
@@ -2708,6 +3436,48 @@ const observeTranslatedContent = () => {
         $("#mentorInput")?.focus();
     };
 
+    const guestMentorRecordContext = () => ({
+        profile: {
+            conditions: String(state.profile?.conditions || "").slice(0, 500),
+            notes: String(state.profile?.notes || "").slice(0, 500)
+        },
+        medicationReminders: state.medicationReminders.slice(0, 30).map(reminder => ({
+            medicine_name: String(reminder.medicine_name || "").slice(0, 180),
+            dose: String(reminder.dose || "").slice(0, 120),
+            active: reminder.active === true,
+            times: Array.isArray(reminder.times) ? reminder.times.slice(0, 6) : [],
+            start_date: reminder.start_date || "",
+            end_date: reminder.end_date || "",
+            source_file: String(reminder.source_file || "").slice(0, 120)
+        })),
+        records: state.records.slice(0, 20).map(record => ({
+            name: record.name || record.file_name || "",
+            created_at: record.created_at || "",
+            category: record.category || "",
+            record_type: record.record_type || "",
+            extracted_text: record.record_type === "health_note" ? String(record.extracted_text || "").slice(0, 5000) : ""
+        })),
+        mentorConversations: state.mentorConversations.slice(0, 24).map(conversation => ({
+            title: conversation.title || "Health Mentor chat",
+            createdAt: conversation.createdAt || "",
+            updatedAt: conversation.updatedAt || "",
+            messages: (Array.isArray(conversation.messages) ? conversation.messages : []).slice(-40).map(message => ({
+                role: message.role,
+                content: String(message.content || "").slice(0, 700),
+                created_at: message.created_at || ""
+            }))
+        })),
+        analyses: state.analyses.slice(0, 12).map(analysis => ({
+            file_name: analysis.file_name || analysis.name || "Saved analysis",
+            created_at: analysis.created_at || "",
+            summary: typeof analysis.summary === "string" ? analysis.summary.slice(0, 5000) : "",
+            extracted_text: typeof analysis.extracted_text === "string" ? analysis.extracted_text.slice(0, 6000) : ""
+        }))
+    });
+
+    const mentorRecordContextForRequest = () =>
+        document.body.classList.contains("local-demo-mode") ? guestMentorRecordContext() : undefined;
+
     const sendMentorMessage = async message => {
         const input = $("#mentorInput");
         const button = $("#mentorSendButton");
@@ -2733,7 +3503,7 @@ const observeTranslatedContent = () => {
         const conversation = ensureActiveConversation();
         const conversationType = state.activeConversationType;
         const conversationId = conversation.id;
-        state.messages.push({ id: id(), role: "user", content: text });
+        state.messages.push({ id: id(), role: "user", content: text, created_at: new Date().toISOString() });
         syncActiveConversation(true);
         const history = state.messages.slice(-12).map(item => ({ role: item.role, content: item.content }));
         persist();
@@ -2744,13 +3514,21 @@ const observeTranslatedContent = () => {
         state.busy = true;
 
         try {
+            if (activeUserId && workspaceHydrated && !document.body.classList.contains("local-demo-mode")) {
+                if (workspaceSaveTimer) {
+                    clearTimeout(workspaceSaveTimer);
+                    workspaceSaveTimer = null;
+                }
+                await flushWorkspaceSave();
+            }
             const data = await apiRequest("/api/mentor", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     message: text,
                     language: state.language,
-                    history
+                    history,
+                    record_context: mentorRecordContextForRequest()
                 })
             });
 
@@ -2760,12 +3538,14 @@ const observeTranslatedContent = () => {
             appendConversationMessage(conversationType, conversationId, {
                 id: id(),
                 role: "assistant",
+                language: state.language,
                 content: answer
             });
         } catch (error) {
             appendConversationMessage(conversationType, conversationId, {
                 id: id(),
                 role: "assistant",
+                language: state.language,
                 content: `I couldn't connect to the mentor service. ${error.message}`
             });
             toast(error.message, "error");
@@ -2791,6 +3571,7 @@ const observeTranslatedContent = () => {
                         <span class="task-row-copy">
                             <strong>${escapeHTML(itemTitle)}</strong>
                             ${item.description ? `<small>${escapeHTML(item.description)}</small>` : ""}
+                            ${item.why ? `<small class="plan-reason">${escapeHTML(t("Why this may fit"))}: ${escapeHTML(item.why)}</small>` : ""}
                         </span>
                     </div>
                 `;
@@ -2804,17 +3585,20 @@ const observeTranslatedContent = () => {
         const movement = plan.movement && typeof plan.movement === "object" ? plan.movement : {};
         const sleep = plan.sleep && typeof plan.sleep === "object" ? plan.sleep : {};
         const movementRows = [];
-        if (movement.steps) movementRows.push({ title: t("Daily step target"), description: movement.steps });
+        if (movement.steps) movementRows.push({ title: t("Daily step target"), description: movement.steps, why: movement.steps_why || "" });
         (Array.isArray(movement.activities) ? movement.activities : []).forEach(activity => {
             if (typeof activity === "string" && activity.trim()) movementRows.push({ title: activity, description: "" });
+            else if (activity && typeof activity === "object" && (activity.activity || activity.title)) {
+                movementRows.push({ title: activity.activity || activity.title, description: activity.details || "", why: activity.why || "" });
+            }
         });
         const mealRows = (Array.isArray(plan.meals) ? plan.meals : []).filter(meal => meal && typeof meal === "object")
-            .map(meal => ({ title: meal.time || t("Meals"), description: meal.plan || "" }));
+            .map(meal => ({ title: meal.time || t("Meals"), description: meal.plan || "", why: meal.why || "" }));
         const sleepRows = [];
-        if (sleep.hours) sleepRows.push({ title: t("Sleep target"), description: sleep.hours });
+        if (sleep.hours) sleepRows.push({ title: t("Sleep target"), description: sleep.hours, why: sleep.why || "" });
         if (sleep.routine) sleepRows.push({ title: t("Bedtime routine"), description: sleep.routine });
         const habitRows = (Array.isArray(plan.habits) ? plan.habits : []).filter(habit => habit && typeof habit === "object")
-            .map(habit => ({ title: habit.title || "", description: habit.details || "" }));
+            .map(habit => ({ title: habit.title || "", description: habit.details || "", why: habit.why || "" }));
         const groups = [
             group("Movement", "movement", movementRows),
             group("Meals", "meals", mealRows),
@@ -2868,7 +3652,7 @@ const observeTranslatedContent = () => {
         const content = $("#personalizedPlanContent");
         if (!button || !panel || !content || button.disabled) return;
 
-        const text = value => String(value ?? "").trim().slice(0, 500);
+        const text = (value, limit = 500) => String(value ?? "").trim().slice(0, limit);
         const profile = state.profile || {};
         const preferences = state.dietPreferences || {};
         const steps = Number(preferences.dailySteps);
@@ -2902,6 +3686,7 @@ const observeTranslatedContent = () => {
                 gender: profile.gender || "",
                 height: profile.height || "",
                 weight: profile.weight || "",
+                conditions: text(profile.conditions),
                 notes: text(profile.notes)
             },
             preferences: {
@@ -2910,6 +3695,17 @@ const observeTranslatedContent = () => {
                 goal: text(preferences.goal),
                 daily_steps: preferences.dailySteps || "",
                 sleep_hours: preferences.sleepHours || ""
+            },
+            health_context: {
+                include_reports: $("#includeWellnessReportData")?.checked === true,
+                analyzed_reports: $("#includeWellnessReportData")?.checked === true
+                    ? state.analyses.filter(item => item && (item.summary || item.extracted_text)).slice(0, 3).map(item => ({
+                        source: text(item.file_name || item.name || "Saved analysis", 120),
+                        date: text(item.created_at || item.date || "Date not recorded", 40),
+                        summary: text(item.summary, 1800),
+                        extracted_text: text(item.extracted_text, 1800)
+                    }))
+                    : []
             },
             meals: state.meals.filter(meal => meal.date === today()).slice(0, 12).map(meal => ({
                 type: text(meal.meal_time),
@@ -2987,6 +3783,7 @@ const observeTranslatedContent = () => {
             records: state.records,
             tasks: state.tasks,
             appointments: state.appointments,
+            medication_reminders: state.medicationReminders,
             meals: state.meals,
             analyses: state.analyses,
             messages: state.messages,
@@ -2999,7 +3796,9 @@ const observeTranslatedContent = () => {
             diet_preferences: state.dietPreferences,
             consent: state.consent,
             consent_history: state.consentHistory,
-            personalized_plan: state.personalizedPlan
+            personalized_plan: state.personalizedPlan,
+            family_profiles: state.familyProfiles,
+            active_family_profile_id: state.activeFamilyProfileId
         };
 
         const blob = new Blob([JSON.stringify(data, null, 2)], {
@@ -3024,6 +3823,7 @@ const observeTranslatedContent = () => {
         state.records = [];
         state.tasks = [];
         state.appointments = [];
+        state.medicationReminders = [];
         state.meals = [];
         state.analyses = [];
         state.messages = [];
@@ -3043,6 +3843,8 @@ const observeTranslatedContent = () => {
         };
         state.consentHistory = [];
         state.personalizedPlan = null;
+        state.familyProfiles = [];
+        state.activeFamilyProfileId = "";
 
         renderAll();
     };
@@ -3187,6 +3989,12 @@ const observeTranslatedContent = () => {
 
 
         document.addEventListener("click", event => {
+            const speakButton = event.target.closest("[data-speak-message]");
+            if (speakButton) {
+                speakMentorMessage(Number(speakButton.dataset.speakMessage));
+                return;
+            }
+
             const recordCategoryButton = event.target.closest("[data-record-category]");
             if (recordCategoryButton) {
                 state.recordFilter = recordCategoryButton.dataset.recordCategory;
@@ -3222,6 +4030,15 @@ const observeTranslatedContent = () => {
             const itemId = actionButton.dataset.id;
 
             switch (action) {
+                case "add-family-profile":
+                    openAddFamilyProfile();
+                    break;
+                case "switch-family-profile":
+                    switchFamilyProfile(itemId);
+                    break;
+                case "remove-family-profile":
+                    removeFamilyProfile(itemId);
+                    break;
                 case "toggle-plan-item": {
                     const plan = state.personalizedPlan;
                     const planItem = actionButton.dataset.planItem;
@@ -3243,12 +4060,157 @@ const observeTranslatedContent = () => {
                 case "open-upload":
                     openUploadModal();
                     break;
+                case "add-health-note":
+                    openHealthNoteModal();
+                    break;
                 case "add-task":
                     openTaskModal();
                     break;
+                case "add-care-task": {
+                    const analysis = state.analyses.find(item => item.id === itemId);
+                    const index = Number(actionButton.dataset.index);
+                    const suggestion = analysis?.care_action_draft?.follow_up_tasks?.[index];
+                    if (!suggestion) break;
+                    openTaskModal({ ...suggestion, _analysisId: analysis.id, _draftIndex: index }, analysis.file_name || "Saved prescription");
+                    break;
+                }
+                case "reject-care-task": {
+                    const analysis = state.analyses.find(item => item.id === itemId);
+                    analysis?.care_action_draft?.follow_up_tasks?.splice(Number(actionButton.dataset.index), 1);
+                    persist();
+                    renderCareActionDrafts(analysis);
+                    renderPendingCareActions();
+                    break;
+                }
                 case "open-appointment":
                     openAppointmentModal();
                     break;
+                case "edit-appointment": {
+                    const appointment = state.appointments.find(item => item.id === itemId);
+                    if (appointment) openAppointmentModal(appointment);
+                    break;
+                }
+                case "add-medication-reminder":
+                    openMedicationReminderModal(null, actionButton.dataset.source || "");
+                    break;
+                case "review-care-draft": {
+                    const analysis = state.analyses.find(item => item.id === itemId);
+                    const draftIndex = Number(actionButton.dataset.index);
+                    const suggestion = analysis?.care_action_draft?.medications?.[draftIndex];
+                    if (!suggestion) break;
+                    openMedicationReminderModal({
+                        medicine_name: suggestion.name,
+                        dose: suggestion.dose,
+                        timing: suggestion.timing,
+                        times: suggestion.times || [],
+                        frequency: suggestion.frequency === "unknown" ? "unknown" : suggestion.frequency,
+                        days_of_week: suggestion.days || [],
+                        duration_days: suggestion.duration_days,
+                        source_file: analysis.file_name,
+                        draft_analysis_id: analysis.id,
+                        draft_index: draftIndex
+                    }, analysis.file_name, true);
+                    break;
+                }
+                case "reject-care-draft": {
+                    const analysis = state.analyses.find(item => item.id === itemId);
+                    analysis?.care_action_draft?.medications?.splice(Number(actionButton.dataset.index), 1);
+                    persist();
+                    renderCareActionDrafts(analysis);
+                    renderPendingCareActions();
+                    break;
+                }
+                case "reject-draft-questions": {
+                    const analysis = state.analyses.find(item => item.id === itemId);
+                    if (analysis?.care_action_draft) analysis.care_action_draft.doctor_questions = [];
+                    persist();
+                    renderPendingCareActions();
+                    break;
+                }
+                case "review-draft-questions": {
+                    const analysis = state.analyses.find(item => item.id === itemId);
+                    const questions = analysis?.care_action_draft?.doctor_questions || [];
+                    if (!questions.length) break;
+                    navigate("ai-mentor");
+                    const input = $("#mentorInput");
+                    if (input) {
+                        input.value = questions.map((question, index) => `${index + 1}. ${question}`).join("\n");
+                        input.focus();
+                    }
+                    break;
+                }
+                case "edit-medication-reminder": {
+                    const reminder = state.medicationReminders.find(item => item.id === itemId);
+                    if (reminder) openMedicationReminderModal(reminder);
+                    break;
+                }
+                case "complete-medication-reminder": {
+                    const reminder = state.medicationReminders.find(item => item.id === itemId);
+                    const occurrence = actionButton.dataset.occurrence;
+                    if (!reminder || !occurrence) break;
+                    reminder.completed_occurrences = [...new Set([...(reminder.completed_occurrences || []), occurrence])];
+                    reminder.snoozed_occurrence = "";
+                    reminder.snoozed_until = "";
+                    persist();
+                    renderCareReminders();
+                    toast("Dose marked as taken.");
+                    break;
+                }
+                case "snooze-medication-reminder": {
+                    const reminder = state.medicationReminders.find(item => item.id === itemId);
+                    const occurrence = actionButton.dataset.occurrence;
+                    if (!reminder || !occurrence) break;
+                    reminder.snoozed_occurrence = occurrence;
+                    reminder.snoozed_until = new Date(Date.now() + 10 * 60_000).toISOString();
+                    reminder.alerted_occurrences = (reminder.alerted_occurrences || []).filter(key => key !== occurrence);
+                    persist();
+                    renderCareReminders();
+                    toast("Medicine reminder snoozed for 10 minutes.", "info");
+                    break;
+                }
+                case "stop-medication-reminder": {
+                    const reminder = state.medicationReminders.find(item => item.id === itemId);
+                    if (!reminder) break;
+                    reminder.active = false;
+                    persist();
+                    renderCareReminders();
+                    toast("Medicine course reminder stopped.");
+                    break;
+                }
+                case "delete-medication-reminder":
+                    state.medicationReminders = state.medicationReminders.filter(item => item.id !== itemId);
+                    persist();
+                    renderCareReminders();
+                    break;
+                case "confirm-appointment-reminder": {
+                    const appointment = state.appointments.find(item => item.id === itemId);
+                    if (!appointment) break;
+                    appointment.reminder_status = "confirmed";
+                    persist();
+                    renderCareReminders();
+                    toast("Appointment reminder confirmed.");
+                    break;
+                }
+                case "snooze-appointment-reminder": {
+                    const appointment = state.appointments.find(item => item.id === itemId);
+                    if (!appointment) break;
+                    appointment.reminder_status = "pending";
+                    appointment.reminder_snoozed_until = new Date(Date.now() + 10 * 60_000).toISOString();
+                    appointment.reminder_last_alerted = false;
+                    persist();
+                    renderCareReminders();
+                    toast("Appointment reminder snoozed for 10 minutes.", "info");
+                    break;
+                }
+                case "stop-appointment-reminder": {
+                    const appointment = state.appointments.find(item => item.id === itemId);
+                    if (!appointment) break;
+                    appointment.reminder_status = "stopped";
+                    persist();
+                    renderCareReminders();
+                    toast("Appointment reminder stopped.");
+                    break;
+                }
                 case "add-meal":
                     openMealModal();
                     break;
@@ -3309,8 +4271,9 @@ const observeTranslatedContent = () => {
             const upcoming = state.appointments.filter(item =>
                 new Date(`${item.date}T${item.time || "23:59"}`) >= new Date()
             ).length;
-
-            toast(`${pending} tasks remaining · ${upcoming} upcoming appointments`, "success");
+            const activeMedicine = state.medicationReminders.filter(item => item.active).length;
+            navigate("appointments");
+            toast(`${activeMedicine} medicine reminders · ${upcoming} upcoming appointments · ${pending} tasks remaining`, "info");
         });
 
         $("#globalSearch")?.addEventListener("keydown", event => {
@@ -3356,6 +4319,7 @@ const observeTranslatedContent = () => {
         });
 
         $("#analyzeReportButton")?.addEventListener("click", analyzeReport);
+        $("#generateHealthInsightsButton")?.addEventListener("click", generateHealthInsights);
 
         $("#reportFileInput")?.addEventListener("change", event => {
             const file = event.target.files?.[0];
@@ -3563,16 +4527,16 @@ const observeTranslatedContent = () => {
     const init = async () => {
         bindAuthEvents();
         updateAuthMode();
+        // Open the local workspace immediately; session restoration can be slow
+        // when the server or database is waking up.
+        startGuestApp();
         try {
             const session = await apiRequest("/api/auth/session");
             if (session.authenticated && session.user?.id) {
                 await startAuthenticatedApp(session.user);
-            } else {
-                startGuestApp();
             }
         } catch (error) {
             console.warn("NexHealth session restore failed; opening a local guest workspace.", error.message);
-            startGuestApp();
         }
 
         document.body.classList.remove("auth-pending");
